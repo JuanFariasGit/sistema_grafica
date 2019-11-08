@@ -1,0 +1,82 @@
+<?php
+require 'inc/config.php'; 
+require 'inc/usuarios.class.php';
+require 'inc/clientes.class.php';
+session_start();
+
+
+if(empty($_SESSION['logado'])) {
+	header('Location: '.BASE_URL.'login');
+	exit;
+}
+$u = new usuarios($pdo);
+$u->setUsuario($_SESSION['logado']);
+
+$c = new clientes($pdo);
+if(empty($_GET['buscarCliente'])) {
+  $clientes = $c->getCliente();
+} else {
+  $nome = trim($_GET['buscarCliente']);
+  $clientes = $c->getClienteBuscar($nome);
+}
+?>
+
+<?php require 'inc/header.php'; ?>
+
+    <?php if(($u->temPermissao('ADMINISTRADOR')) || ($u->temPermissao('PADRÃO'))): ?>
+      <?php require 'inc/menu.php'; ?> 
+      <div class="d-flex flex-column align-items-center justify-content-center text-white bg-dark" style='min-height: 50vh'>    
+        <h4 class="font-weight-bold">Clientes Cadastrados</h4> 
+        <form method="get">
+          <div class="form-group d-sm-flex align-items-center">
+            <input class="form-control my-1" type="search" name="buscarCliente">
+            <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">
+          </div>
+        </form>         
+        <div class="table-responsive">
+          <table class="table table-dark text-center">
+            <thead>
+              <tr>
+                <th scope="col">Nome completo</th>
+                <th scope="col">Fone</th>
+                <th  scope="col">Cep</th>
+                <th  scope="col">Rua</th>
+                <th  scope="col">Nº</th>
+                <th  scope="col">Complemento</th>
+                <th  scope="col">Bairro</th>
+                <th  scope="col">Cidade</th>
+                <th  scope="col">Estado</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if(count($clientes) > 0): ?>
+              <?php foreach($clientes as $cliente): ?>
+              <tr>
+                <td><p class='my-1'><?php echo $cliente['nomecompleto'];?></p></td>
+                <td><a class='my-1' href="https://wa.me/55<?php echo str_replace('-','',str_replace(' ','',$cliente['fone'])) ?>" target="_blank"><?php echo $cliente['fone'];?></a></td>
+                <td><p class='my-1'><?php echo $cliente['cep'];?></p></td>
+                <td><p class='my-1'><?php echo $cliente['rua'];?></p></td>
+                <td><p class='my-1'><?php echo $cliente['numero'];?></p></td>
+                <td><p class='my-1'><?php echo $cliente['complemento'];?></p></td>
+                <td><p class='my-1'><?php echo $cliente['bairro'];?></p></td>
+                <td><p class='my-1'><?php echo $cliente['cidade'];?></p></td>
+                <td><p class='my-1'><?php echo $cliente['uf'];?></p></td>
+                <td>
+                  <a class="btn btn-sm btn-success my-1" href="<?php echo BASE_URL; ?>edit.cliente?id=<?php echo $cliente['id']; ?>">EDIT</a>
+                  <a id="<?php echo $cliente['id']; ?>" name="<?php echo $cliente['nomecompleto']; ?>" class="btn btn-danger btn-sm" onclick="delCliente(this)" style="cursor:pointer">DEL</a>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+              <?php else: echo "<h5 class='text-center text-danger'>Não há nenhum cadastro !!!</h5>"; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <?php else:
+        header('Location: '.BASE_URL.'login');  
+        ?>   
+    <?php endif; ?>
+
+<?php require 'inc/footer.php'; ?>
