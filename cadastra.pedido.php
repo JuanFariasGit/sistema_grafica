@@ -67,8 +67,8 @@ $produtos = $p->getProduto();
                             <thead>
                                 <tr>
                                     <th scope="col">Nome</th>
+                                    <th scope="col">Al x LA</th>
                                     <th  scope="col">Quantidade</th>
-                                    <th scope="col">Área</th>
                                     <th  scope="col">Valor Unitário</th>
                                     <th  scope="col">Subtotal</th>
                                 </tr>
