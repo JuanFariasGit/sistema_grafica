@@ -3,9 +3,9 @@ function addproduto() {
     let nome = document.getElementById("produtos").value.split("|")[1];
     
     if(document.getElementById("produtos").value.split("|")[2] == "m²") {
-        $("#addproduto").append("<tr id='"+nome+"' class='items'><td>"+nome+"</td><td><input class='al mx-2' type='number' name='al[]' step='0.01' min='1' value='1' onchange='mudouvalor()' style='width: 80px'><input class='la mx-2' type='number' name='la[]' step='0.01' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td><input class='quantidade' type='number' name='quantidade[]' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td class='valor_unitario'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td class='subtotal'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
+        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' value='"+nome+"'></td><td><input class='al mx-2' type='number' name='al[]' step='0.01' min='1' value='1' onchange='mudouvalor()' style='width: 80px'><input class='la mx-2' type='number' name='la[]' step='0.01' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td><input class='quantidade' type='number' name='quantidade[]' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td class='valor_unitario'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td class='subtotal'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
     } else {
-        $("#addproduto").append("<tr id='"+nome+"' class='items'><td>"+nome+"</td><td><input class='al mx-2' type='number' name='al[]' step='0.01' min='1' value='1' onchange='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #EEE'><input class='la mx-2' type='number' name='la[]' step='0.01' min='1' value='1' onchange='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #EEE'></td><td><input class='quantidade' type='number' name='quantidade[]' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td class='valor_unitario'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td class='subtotal'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
+        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' value='"+nome+"'></td><td><input class='al mx-2' type='number' name='al[]' step='0.01' min='1' value='1' onchange='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'><input class='la mx-2' type='number' name='la[]' step='0.01' min='1' value='1' onchange='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'></td><td><input class='quantidade' type='number' name='quantidade[]' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td class='valor_unitario'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td class='subtotal'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
     }
 
     soma = 0;
@@ -14,6 +14,15 @@ function addproduto() {
       };
       document.getElementById('res').innerHTML = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
 }
+
+$(document).ready(function() {
+    $(window).keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+      }
+    });
+  });
 
 function mudouvalor() {
     for(i = 0; i < document.getElementsByClassName('subtotal').length; i++) {
