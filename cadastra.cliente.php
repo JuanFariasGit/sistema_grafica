@@ -77,7 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                                         <input class="form-control" name="uf" type="text" id="uf">
                                 </div>
                                 <div class="col-12">
-                                        <input class="btn-block btn-sm font-weight-bold my-2 bg-primary text-white border-0" type="submit" value="CADASTRAR">
+                                        <input class="btn-block btn-sm font-weight-bold my-2 btn-primary text-white border-0" type="submit" value="CADASTRAR">
                                 </div>        
                         </div>        
                 </form>

@@ -63,7 +63,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input class="form-control" type="text" name="valor" id="valor" onkeydown="mascara_valor(this, valor, event)">
                         </div>
                         <div class="col-12 my-2">
-                            <input class="btn-block btn-sm bg-primary text-white border-0 font-weight-bold" type="submit" value="CADASTRAR">
+                            <input class="btn-block btn-sm btn-primary text-white border-0 font-weight-bold" type="submit" value="CADASTRAR">
                         </div>
                     </div>
                 </form>

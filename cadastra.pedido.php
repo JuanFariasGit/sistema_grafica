@@ -16,6 +16,18 @@ $c = new clientes($pdo);
 $clientes = $c->getCliente();
 $p = new produtos($pdo);
 $produtos = $p->getProduto();
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $quantidade = $_POST['quantidade'];
+    $al = $_POST['al'];
+    $la = $_POST['la'];
+    for($i = 0; $i < count($quantidade); $i++) {
+        echo $quantidade[$i].'|['.$i.']<br>';
+        echo $al[$i].'|['.$i.']<br>';
+        echo $la[$i].'|['.$i.']<br>';
+    }
+    exit;
+}
 ?>
 
 <?php require 'inc/header.php'; ?>
@@ -55,13 +67,13 @@ $produtos = $p->getProduto();
                             <select class="form-control mb-2" name="produtos" id="produtos">
                                 <option></option>
                                 <?php foreach($produtos as $produto): ?>
-                                <option value="<?php echo $produto['valor']; ?>|<?php echo $produto['nome']; ?>"><?php echo $produto['nome']; ?></option>
+                                <option value="<?php echo $produto['valor']; ?>|<?php echo $produto['nome']; ?>|<?php echo $produto['unidademedida']; ?>"><?php echo $produto['nome']; ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <a class="btn-sm btn bg-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
+                            <a class="btn-sm btn btn-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
                         </div>
                     </div>
-                    <div class="col-sm-12 d-flex justify-content-center my-2">  
+                    <div class="col-sm-12 d-flex justify-content-center flex-column my-2">  
                         <div class="table-responsive">
                             <table class="table table-dark text-center">
                             <thead>
@@ -71,13 +83,16 @@ $produtos = $p->getProduto();
                                     <th  scope="col">Quantidade</th>
                                     <th  scope="col">Valor Unitário</th>
                                     <th  scope="col">Subtotal</th>
+                                    <th scope="col">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="addproduto"></tbody>
-                        </div>   
-                         <div id="res"></div>         
-                    </div>      
-                </div>            
+                            </table>
+                        </div>
+                        <div class="ml-auto mt-2" id="res">Total: R$ 0,00</div>            
+                    </div>
+                    <input class="btn btn-sm btn-block btn-primary font-weight-bold" type="submit" value="CADASTRAR">
+                    </div>            
             </form> 
         </div>       
     </div>
