@@ -22,9 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $al = $_POST['al'];
     $la = $_POST['la'];
     for($i = 0; $i < count($quantidade); $i++) {
-        echo $quantidade[$i].'|['.$i.']<br>';
-        echo $al[$i].'|['.$i.']<br>';
-        echo $la[$i].'|['.$i.']<br>';
+        
     }
     exit;
 }
