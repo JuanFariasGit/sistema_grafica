@@ -93,7 +93,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <tbody id="addproduto"></tbody>
                             </table>
                         </div>
-                        <div class="ml-auto mt-2" id="res">Total: R$ 0,00</div>            
+                        <div class="row">
+                            <div class="col-lg-2 py-2">
+                                <label for="taxa_frete">Taxa De Frete (%)</label>
+                                <input id="taxa_frete" class="form-control" type="number" name="taxa_frete" step="0.01" style="width: 80px">
+                            </div>
+                            <div class="col-lg-2 py-2">
+                                <label for="taxa_cartao">Taxa De Cartão (%)</label>
+                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" style="width: 80px">
+                            </div>
+                            <div id="total" class="col-lg-2 d-flex align-items-center py-2">
+                               Total: R$ 0,00
+                            </div>
+                            <div class="col-lg-2 py-2">
+                                <label for="valor_pago">Valor Pago</label>
+                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" style="width: 80px">
+                            </div>
+                        </div>            
                     </div>
                     <input class="btn btn-sm btn-block btn-primary font-weight-bold" type="submit" value="CADASTRAR">
                     </div>            
