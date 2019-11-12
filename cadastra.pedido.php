@@ -109,7 +109,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="valor_pago">Valor Pago</label>
                                 <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" style="width: 80px">
                             </div>
-                            <div id="falta_paga" class="col-lg-2 d-flex align-items-center py-2"></div>
+                            <div class="col-lg-2 d-flex align-items-center py-2">
+                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="" readonly='readonly'>
+                            </div>
                         </div>            
                     </div>
                     <input class="btn btn-sm btn-block btn-primary font-weight-bold" type="submit" value="CADASTRAR">

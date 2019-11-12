@@ -24,6 +24,9 @@ function addproduto() {
         document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
     } else {
         document.getElementById('total').value = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
+    }
+    if(document.getElementById('total').value.length > 0) {
+       document.getElementById('falta_pagar') = document.getElementById('valor_pago').value - document.getElementById('total').value;
     }    
 }
 
