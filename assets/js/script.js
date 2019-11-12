@@ -15,16 +15,16 @@ function addproduto() {
     let valor_frete = Number(document.getElementById('valor_frete').value);
     let taxa_cartao = Number(document.getElementById('taxa_cartao').value)/100;
     if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0)) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma).toFixed(2).replace('.',',');
     }    
     else if(document.getElementById('taxa_cartao').value.length > 0) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
     }
     else if(document.getElementById('valor_frete').value.length > 0) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
     } else {
-        document.getElementById('total').innerHTML = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
-    }
+        document.getElementById('total').value = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
+    }    
 }
 
 $(document).ready(function() {
@@ -47,15 +47,15 @@ function mudouvalor() {
     let valor_frete = Number(document.getElementById('valor_frete').value);
     let taxa_cartao = Number(document.getElementById('taxa_cartao').value)/100;
     if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0)) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma).toFixed(2).replace('.',',');
     }    
     else if(document.getElementById('taxa_cartao').value.length > 0) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
     }
     else if(document.getElementById('valor_frete').value.length > 0) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
     } else {
-        document.getElementById('total').innerHTML = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
+        document.getElementById('total').value = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
     }
 }
 
@@ -68,15 +68,15 @@ function delItem(e) {
     let valor_frete = Number(document.getElementById('valor_frete').value);
     let taxa_cartao = Number(document.getElementById('taxa_cartao').value)/100;
     if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0)) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma).toFixed(2).replace('.',',');
     }    
     else if(document.getElementById('taxa_cartao').value.length > 0) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
     }
     else if(document.getElementById('valor_frete').value.length > 0) {
-        document.getElementById('total').innerHTML = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
+        document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
     } else {
-        document.getElementById('total').innerHTML = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
+        document.getElementById('total').value = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
     }
 }
 
