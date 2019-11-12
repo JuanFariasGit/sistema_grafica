@@ -7,6 +7,11 @@
           box-shadow: none !important;
 }
 
+.form-control:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
 .table > tbody > tr > td {
   vertical-align: middle;
 }

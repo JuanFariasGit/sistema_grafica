@@ -3,9 +3,9 @@ function addproduto() {
     let nome = document.getElementById("produtos").value.split("|")[1];
     
     if(document.getElementById("produtos").value.split("|")[2] == "m²") {
-        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' value='"+nome+"'></td><td><input class='al mx-2' type='number' name='al[]' step='0.01' min='1' value='1' onchange='mudouvalor()' style='width: 80px'><input class='la mx-2' type='number' name='la[]' step='0.01' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td><input class='quantidade' type='number' name='quantidade[]' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td class='valor_unitario'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td class='subtotal'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
+        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' name='nomes[]' value='"+nome+"' readonly='readonly'></td><td><input class='al mx-2' type='number' name='al[]' step='0.01' min='1' value='1' onkeyup='mudouvalor()' style='width: 80px'><input class='la mx-2' type='number' name='la[]' step='0.01' min='1' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='quantidade' type='number' name='quantidade[]' min='1' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='valor_unitario bg-dark text-white border-0' type='text' name='valorunitario[]' value='R$ "+preco.toFixed(2).replace('.', ',')+"' style='width: 80px' readonly='readonly'></td><td class='subtotal'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
     } else {
-        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' value='"+nome+"'></td><td><input class='al mx-2' type='number' name='al[]' step='0.01' min='1' value='1' onchange='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'><input class='la mx-2' type='number' name='la[]' step='0.01' min='1' value='1' onchange='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'></td><td><input class='quantidade' type='number' name='quantidade[]' min='1' value='1' onchange='mudouvalor()' style='width: 80px'></td><td class='valor_unitario'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td class='subtotal'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
+        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' name='nomes[]' value='"+nome+"' readonly='readonly'></td><td><input class='al mx-2' type='number' name='al[]' step='0.01' min='1' value='1' onkeyup='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'><input class='la mx-2' type='number' name='la[]' step='0.01' min='1' value='1' onkeyup='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'></td><td><input class='quantidade' type='number' name='quantidade[]' min='1' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='valor_unitario bg-dark text-white border-0' type='text' name='valorunitario[]' value='R$ "+preco.toFixed(2).replace('.',',')+"' style='width: 80px' readonly='readonly'></td><td class='subtotal'>R$ "+preco.toFixed(2).replace('.', ',')+"</td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
     }
 
     soma = 0;
@@ -26,11 +26,11 @@ $(document).ready(function() {
 
 function mudouvalor() {
     for(i = 0; i < document.getElementsByClassName('subtotal').length; i++) {
-        document.getElementsByClassName('subtotal')[i].innerHTML = "R$ " + Number(Number(document.getElementsByClassName("valor_unitario")[i].innerHTML.split("R$")[1].trim().split(",")[0])*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value)).toFixed(2).replace('.',',');
+        document.getElementsByClassName('subtotal')[i].innerHTML = "R$ " + Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value)).toFixed(2).replace('.',',');
     };
     soma = 0;    
     for(i = 0; i < document.getElementsByClassName('items').length; i++) {
-        soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].innerHTML.split("R$")[1].trim().split(",")[0])*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
+        soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
       }; 
       document.getElementById('res').innerHTML = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
 }
@@ -39,7 +39,7 @@ function delItem(e) {
     document.getElementById(e.id).remove();
     soma = 0;    
     for(i = 0; i < document.getElementsByClassName('items').length; i++) {
-        soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].innerHTML.split("R$")[1].trim().split(",")[0])*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
+        soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
       }; 
       document.getElementById('res').innerHTML = 'Total: R$ '+soma.toFixed(2).replace('.', ',');
 }

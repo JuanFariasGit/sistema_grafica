@@ -18,11 +18,17 @@ $p = new produtos($pdo);
 $produtos = $p->getProduto();
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST['nomes'];
     $quantidade = $_POST['quantidade'];
     $al = $_POST['al'];
     $la = $_POST['la'];
+    $valor_unitario = $_POST['valorunitario'];
     for($i = 0; $i < count($quantidade); $i++) {
-        
+       echo "Nome: ".$nome[$i]."<br>";
+       echo "Al: ".$al[$i]."<br>";
+       echo "LA: ".$la[$i]."<br>";
+       echo "Quantidade: ".$quantidade[$i]."<br>";
+       echo "Valor Unitário: ".$valor_unitario[$i]."<br>";
     }
     exit;
 }
