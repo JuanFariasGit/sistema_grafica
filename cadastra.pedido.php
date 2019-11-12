@@ -95,12 +95,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="row">
                             <div class="col-lg-2 py-2">
-                                <label for="taxa_frete">Taxa De Frete (%)</label>
-                                <input id="taxa_frete" class="form-control" type="number" name="taxa_frete" step="0.01" style="width: 80px">
+                                <label for="valor_frete">Valor Do Frete (R$)</label>
+                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div class="col-lg-2 py-2">
                                 <label for="taxa_cartao">Taxa De Cartão (%)</label>
-                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" style="width: 80px">
+                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div id="total" class="col-lg-2 d-flex align-items-center py-2">
                                Total: R$ 0,00
@@ -108,6 +108,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-2 py-2">
                                 <label for="valor_pago">Valor Pago</label>
                                 <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" style="width: 80px">
+                            </div>
+                            <div id="total" class="col-lg-2 d-flex align-items-center py-2">
+                               Total: R$ 0,00
                             </div>
                         </div>            
                     </div>
