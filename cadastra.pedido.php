@@ -3,6 +3,7 @@ require 'inc/config.php';
 require 'inc/usuarios.class.php';
 require 'inc/clientes.class.php';
 require 'inc/produtos.class.php';
+require 'inc/pedidos.class.php';
 session_start();
 
 if(empty($_SESSION['logado'])) {
@@ -16,18 +17,25 @@ $c = new clientes($pdo);
 $clientes = $c->getCliente();
 $p = new produtos($pdo);
 $produtos = $p->getProduto();
+$pd = new pedidos($pdo);
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = $_POST['nomes'];
-    $quantidade = $_POST['quantidade'];
-    $al =$_POST['al'];
-    $la = $_POST['la'];
-    $valor_unitario = $_POST['valorunitario'];
-    $subtotal = $_POST['subtotal'];
-    for($i = 0; $i < count($quantidade); $i++) {
-      
-    }
-    exit;
+    $clientenome = $_POST['cliente'];
+    $datahora = $_POST['datahora'];
+    $obs = $_POST['obs'];
+    $produtospedido = implode(',', $_POST['produtospedido']);
+    $quantidade = implode(',', $_POST['quantidade']);
+    $al = implode(',', $_POST['al']);
+    $la = implode(',', $_POST['la']);
+    $valorunitario = implode(',', $_POST['valorunitario']);
+    $subtotal = implode(',', $_POST['subtotal']);
+    $valor_frete = $_POST['valor_frete'];
+    $taxa_cartao = $_POST['taxa_cartao'];
+    $total = $_POST['total'];
+    $valor_pago = $_POST['valor_pago'];
+    $falta_pagar = $_POST['falta_pagar'];
+
+    $pd->addPedido($clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $falta_pagar);
 }
 ?>
 
@@ -47,8 +55,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input class="form-control" type="text" name="datahora" id="datahora" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)"> 
                         </div>
                         <div class="col-sm-4">
-                            <label for="clientenome">Cliente:</label>
-                            <select class="form-control" name="clientenome" id="clientenome">
+                            <label for="cliente">Cliente:</label>
+                            <select class="form-control" name="cliente" id="cliente">
                                 <option></option>
                                 <?php foreach($clientes as $cliente): ?>
                                 <option value="<?php echo $cliente['nomecompleto']; ?>"><?php echo $cliente['nomecompleto']; ?></option>

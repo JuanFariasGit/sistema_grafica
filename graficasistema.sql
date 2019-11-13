@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08-Nov-2019 às 13:38
--- Versão do servidor: 10.4.8-MariaDB
--- versão do PHP: 7.3.10
+-- Tempo de geração: 13-Nov-2019 às 14:51
+-- Versão do servidor: 10.3.16-MariaDB
+-- versão do PHP: 7.3.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -71,6 +71,37 @@ INSERT INTO `clientes` (`id`, `nomecompleto`, `fone`, `cep`, `rua`, `numero`, `c
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `pedidos`
+--
+
+CREATE TABLE `pedidos` (
+  `id` int(11) NOT NULL,
+  `cliente` varchar(100) NOT NULL,
+  `datahora` varchar(16) NOT NULL,
+  `obs` text NOT NULL,
+  `produto` varchar(100) NOT NULL,
+  `al` varchar(50) NOT NULL,
+  `la` varchar(50) NOT NULL,
+  `quantidade` varchar(50) NOT NULL,
+  `valorunitario` varchar(50) NOT NULL,
+  `subtotal` varchar(50) NOT NULL,
+  `valorfrete` varchar(50) NOT NULL,
+  `taxacartao` varchar(50) NOT NULL,
+  `total` varchar(50) NOT NULL,
+  `valorpago` varchar(50) NOT NULL,
+  `faltapagar` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `pedidos`
+--
+
+INSERT INTO `pedidos` (`id`, `cliente`, `datahora`, `obs`, `produto`, `al`, `la`, `quantidade`, `valorunitario`, `subtotal`, `valorfrete`, `taxacartao`, `total`, `valorpago`, `faltapagar`) VALUES
+(1, '', '', '', 'Camisa,Banner em Lona com Acabamento', '1,1', '1,1', '1,1', 'R$ 15,00,R$ 50,00', 'R$ 15,00,R$ 50,00', '8', '7', 'Total: R$ 77,55', '7', 'Falta Pagar: R$ 70,55');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `produtos`
 --
 
@@ -112,7 +143,8 @@ INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `permissao`) VALUES
 (1, 'Juan Farias', 'juanfarias580@gmail.com', '202cb962ac59075b964b07152d234b70', 'ADMINISTRADOR'),
 (4, 'Ramon Farias', 'irmaoramonfarias@gmail.com', '202cb962ac59075b964b07152d234b70', 'ADMINISTRADOR'),
 (5, 'Marias Auxiliadora', 'dora_ol@hotmail.com', '202cb962ac59075b964b07152d234b70', 'PADRÃO'),
-(6, 'Ellen', 'ellenlanucce@gmail.com', '202cb962ac59075b964b07152d234b70', 'PADRÃO');
+(6, 'Ellen', 'ellenlanucce@gmail.com', '202cb962ac59075b964b07152d234b70', 'PADRÃO'),
+(7, 'José Farias', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -152,6 +184,12 @@ ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `pedidos`
+--
+ALTER TABLE `pedidos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `produtos`
 --
 ALTER TABLE `produtos`
@@ -186,6 +224,12 @@ ALTER TABLE `clientes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de tabela `pedidos`
+--
+ALTER TABLE `pedidos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
@@ -195,7 +239,7 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios_token`
