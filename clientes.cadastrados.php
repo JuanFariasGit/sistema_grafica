@@ -37,6 +37,7 @@ if(empty($_GET['buscarCliente'])) {
           <table class="table table-dark text-center">
             <thead>
               <tr>
+                <th scope="col">ID</th>
                 <th scope="col">Nome completo</th>
                 <th scope="col">Fone</th>
                 <th  scope="col">Cep</th>
@@ -53,6 +54,7 @@ if(empty($_GET['buscarCliente'])) {
               <?php if(count($clientes) > 0): ?>
               <?php foreach($clientes as $cliente): ?>
               <tr>
+                <td><p class="my-1"><?php echo $cliente['id']; ?></p></td>
                 <td><p class='my-1'><?php echo $cliente['nomecompleto'];?></p></td>
                 <td><a class='my-1' href="https://wa.me/55<?php echo str_replace('-','',str_replace(' ','',$cliente['fone'])) ?>" target="_blank"><?php echo $cliente['fone'];?></a></td>
                 <td><p class='my-1'><?php echo $cliente['cep'];?></p></td>

@@ -36,6 +36,7 @@ if(empty($_GET['buscarUsuario'])) {
           <table class="table table-dark text-center">
             <thead>
               <tr>
+                <th scope="col">ID</th>
                 <th scope="col">Nome de usuário</th>
                 <th scope="col">E-mail</th>
                 <th scope="col">Tipo de Conta de Usuário</th>
@@ -45,6 +46,7 @@ if(empty($_GET['buscarUsuario'])) {
             <tbody>
               <?php foreach($usuarios as $usuario): ?>
               <tr>
+                <td><p class="my-1"><?php echo $usuario['id']; ?></p></td>
                 <td><p class='my-1'><?php echo $usuario['nome']; ?></p></td>
                 <td><p class='my-1'><?php echo $usuario['email']; ?></p></td>
                 <td>

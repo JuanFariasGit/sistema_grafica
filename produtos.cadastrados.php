@@ -38,6 +38,7 @@ if(empty($_GET['buscarProduto'])) {
           <table class="table table-dark text-center">
             <thead>
               <tr>
+                <th scope="col">ID</th>
                 <th  scope="col">Nome</th>
                 <th  scope="col">Unidade de medida</th>
                 <th  scope="col">Categoria</th>
@@ -49,6 +50,7 @@ if(empty($_GET['buscarProduto'])) {
               <?php if(count($produtos) > 0): ?>
               <?php foreach($produtos as $produto): ?>
               <tr>
+                <td><p class="my-1"><?php echo $produto['id']; ?></p></td>
                 <td><p class='my-1'><?php echo $produto['nome'];?></p></td>
                 <td><p class='my-1'><?php echo $produto['unidademedida'];?></p></td>
                 <td><p class='my-1'><?php echo $produto['categoria'];?></p></td>

@@ -27,6 +27,17 @@ class pedidos {
         $sql->bindValue(':faltapagar', $faltapagar);
         $sql->execute();
     }
-
     
+    public function getPedido() {
+        $array = array();
+
+        $sql = "SELECT * FROM pedidos";
+        $sql = $this->pdo->prepare($sql);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
+        return $array;
+    }
 }
