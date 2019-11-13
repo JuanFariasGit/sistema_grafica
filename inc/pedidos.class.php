@@ -27,4 +27,6 @@ class pedidos {
         $sql->bindValue(':faltapagar', $faltapagar);
         $sql->execute();
     }
+
+    
 }

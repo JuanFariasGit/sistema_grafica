@@ -27,8 +27,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $quantidade = implode(',', $_POST['quantidade']);
     $al = implode(',', $_POST['al']);
     $la = implode(',', $_POST['la']);
-    $valorunitario = implode(',', $_POST['valorunitario']);
-    $subtotal = implode(',', $_POST['subtotal']);
+    $valorunitario = implode('-', $_POST['valorunitario']);
+    $subtotal = implode('-', $_POST['subtotal']);
     $valor_frete = $_POST['valor_frete'];
     $taxa_cartao = $_POST['taxa_cartao'];
     $total = $_POST['total'];
@@ -98,7 +98,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <tbody id="addproduto"></tbody>
                             </table>
                         </div>
-                        <div class="row">
+                        <div class="row d-flex justify-content-center">
                             <div class="col-lg-2 py-2">
                                 <label for="valor_frete">Valor Do Frete (R$)</label>
                                 <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
