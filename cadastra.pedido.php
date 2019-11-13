@@ -20,15 +20,12 @@ $produtos = $p->getProduto();
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nomes'];
     $quantidade = $_POST['quantidade'];
-    $al = $_POST['al'];
+    $al =$_POST['al'];
     $la = $_POST['la'];
     $valor_unitario = $_POST['valorunitario'];
+    $subtotal = $_POST['subtotal'];
     for($i = 0; $i < count($quantidade); $i++) {
-       echo "Nome: ".$nome[$i]."<br>";
-       echo "Al: ".$al[$i]."<br>";
-       echo "LA: ".$la[$i]."<br>";
-       echo "Quantidade: ".$quantidade[$i]."<br>";
-       echo "Valor Unitário: ".$valor_unitario[$i]."<br>";
+      
     }
     exit;
 }
@@ -82,7 +79,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <table class="table table-dark text-center">
                             <thead>
                                 <tr>
-                                    <th scope="col">Nome</th>
+                                    <th scope="col">Produto</th>
                                     <th scope="col">Al x LA</th>
                                     <th  scope="col">Quantidade</th>
                                     <th  scope="col">Valor Unitário</th>
@@ -106,11 +103,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="Total: R$ 0,00" readonly='readonly'>
                             </div>
                             <div class="col-lg-2 py-2">
-                                <label for="valor_pago">Valor Pago</label>
-                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" style="width: 80px">
+                                <label for="valor_pago">Valor Pago (R$)</label>
+                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div class="col-lg-2 d-flex align-items-center py-2">
-                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="" readonly='readonly'>
+                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="Falta Pagar: R$ 0,00" readonly='readonly'>
                             </div>
                         </div>            
                     </div>
