@@ -17,7 +17,7 @@ if(($u->temPermissao("ADMINISTRADOR")) || ($u->temPermissao("PADRÃO"))) {
     if(!empty($_GET['nome'])) {
         $nomesituacao = $_GET['nome'];
         $pd->addSituacao($nomesituacao);
-        header("Location: ".BASE_URL."cadastra.pedido");
+        header("Location: ".BASE_URL."cadastrar.pedido");
     }
 } else {
     header("Location: ".BASE_URL."login");

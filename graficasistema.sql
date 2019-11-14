@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13-Nov-2019 às 14:51
--- Versão do servidor: 10.3.16-MariaDB
--- versão do PHP: 7.3.7
+-- Tempo de geração: 14-Nov-2019 às 20:39
+-- Versão do servidor: 10.4.8-MariaDB
+-- versão do PHP: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -89,15 +89,16 @@ CREATE TABLE `pedidos` (
   `taxacartao` varchar(50) NOT NULL,
   `total` varchar(50) NOT NULL,
   `valorpago` varchar(50) NOT NULL,
-  `faltapagar` varchar(50) NOT NULL
+  `faltapagar` varchar(50) NOT NULL,
+  `situacao` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `pedidos`
 --
 
-INSERT INTO `pedidos` (`id`, `cliente`, `datahora`, `obs`, `produto`, `al`, `la`, `quantidade`, `valorunitario`, `subtotal`, `valorfrete`, `taxacartao`, `total`, `valorpago`, `faltapagar`) VALUES
-(1, '', '', '', 'Camisa,Banner em Lona com Acabamento', '1,1', '1,1', '1,1', 'R$ 15,00,R$ 50,00', 'R$ 15,00,R$ 50,00', '8', '7', 'Total: R$ 77,55', '7', 'Falta Pagar: R$ 70,55');
+INSERT INTO `pedidos` (`id`, `cliente`, `datahora`, `obs`, `produto`, `al`, `la`, `quantidade`, `valorunitario`, `subtotal`, `valorfrete`, `taxacartao`, `total`, `valorpago`, `faltapagar`, `situacao`) VALUES
+(2, 'Ramon De Oliveira Farias', '13/11/2019 15:15', 'Isto é um teste', 'Banner em Lona com Acabamento,Camisa', '1,1', '1,1', '4,3', 'R$ 50,00-R$ 15,00', 'R$ 200,00-R$ 45,00', '2', '1', 'Total: R$ 249,45', '100', 'Falta Pagar: R$ 149,45', 'DISPONÍVEL PARA RETIRADA');
 
 -- --------------------------------------------------------
 
@@ -124,6 +125,25 @@ INSERT INTO `produtos` (`id`, `nome`, `categoria`, `unidademedida`, `valor`) VAL
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `situacao`
+--
+
+CREATE TABLE `situacao` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `situacao`
+--
+
+INSERT INTO `situacao` (`id`, `nome`) VALUES
+(1, 'PRODUÇÃO'),
+(2, 'DISPONÍVEL PARA RETIRADA');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `usuarios`
 --
 
@@ -143,8 +163,7 @@ INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `permissao`) VALUES
 (1, 'Juan Farias', 'juanfarias580@gmail.com', '202cb962ac59075b964b07152d234b70', 'ADMINISTRADOR'),
 (4, 'Ramon Farias', 'irmaoramonfarias@gmail.com', '202cb962ac59075b964b07152d234b70', 'ADMINISTRADOR'),
 (5, 'Marias Auxiliadora', 'dora_ol@hotmail.com', '202cb962ac59075b964b07152d234b70', 'PADRÃO'),
-(6, 'Ellen', 'ellenlanucce@gmail.com', '202cb962ac59075b964b07152d234b70', 'PADRÃO'),
-(7, 'José Farias', '', '', '');
+(6, 'Ellen', 'ellenlanucce@gmail.com', '202cb962ac59075b964b07152d234b70', 'PADRÃO');
 
 -- --------------------------------------------------------
 
@@ -196,6 +215,12 @@ ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `situacao`
+--
+ALTER TABLE `situacao`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -227,13 +252,19 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT de tabela `situacao`
+--
+ALTER TABLE `situacao`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
