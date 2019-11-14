@@ -100,7 +100,7 @@ class pedidos {
     public function getPedidoEdit($id) {
         $array = array();
 
-        $sql = "SELECT * FROM situacao WHERE id = :id";
+        $sql = "SELECT * FROM pedidos WHERE id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->execute();

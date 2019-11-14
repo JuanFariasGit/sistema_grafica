@@ -21,6 +21,29 @@ $pd = new pedidos($pdo);
 $situacoes = $pd->getSituacao();
 $pedidos = $pd->getPedidoEdit($_GET['id']);
 
+$unidade_e_produto = array();
+foreach($produtos as $produto) {
+    array_push($unidade_e_produto, $produto['unidademedida']."-".$produto['nome']);
+}
+
+foreach($pedidos as $pedido) {
+     $produtos_edit_array = explode(",", $pedido['produto']);
+     $la_edit_array = explode(",", $pedido['la']);
+     $al_edit_array = explode(",", $pedido['al']);
+     $quantidade_edit_array = explode(",", $pedido['quantidade']);   
+     $valorunitario_edit_array = explode("-", $pedido['valorunitario']);
+     $subtotal_edit_array = explode("-" , $pedido['subtotal']);
+}
+
+$verificar_unidade = array();
+for($i = 0; $i < count($produtos_edit_array); $i++) {
+    for($j = 0; $j < count($unidade_e_produto); $j++) {
+        if($produtos_edit_array[$i] == explode("-", $unidade_e_produto[$j])[1]) {
+            array_push($verificar_unidade, explode("-", $unidade_e_produto[$j])[0]);
+        }
+    }
+}
+
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $clientenome = $_POST['cliente'];
     $datahora = $_POST['datahora'];
@@ -50,20 +73,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="container">
             <form method="POST">
                 <div class="d-flex justify-content-center">
-                    <h4 class="font-weight-bold">Cadastrar Pedido</h4>
+                    <h4 class="font-weight-bold">Cadastrar Pedido (Editar)</h4>
                 </div>
                 <div class="form-row d-flex justify-content-center">
+                    <?php foreach($pedidos as $pedido): ?>
                     <div class="col-sm-12 d-sm-flex justify-content-sm-center">
                         <div class="col-sm-4">
                             <label for="datahora">Data e Hora</label>
-                            <input class="form-control" type="text" name="datahora" id="datahora" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)"> 
+                            <input class="form-control" type="text" name="datahora" id="datahora" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)" value="<?php echo $pedido['datahora']; ?>"> 
                         </div>
                         <div class="col-sm-4">
                             <label for="cliente">Cliente:</label>
                             <select class="form-control" name="cliente" id="cliente">
                                 <option></option>
                                 <?php foreach($clientes as $cliente): ?>
-                                <option value="<?php echo $cliente['nomecompleto']; ?>"><?php echo $cliente['nomecompleto']; ?></option>
+                                <option value="<?php echo $cliente['nomecompleto']; ?>" <?php if($pedido['cliente'] == $cliente['nomecompleto']) {echo "selected = 'selected'";}; ?>><?php echo $cliente['nomecompleto']; ?></option>
                                 <?php endforeach; ?>
                             </select>  
                         </div>
@@ -71,9 +95,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-sm-12 d-flex justify-content-center">    
                         <div class="col-sm-8">
                             <label for="obs">Obs:</label>
-                            <textarea class="form-control" name="obs" id="obs"></textarea>
+                            <textarea class="form-control" name="obs" id="obs"><?php echo $pedido['obs']; ?></textarea>
                         </div>
                     </div>
+                    <?php endforeach; ?>
                     <div class="col-sm-12 d-sm-flex justify-content-sm-center">    
                         <div class="col-sm-4">
                             <label for="produtos">Produtos:</label>
@@ -85,9 +110,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>
                             <a class="btn-sm btn btn-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
                         </div>
-                        <div class="col-sm-4">
-                            
-                        </div>
+                        <div class="col-sm-4"></div>
                     </div>
                     <div class="col-sm-12 d-flex justify-content-center flex-column my-2">  
                         <div class="table-responsive">
@@ -102,7 +125,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <th scope="col">Ações</th>
                                 </tr>
                             </thead>
-                            <tbody id="addproduto"></tbody>
+                            <tbody id="addproduto">
+                                <?php for($i = 0; $i < count($produtos_edit_array); $i++): ?>
+                                    <tr id='<?php echo $produtos_edit_array[$i]; ?>' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='<?php echo $produtos_edit_array[$i]; ?>' readonly='readonly'></td>
+                                    <td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' min='1' value='<?php echo $al_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px'><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' min='1' value='<?php echo $la_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px'></td>
+                                <?php endfor; ?>
+                            </tbody>
                             </table>
                         </div>
                         <div class="row d-flex justify-content-center">
@@ -135,7 +163,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>            
                     </div>
-                    <input class="btn btn-sm btn-block btn-primary font-weight-bold" type="submit" value="CADASTRAR">
+                    <input class="btn btn-sm btn-block btn-primary font-weight-bold" type="submit" value="SALVAR">
                     </div>            
             </form> 
         </div>       
