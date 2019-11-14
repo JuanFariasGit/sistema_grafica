@@ -111,4 +111,18 @@ class pedidos {
         }
         return $array;
     }
+
+    public function getPedidoBuscar($cliente) {
+		$array = array();
+		
+		$sql = 'SELECT * FROM pedidos WHERE cliente LIKE CONCAT(:cliente, "%")';
+		$sql = $this->pdo->prepare($sql);
+		$sql->bindValue(":cliente", $cliente);
+		$sql->execute();
+
+		if($sql->rowCount() > 0) {
+			$array = $sql->fetchAll();
+		}
+		return $array;
+	}
 }

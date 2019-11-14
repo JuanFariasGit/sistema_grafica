@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="container">
                 <form method="post" onsubmit="return validar_cadastro_produto()">
                     <div class="d-flex justify-content-center">
-                        <h4 class="font-weight-bold">Cadastro de produto</h4>
+                        <h4 class="font-weight-bold">Cadastrar produto</h4>
                     </div>
                     <div class="form-row">
                         <div class="col-lg-6">

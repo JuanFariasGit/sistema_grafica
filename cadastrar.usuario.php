@@ -57,7 +57,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="text-white bg-dark py-5">
                     <form method="POST" class="my-auto" onsubmit="return validar_usuario()">
                         <div class="d-flex justify-content-center">                            
-                            <h4 class="font-weight-bold">Cadastro de Usuário</h4>
+                            <h4 class="font-weight-bold">Cadastrar usuário</h4>
                         </div>    
                         <div class="form-group col-sm-6 col-12 mx-auto">
                             <label for="nome">Nome de usuário:  <span class="text-danger"><?php echo $nome_err; ?></span></label>

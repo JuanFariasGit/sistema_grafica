@@ -12,7 +12,13 @@ if(empty($_SESSION['logado'])) {
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
 $pd = new pedidos($pdo);
-$pedidos = $pd->getPedido();
+
+if(empty($_GET['buscarPedido'])) {
+  $pedidos = $pd->getPedido();
+} else {
+  $nome = trim($_GET['buscarPedido']);
+  $pedidos = $pd->getPedidoBuscar($nome);
+}
 ?>
 
 <?php require 'inc/header.php'; ?>
@@ -23,7 +29,7 @@ $pedidos = $pd->getPedido();
         <h4 class="font-weight-bold">Pedidos Cadastrados</h4> 
         <form method="get">
           <div class="form-group d-sm-flex align-items-center">
-            <input class="form-control my-1" type="search" name="buscarCliente">
+            <input class="form-control my-1" type="search" name="buscarPedido">
             <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">
           </div>
         </form>         

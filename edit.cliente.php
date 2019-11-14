@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="text-white bg-dark py-5 d-flex justify-content-center">
                 <form method="POST" onsubmit="return validar_cadastro_cliente()">
                         <div class="d-flex justify-content-center">                            
-                                <h4 class="font-weight-bold">Cadastro de cliente (Editar)</h4>
+                                <h4 class="font-weight-bold">Cadastrar cliente (Editar)</h4>
                         </div>  
                         <div class="form-row container"> 
                             <?php foreach($clientes as $cliente): ?>
