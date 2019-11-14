@@ -76,9 +76,10 @@ class pedidos {
         $sql->execute();
     }
 
-    public function upPedido($cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $faltapagar, $situacao) {
-        $sql = "UPDATE pedidos (cliente, datahora, obs, produto, al, la, quantidade, valorunitario, subtotal, valorfrete, taxacartao, total, valorpago, faltapagar, situacao) VALUE (:cliente, :datahora, :obs, :produto, :al, :la, :quantidade, :valorunitario, :subtotal, :valorfrete, :taxacartao, :total, :valorpago, :faltapagar, :situacao)";
+    public function upPedido($id, $cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $faltapagar, $situacao) {
+        $sql = "UPDATE pedidos SET cliente = :cliente, datahora = :datahora, obs = :obs, produto = :produto, al = :al, la = :la, quantidade = :quantidade, valorunitario = :valorunitario, subtotal = :subtotal, valorfrete = :valorfrete, taxacartao = :taxacartao, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao WHERE id = :id";
         $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':id', $id);
         $sql->bindValue(':cliente', $cliente);
         $sql->bindValue(':datahora', $datahora);
         $sql->bindValue(':obs', $obs);

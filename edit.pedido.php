@@ -45,6 +45,7 @@ for($i = 0; $i < count($produtos_edit_array); $i++) {
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_GET['id'];
     $clientenome = $_POST['cliente'];
     $datahora = $_POST['datahora'];
     $obs = $_POST['obs'];
@@ -61,7 +62,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $falta_pagar = $_POST['falta_pagar'];
     $situacao = $_POST['situacao'];
 
-    $pd->upPedido($clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $falta_pagar, $situacao);
+    $pd->upPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedidos.cadastrados");
 }
 ?>
@@ -128,39 +129,45 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <tbody id="addproduto">
                                 <?php for($i = 0; $i < count($produtos_edit_array); $i++): ?>
                                     <tr id='<?php echo $produtos_edit_array[$i]; ?>' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='<?php echo $produtos_edit_array[$i]; ?>' readonly='readonly'></td>
-                                    <td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' min='1' value='<?php echo $al_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px'><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' min='1' value='<?php echo $la_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px'></td>
+                                    <td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' min='1' value='<?php echo $al_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px;<?php if($verificar_unidade[$i] == "uni") {echo "background-color: #AAA";}; ?>' <?php if($verificar_unidade[$i] == "uni") {echo "readonly='readonly'";}; ?>><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' min='1' value='<?php echo $la_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px;<?php if($verificar_unidade[$i] == "uni") {echo "background-color: #AAA";}; ?>' <?php if($verificar_unidade[$i] == "uni") {echo "readonly='readonly'";}; ?>></td>
+                                    <td><input class='quantidade rounded border-0 py-2' type='number' name='quantidade[]' min='1' value='<?php echo $quantidade_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px'></td>
+                                    <td><input class='valor_unitario bg-dark text-white border-0' type='text' name='valorunitario[]' value='<?php echo $valorunitario_edit_array[$i]; ?>' style='width: 80px' readonly='readonly'></td>
+                                    <td><input class='subtotal bg-dark text-white border-0' type='text' name='subtotal[]' value='<?php echo $subtotal_edit_array[$i]; ?>' style='width: 80px' readonly='readonly'></td>
+                                    <td><a id='<?php echo $produtos_edit_array[$i]; ?>' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>
                                 <?php endfor; ?>
                             </tbody>
                             </table>
                         </div>
+                        <?php foreach($pedidos as $pedido): ?>
                         <div class="row d-flex justify-content-center">
                             <div class="col-lg-2 py-2">
                                 <label for="valor_frete">Valor Do Frete (R$)</label>
-                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
+                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" value="<?php echo $pedido['valorfrete']; ?>" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div class="col-lg-2 py-2">
                                 <label for="taxa_cartao">Taxa De Cartão (%)</label>
-                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
+                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" value="<?php echo $pedido['taxacartao']; ?>" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div class="col-lg-2 d-flex align-items-center">
-                                <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="Total: R$ 0,00" readonly='readonly'>
+                                <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="<?php echo $pedido['total']; ?>" readonly='readonly'>
                             </div>
                             <div class="col-lg-2 py-2">
                                 <label for="valor_pago">Valor Pago (R$)</label>
-                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
+                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" value="<?php echo $pedido['valorpago']; ?>" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div class="col-lg-2 d-flex align-items-center py-2">
-                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="Falta Pagar: R$ 0,00" readonly='readonly'>
+                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="<?php echo $pedido['faltapagar']; ?>" readonly='readonly'>
                             </div>
                             <div class="col-lg-2 py-2">
-                                <label for="situacao">Situação: <a class="text-success" onclick="addSituacao()" style="cursor: pointer">( + )</a> <a class="text-danger" onclick="delSituacao()" style="cursor: pointer">( - )</a></label>
+                                <label for="situacao">Situação:</label>
                                 <select class="form-control mb-2" name="situacao" id="situacao">
                                     <option></option>
                                     <?php foreach($situacoes as $situacao): ?>
-                                    <option value="<?php echo $situacao["nome"]; ?>"><?php echo $situacao["nome"]; ?></option>
+                                    <option value="<?php echo $situacao["nome"]; ?>" <?php if($pedido['situacao'] == $situacao['nome']) {echo "selected='selected'";}; ?>><?php echo $situacao["nome"]; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+                            <?php endforeach; ?>
                         </div>            
                     </div>
                     <input class="btn btn-sm btn-block btn-primary font-weight-bold" type="submit" value="SALVAR">
