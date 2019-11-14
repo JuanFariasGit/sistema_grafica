@@ -38,10 +38,12 @@ if(empty($_GET['buscarPedido'])) {
             <thead>
               <tr>
                 <th scope="col">ID</th>
+                <th scope="col">Data e Hora</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Total</th>
                 <th scope="col">Falta Pagar</th>
                 <th scope="col">Situação</th>
+                <th scope="col">Obs</th>
                 <th scope="col">Ações</th>
               </tr>
             </thead>
@@ -49,10 +51,12 @@ if(empty($_GET['buscarPedido'])) {
             <?php foreach($pedidos as $pedido): ?>
                 <tr>
                     <td><?php echo $pedido['id']; ?></td>
+                    <td><?php echo $pedido['datahora']; ?></td>
                     <td><?php echo $pedido['cliente']; ?></td>
                     <td><?php echo explode(":", $pedido['total'])[1]; ?></td>
                     <td><?php echo explode(":", $pedido['faltapagar'])[1]; ?></td>
                     <td><?php echo $pedido['situacao']; ?></td>
+                    <td><?php echo $pedido['obs']; ?></td>
                     <td>
                       <a class="btn btn-sm btn-success my-1" href="<?php echo BASE_URL; ?>edit.pedido?id=<?php echo $pedido['id']; ?>">EDIT</a>
                       <a id="<?php echo $pedido['id']; ?>" name="<?php echo $pedido['cliente']; ?>" class="btn btn-danger btn-sm" onclick="delPedido(this)" style="cursor:pointer">DEL</a>
