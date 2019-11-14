@@ -254,6 +254,13 @@ function addCategoria() {
     }
 }
 
+function addSituacao() {
+    let nomesituacao = prompt("Adicionar situação:");
+    if(nomesituacao != null) {
+        location = 'add.situacao?nome='+nomesituacao;
+    }
+}
+
 function categorias() {
    let x = $('#categorias');
 
@@ -273,6 +280,23 @@ function delCategoria() {
     } else {
         alert("Você não selecionou nenhuma categoria!");
     }        
+}
+
+function delSituacao() {
+    let nome = document.getElementById('situacao').value;
+    if(document.getElementById('situacao').value != "") {
+        if(confirm('A situação '+nome+' será deletada.') == true) {
+            location = 'del.situacao?nome='+nome;
+        }
+    } else {
+        alert("Você não selecionou nenhuma situação!");
+    }        
+}
+
+function delPedido(pedido) {
+    if(confirm('O pedido de '+pedido.name+' será deletado.') == true) {
+        location = 'del.pedido?id='+pedido.id;
+    } 
 }
 
 function delProduto(produto) {

@@ -19,6 +19,7 @@ $p = new produtos($pdo);
 $produtos = $p->getProduto();
 $pd = new pedidos($pdo);
 $situacoes = $pd->getSituacao();
+$pedidos = $pd->getPedidoEdit($_GET['id']);
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $clientenome = $_POST['cliente'];
@@ -37,7 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $falta_pagar = $_POST['falta_pagar'];
     $situacao = $_POST['situacao'];
 
-    $pd->addPedido($clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $falta_pagar, $situacao);
+    $pd->upPedido($clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedidos.cadastrados");
 }
 ?>

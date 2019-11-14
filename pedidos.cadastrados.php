@@ -46,8 +46,10 @@ $pedidos = $pd->getPedido();
                     <td><?php echo $pedido['cliente']; ?></td>
                     <td><?php echo explode(":", $pedido['total'])[1]; ?></td>
                     <td><?php echo explode(":", $pedido['faltapagar'])[1]; ?></td>
+                    <td><?php echo $pedido['situacao']; ?></td>
                     <td>
-                        
+                      <a class="btn btn-sm btn-success my-1" href="<?php echo BASE_URL; ?>edit.pedido?id=<?php echo $pedido['id']; ?>">EDIT</a>
+                      <a id="<?php echo $pedido['id']; ?>" name="<?php echo $pedido['cliente']; ?>" class="btn btn-danger btn-sm" onclick="delPedido(this)" style="cursor:pointer">DEL</a>
                     </td>
                 </tr>
             <?php endforeach; ?>    
