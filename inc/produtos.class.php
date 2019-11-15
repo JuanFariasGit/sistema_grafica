@@ -79,9 +79,10 @@ class produtos {
         return $array;
     }
 
-    public function upProduto($nome, $unidademedida, $categoria, $valor) {
-        $sql = 'UPDATE produtos SET nome = :nome, unidademedida = :unidademedida, categoria = :categoria, valor = :valor';
+    public function upProduto($id, $nome, $unidademedida, $categoria, $valor) {
+        $sql = 'UPDATE produtos SET nome = :nome, unidademedida = :unidademedida, categoria = :categoria, valor = :valor WHERE id = :id';
         $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':id', $id);
         $sql->bindValue(':nome', $nome);
         $sql->bindValue(':unidademedida', $unidademedida);
         $sql->bindValue(':categoria', $categoria);

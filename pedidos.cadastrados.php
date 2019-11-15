@@ -48,7 +48,8 @@ if(empty($_GET['buscarPedido'])) {
               </tr>
             </thead>
             <tbody>
-            <?php foreach($pedidos as $pedido): ?>
+            <?php if(count($pedidos) > 0): ?>
+              <?php foreach($pedidos as $pedido): ?>
                 <tr>
                     <td><?php echo $pedido['id']; ?></td>
                     <td><?php echo $pedido['datahora']; ?></td>
@@ -62,7 +63,9 @@ if(empty($_GET['buscarPedido'])) {
                       <a id="<?php echo $pedido['id']; ?>" name="<?php echo $pedido['cliente']; ?>" class="btn btn-danger btn-sm" onclick="delPedido(this)" style="cursor:pointer">DEL</a>
                     </td>
                 </tr>
-            <?php endforeach; ?>    
+              <?php endforeach; ?> 
+              <?php else: echo "<h5 class='text-danger text-center'>Não há nenhum cadastro !!!</h5>"?>  
+              <?php endif; ?> 
             </tbody>
           </table>
         </div>

@@ -17,12 +17,13 @@ $produtos = $p->getProdutoEdit($_GET['id']);
 $categorias = $p->getCategoria();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = $_GET['id'];
     $nome = $_POST['nome'];
     $unidademedida = $_POST['unidademedida'];
     $categoria = $_POST['categoria'];
     $valor = $_POST['valor'];
 
-    $p->upProduto($nome, $unidademedida, $categoria, $valor);
+    $p->upProduto($id, $nome, $unidademedida, $categoria, $valor);
     header("Location: ".BASE_URL."produtos.cadastrados");
     exit;
 }
@@ -66,7 +67,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <input class="form-control" type="text" name="valor" id="valor" onkeydown="mascara_valor(this, valor, event)" value="<?php echo $produto['valor']; ?>">
                         </div>
                         <div class="col-12 my-2">
-                            <input class="btn-block btn-sm bg-primary text-white border-0 font-weight-bold" type="submit" value="CADASTRAR">
+                            <input class="btn-block btn-sm bg-primary text-white border-0 font-weight-bold" type="submit" value="SALVAR">
                         </div>
                         <?php endforeach; ?>
                     </div>
