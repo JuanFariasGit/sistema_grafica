@@ -20,16 +20,29 @@ $produtos = $p->getProduto();
 $pd = new pedidos($pdo);
 $situacoes = $pd->getSituacao();
 
+$produtospedido = $quantidade = $al = $la = $valorunitario = $subtotal = ""; 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $clientenome = $_POST['cliente'];
     $datahora = $_POST['datahora'];
     $obs = $_POST['obs'];
-    $produtospedido = implode(',', $_POST['produtospedido']);
-    $quantidade = implode(',', $_POST['quantidade']);
-    $al = implode(',', $_POST['al']);
-    $la = implode(',', $_POST['la']);
-    $valorunitario = implode('-', $_POST['valorunitario']);
-    $subtotal = implode('-', $_POST['subtotal']);
+    if(!empty($_POST['produtospedido'])) {
+        $produtospedido = implode(',', $_POST['produtospedido']);
+    }
+    if(!empty($_POST['quantidade'])) {
+        $quantidade = implode(',', $_POST['quantidade']);
+    }
+    if(!empty($_POST['al'])) {
+        $al = implode(',', $_POST['al']);
+    }
+    if(!empty($_POST['la'])) {
+        $la = implode(',', $_POST['la']);
+    }
+    if(!empty($_POST['valorunitario'])) {
+        $valorunitario = implode('-', $_POST['valorunitario']);
+    }
+    if(!empty($_POST['subtotal'])) {
+        $subtotal = implode('-', $_POST['subtotal']);
+    }
     $valor_frete = $_POST['valor_frete'];
     $taxa_cartao = $_POST['taxa_cartao'];
     $total = $_POST['total'];

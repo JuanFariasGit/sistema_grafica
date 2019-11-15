@@ -26,8 +26,11 @@ foreach($produtos as $produto) {
     array_push($unidade_e_produto, $produto['unidademedida']."-".$produto['nome']);
 }
 
+$produtos_edit_array = array();
 foreach($pedidos as $pedido) {
-     $produtos_edit_array = explode(",", $pedido['produto']);
+    if($pedido['produto'] != "") {
+        $produtos_edit_array = explode(",", $pedido['produto']);
+    }
      $la_edit_array = explode(",", $pedido['la']);
      $al_edit_array = explode(",", $pedido['al']);
      $quantidade_edit_array = explode(",", $pedido['quantidade']);   
@@ -127,14 +130,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </tr>
                             </thead>
                             <tbody id="addproduto">
-                                <?php for($i = 0; $i < count($produtos_edit_array); $i++): ?>
-                                    <tr id='<?php echo $produtos_edit_array[$i]; ?>' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='<?php echo $produtos_edit_array[$i]; ?>' readonly='readonly'></td>
-                                    <td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' min='1' value='<?php echo $al_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px;<?php if($verificar_unidade[$i] == "uni") {echo "background-color: #AAA";}; ?>' <?php if($verificar_unidade[$i] == "uni") {echo "readonly='readonly'";}; ?>><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' min='1' value='<?php echo $la_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px;<?php if($verificar_unidade[$i] == "uni") {echo "background-color: #AAA";}; ?>' <?php if($verificar_unidade[$i] == "uni") {echo "readonly='readonly'";}; ?>></td>
-                                    <td><input class='quantidade rounded border-0 py-2' type='number' name='quantidade[]' min='1' value='<?php echo $quantidade_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px'></td>
-                                    <td><input class='valor_unitario bg-dark text-white border-0' type='text' name='valorunitario[]' value='<?php echo $valorunitario_edit_array[$i]; ?>' style='width: 80px' readonly='readonly'></td>
-                                    <td><input class='subtotal bg-dark text-white border-0' type='text' name='subtotal[]' value='<?php echo $subtotal_edit_array[$i]; ?>' style='width: 80px' readonly='readonly'></td>
-                                    <td><a id='<?php echo $produtos_edit_array[$i]; ?>' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>
-                                <?php endfor; ?>
+                                <?php if(count($produtos_edit_array) > 0): ?>    
+                                    <?php for($i = 0; $i < count($produtos_edit_array); $i++): ?>
+                                        <tr id='<?php echo $produtos_edit_array[$i]; ?>' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='<?php echo $produtos_edit_array[$i]; ?>' readonly='readonly'></td>
+                                        <td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' min='1' value='<?php echo $al_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px;<?php if($verificar_unidade[$i] == "uni") {echo "background-color: #AAA";}; ?>' <?php if($verificar_unidade[$i] == "uni") {echo "readonly='readonly'";}; ?>><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' min='1' value='<?php echo $la_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px;<?php if($verificar_unidade[$i] == "uni") {echo "background-color: #AAA";}; ?>' <?php if($verificar_unidade[$i] == "uni") {echo "readonly='readonly'";}; ?>></td>
+                                        <td><input class='quantidade rounded border-0 py-2' type='number' name='quantidade[]' min='1' value='<?php echo $quantidade_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px'></td>
+                                        <td><input class='valor_unitario bg-dark text-white border-0' type='text' name='valorunitario[]' value='<?php echo $valorunitario_edit_array[$i]; ?>' style='width: 80px' readonly='readonly'></td>
+                                        <td><input class='subtotal bg-dark text-white border-0' type='text' name='subtotal[]' value='<?php echo $subtotal_edit_array[$i]; ?>' style='width: 80px' readonly='readonly'></td>
+                                        <td><a id='<?php echo $produtos_edit_array[$i]; ?>' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>
+                                <?php endfor;endif; ?>
                             </tbody>
                             </table>
                         </div>
