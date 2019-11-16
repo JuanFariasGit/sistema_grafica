@@ -67,7 +67,7 @@ class usuarios {
 	
 	public function getUsuario() {
 		$array = array();
-		$sql = 'SELECT * FROM usuarios';
+		$sql = 'SELECT * FROM usuarios ORDER BY nome ASC';
 		$sql = $this->pdo->prepare($sql);
 		$sql->execute();
 
@@ -160,6 +160,8 @@ class usuarios {
 			//mail($email, $assunto, $mensagem, $headers);
 			echo $mensagem;
 			exit;
+		} else {
+			echo "<script>alert('Não existe nenhum usuário gadastrado com esse email !!!');</script>";
 		}
 	}
 

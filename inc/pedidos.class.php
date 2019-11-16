@@ -32,7 +32,7 @@ class pedidos {
     public function getPedido() {
         $array = array();
 
-        $sql = "SELECT * FROM pedidos";
+        $sql = "SELECT * FROM pedidos ORDER BY id DESC";
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 
@@ -112,12 +112,12 @@ class pedidos {
         return $array;
     }
 
-    public function getPedidoBuscar($cliente) {
+    public function getPedidoBuscar($nome) {
 		$array = array();
 		
-		$sql = 'SELECT * FROM pedidos WHERE cliente LIKE CONCAT(:cliente, "%")';
+		$sql = 'SELECT * FROM pedidos WHERE cliente LIKE CONCAT(:nome, "%") OR situacao LIKE CONCAT(:nome, "%")';
 		$sql = $this->pdo->prepare($sql);
-		$sql->bindValue(":cliente", $cliente);
+		$sql->bindValue(":nome", $nome);
 		$sql->execute();
 
 		if($sql->rowCount() > 0) {

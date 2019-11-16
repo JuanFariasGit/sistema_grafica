@@ -1,5 +1,5 @@
 function addproduto() {
-    let preco = Number(document.getElementById('produtos').value.split("|")[0].split("R$")[1].split(",")[0].split(" ")[1]);
+    let preco = Number(document.getElementById('produtos').value.split("|")[0].split("R$")[1].trim().replace(',','.'));
     let nome = document.getElementById("produtos").value.split("|")[1];
     
     if(document.getElementById("produtos").value.split("|")[2] == "m²") {
