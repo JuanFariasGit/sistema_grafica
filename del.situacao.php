@@ -19,6 +19,6 @@ if(!empty($_GET['nome']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET[
     $nome = $_GET['nome'];
 
     $pd->delSituacao($nome);
-    header("Location: ".BASE_URL."cadastrar.pedido");
+    header("Location: ".BASE_URL."pedido");
     exit;
 }

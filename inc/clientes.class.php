@@ -38,7 +38,7 @@ class clientes {
     public function getClienteBuscar($nome) {
         $array = array();
 
-        $sql = 'SELECT * FROM clientes WHERE nomecompleto LIKE CONCAT(:nome, "%")';
+        $sql = 'SELECT * FROM clientes WHERE nomecompleto LIKE CONCAT(:nome, "%") ORDER BY nomecompleto ASC';
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(":nome", $nome);
         $sql->execute();

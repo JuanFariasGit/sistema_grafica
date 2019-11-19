@@ -93,7 +93,7 @@ class produtos {
     public function getProdutoBuscar($nome) {
 		$array = array();
 		
-		$sql = 'SELECT * FROM produtos WHERE nome LIKE CONCAT(:nome, "%")';
+		$sql = 'SELECT * FROM produtos WHERE nome LIKE CONCAT(:nome, "%") OR categoria LIKE CONCAT(:nome, "%") ORDER BY nome ASC';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(":nome", $nome);
 		$sql->execute();

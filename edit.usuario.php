@@ -59,7 +59,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if(!empty($nome) && !empty($email) && !empty($permissao)) {
         $u->upUsuario($id , $nome, $email, $permissao);
-        header("Location: ".BASE_URL."usuarios.cadastrados");
+        header("Location: ".BASE_URL."usuario");
         exit; 
     }   
 }
@@ -73,7 +73,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="d-flex flex-column text-white bg-dark py-5">
                     <form method="POST" class="my-auto" onsubmit="return validar_usuario()">
                         <div class="d-flex flex-column align-items-center">                           
-                            <h4 class="font-weight-bold text-center">Cadastrar usuário (Editar)</h4>
+                            <h4 class="font-weight-bold text-center">USUÁRIO (Editar)</h4>
                         </div>    
                         <div class="form-group col-sm-6 col-12 mx-auto">
                         <label for="nome">Nome de usuário:  <span class="text-danger"><?php echo $nome_err; ?></span></label>
@@ -93,8 +93,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label class="form-check-label" for="checkbox1">Padrão</label>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-12 mx-auto">
-                            <input class="btn-block btn-sm btn-primary font-weight-bold border-0" type="submit" value="SALVAR">
+                        <div class="col-12 d-flex justify-content-center">
+                            <input class="btn-sm btn-primary font-weight-bold border-0" type="submit" value="SALVAR">
                         </div>
                     </form>
                 </div>

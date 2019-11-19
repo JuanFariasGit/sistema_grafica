@@ -18,5 +18,5 @@ if(!empty($_GET['nome']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET[
     $nome = $_GET['nome'];
 
     $p->addCategoria($nome);
-    header("Location: ".BASE_URL."cadastra.produto");
+    header("Location: ".BASE_URL."produto");
 }

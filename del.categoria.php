@@ -19,6 +19,6 @@ if(!empty($_GET['nome']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET[
     $nome = $_GET['nome'];
 
     $p->delCategoria($nome);
-    header("Location: ".BASE_URL."cadastra.produto");
+    header("Location: ".BASE_URL."produto");
     exit;
 }

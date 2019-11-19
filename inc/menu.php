@@ -6,41 +6,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Usuários
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="<?php echo BASE_URL; ?>cadastrar.usuario">Cadastro de Usuário</a>
-              <a class="dropdown-item" href="<?php echo BASE_URL; ?>usuarios.cadastrados">Usuários Cadastrados</a>
-            </div>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo BASE_URL; ?>usuario">Usuário</a>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Clientes
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="<?php echo BASE_URL; ?>cadastrar.cliente">Cadastro de Cliente</a>
-              <a class="dropdown-item" href="<?php echo BASE_URL; ?>clientes.cadastrados">Clientes Cadastrados</a>
-            </div>
+            <a class="nav-link" href="<?php echo BASE_URL; ?>cliente">Cliente</a>
         </li> 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Produtos
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="<?php echo BASE_URL; ?>cadastrar.produto">Cadastro de Produto</a>
-              <a class="dropdown-item" href="<?php echo BASE_URL; ?>produtos.cadastrados">Produtos Cadastrados</a>
-            </div>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo BASE_URL; ?>produto">Produto</a>
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Pedidos
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="<?php echo BASE_URL; ?>cadastrar.pedido">Cadastro de Pedido</a>
-              <a class="dropdown-item" href="<?php echo BASE_URL; ?>pedidos.cadastrados">Pedidos Cadastrados</a>
-            </div>
+        <li class="nav-item">
+           <a class="nav-link" href="<?php echo BASE_URL; ?>pedido">Pedido</a>
         </li>              
       </ul>
       <ul class="navbar-nav ml-auto">

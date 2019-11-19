@@ -18,7 +18,7 @@ $c= new produtos($pdo);
 if(!empty($_GET['id']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET['id']) && ($u->temPermissao('PADRÃO')))) {
     $id = $_GET['id'];
     $c->delProduto($id);
-    header('Location: '.BASE_URL.'produtos.cadastrados');
+    header('Location: '.BASE_URL.'produto');
     exit;
 } else {
     header('Location: '.BASE_URL.'login');

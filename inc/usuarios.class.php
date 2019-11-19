@@ -150,15 +150,15 @@ class usuarios {
 			$sql->bindValue(":hash", $token);
 			$sql->execute();
 
-			$link = "http://localhost/sistema_grafica/redefinir.senha?token=".$token;
+			$link = "http://www.suaimpressora.com.br/sistema-interno/redefinir.senha?token=".$token;
 
 			$mensagem = "Clique no link para redefinir sua senha:<br/>".$link;
 
 			$assunto = "Redefinição de senha";
 
-			$headers = 'From: seuemail@seusite.com.br'."\r\n".'X-Mailer: PHP/'.phpversion();
-			//mail($email, $assunto, $mensagem, $headers);
-			echo $mensagem;
+			$headers = 'From: contato@suaimpressora.com.br'."\r\n".'X-Mailer: PHP/'.phpversion();
+			mail($email, $assunto, $mensagem, $headers);
+			echo '<script>alert("O link para redefinir sua senha foi enviado para o seu E-mail com sucesso !!!"); location = "http://www.suaimpressora.com.br/sistema-interno/login";</script>';
 			exit;
 		} else {
 			echo "<script>alert('Não existe nenhum usuário gadastrado com esse email !!!');</script>";

@@ -9,7 +9,7 @@ class pedidos {
     }
 
     public function addPedido($cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $faltapagar, $situacao) {
-        $sql = "INSERT INTO pedidos (cliente, datahora, obs, produto, al, la, quantidade, valorunitario, subtotal, valorfrete, taxacartao, total, valorpago, faltapagar, situacao) VALUE (:cliente, :datahora, :obs, :produto, :al, :la, :quantidade, :valorunitario, :subtotal, :valorfrete, :taxacartao, :total, :valorpago, :faltapagar, :situacao)";
+        $sql = "INSERT INTO pedidos (cliente, datahora, obs, produto, al, la, quantidade, valorunitario, subtotal, valorfrete, taxacartao, total, valorpago, faltapagar, situacao) VALUES (:cliente, STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), :obs, :produto, :al, :la, :quantidade, :valorunitario, :subtotal, :valorfrete, :taxacartao, :total, :valorpago, :faltapagar, :situacao)";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':cliente', $cliente);
         $sql->bindValue(':datahora', $datahora);
@@ -32,7 +32,7 @@ class pedidos {
     public function getPedido() {
         $array = array();
 
-        $sql = "SELECT * FROM pedidos ORDER BY id DESC";
+        $sql = "SELECT * FROM pedidos ORDER BY datahora DESC";
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 
@@ -52,7 +52,7 @@ class pedidos {
     public function getSituacao() {
         $array = array();
 
-        $sql = "SELECT * FROM situacao";
+        $sql = "SELECT * FROM situacao ORDER BY nome ASC";
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 
@@ -77,7 +77,7 @@ class pedidos {
     }
 
     public function upPedido($id, $cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $faltapagar, $situacao) {
-        $sql = "UPDATE pedidos SET cliente = :cliente, datahora = :datahora, obs = :obs, produto = :produto, al = :al, la = :la, quantidade = :quantidade, valorunitario = :valorunitario, subtotal = :subtotal, valorfrete = :valorfrete, taxacartao = :taxacartao, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao WHERE id = :id";
+        $sql = "UPDATE pedidos SET cliente = :cliente, datahora = STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), obs = :obs, produto = :produto, al = :al, la = :la, quantidade = :quantidade, valorunitario = :valorunitario, subtotal = :subtotal, valorfrete = :valorfrete, taxacartao = :taxacartao, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao WHERE id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->bindValue(':cliente', $cliente);
@@ -115,7 +115,7 @@ class pedidos {
     public function getPedidoBuscar($nome) {
 		$array = array();
 		
-		$sql = 'SELECT * FROM pedidos WHERE cliente LIKE CONCAT(:nome, "%") OR situacao LIKE CONCAT(:nome, "%")';
+		$sql = 'SELECT * FROM pedidos WHERE situacao LIKE CONCAT(:nome, "%") OR cliente LIKE CONCAT(:nome, "%") ORDER BY datahora DESC';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(":nome", $nome);
 		$sql->execute();

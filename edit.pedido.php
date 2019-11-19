@@ -23,7 +23,7 @@ $pedidos = $pd->getPedidoEdit($_GET['id']);
 
 $unidade_e_produto = array();
 foreach($produtos as $produto) {
-    array_push($unidade_e_produto, $produto['unidademedida']."-".$produto['nome']);
+    array_push($unidade_e_produto, $produto['unidademedida']."*".$produto['nome']);
 }
 
 $produtos_edit_array = array();
@@ -41,8 +41,8 @@ foreach($pedidos as $pedido) {
 $verificar_unidade = array();
 for($i = 0; $i < count($produtos_edit_array); $i++) {
     for($j = 0; $j < count($unidade_e_produto); $j++) {
-        if($produtos_edit_array[$i] == explode("-", $unidade_e_produto[$j])[1]) {
-            array_push($verificar_unidade, explode("-", $unidade_e_produto[$j])[0]);
+        if($produtos_edit_array[$i] === explode("*", $unidade_e_produto[$j])[1]) {
+            array_push($verificar_unidade, explode("*", $unidade_e_produto[$j])[0]);
         }
     }
 }
@@ -64,9 +64,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $valor_pago = $_POST['valor_pago'];
     $falta_pagar = $_POST['falta_pagar'];
     $situacao = $_POST['situacao'];
-
+    
     $pd->upPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $falta_pagar, $situacao);
-    header("Location: ".BASE_URL."pedidos.cadastrados");
+    header("Location: ".BASE_URL."pedido");
 }
 ?>
 
@@ -74,17 +74,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if(($u->temPermissao('ADMINISTRADOR')) || ($u->temPermissao('PADRÃO'))): ?>
     <?php require 'inc/menu.php'; ?>
     <div class="text-white bg-dark py-5">
-        <div class="container">
+        <div class="container-fluid">
             <form method="POST">
                 <div class="d-flex justify-content-center">
-                    <h4 class="font-weight-bold">Cadastrar Pedido (Editar)</h4>
+                    <h4 class="font-weight-bold">PEDIDO (Editar)</h4>
                 </div>
                 <div class="form-row d-flex justify-content-center">
                     <?php foreach($pedidos as $pedido): ?>
                     <div class="col-sm-12 d-sm-flex justify-content-sm-center">
                         <div class="col-sm-4">
                             <label for="datahora">Data e Hora</label>
-                            <input class="form-control" type="text" name="datahora" id="datahora" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)" value="<?php echo $pedido['datahora']; ?>"> 
+                            <input class="form-control" type="text" name="datahora" id="datahora" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)" value="<?php echo date('d/m/Y H:i',strtotime($pedido['datahora'])); ?>"> 
                         </div>
                         <div class="col-sm-4">
                             <label for="cliente">Cliente:</label>
@@ -132,13 +132,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <tbody id="addproduto">
                                 <?php if(count($produtos_edit_array) > 0): ?>    
                                     <?php for($i = 0; $i < count($produtos_edit_array); $i++): ?>
-                                        <tr id='<?php echo $produtos_edit_array[$i]; ?>' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='<?php echo $produtos_edit_array[$i]; ?>' readonly='readonly'></td>
+                                        <tr id='<?php echo $produtos_edit_array[$i]; ?>' class='items'><td><input class='form-control border-0 rounded-0 bg-dark text-white mx-auto text-center' type='text' name='produtospedido[]' value='<?php echo $produtos_edit_array[$i]; ?>' readonly='readonly' style="width: 500px"></td>
                                         <td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' min='1' value='<?php echo $al_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px;<?php if($verificar_unidade[$i] == "uni") {echo "background-color: #AAA";}; ?>' <?php if($verificar_unidade[$i] == "uni") {echo "readonly='readonly'";}; ?>><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' min='1' value='<?php echo $la_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px;<?php if($verificar_unidade[$i] == "uni") {echo "background-color: #AAA";}; ?>' <?php if($verificar_unidade[$i] == "uni") {echo "readonly='readonly'";}; ?>></td>
                                         <td><input class='quantidade rounded border-0 py-2' type='number' name='quantidade[]' min='1' value='<?php echo $quantidade_edit_array[$i]; ?>' onkeyup='mudouvalor()' style='width: 80px'></td>
                                         <td><input class='valor_unitario bg-dark text-white border-0' type='text' name='valorunitario[]' value='<?php echo $valorunitario_edit_array[$i]; ?>' style='width: 80px' readonly='readonly'></td>
                                         <td><input class='subtotal bg-dark text-white border-0' type='text' name='subtotal[]' value='<?php echo $subtotal_edit_array[$i]; ?>' style='width: 80px' readonly='readonly'></td>
                                         <td><a id='<?php echo $produtos_edit_array[$i]; ?>' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>
-                                <?php endfor;endif; ?>
+                                    <?php endfor; ?>
+                                <?php else: echo "<h5 class='text-center text-danger'>Não há produtos cadastrados no pedido !!</h5>"; endif; ?>
                             </tbody>
                             </table>
                         </div>
@@ -174,7 +175,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php endforeach; ?>
                         </div>            
                     </div>
-                    <input class="btn btn-sm btn-block btn-primary font-weight-bold" type="submit" value="SALVAR">
+                    <input class="btn btn-sm btn-primary font-weight-bold mt-3" type="submit" value="SALVAR">
                     </div>            
             </form> 
         </div>       

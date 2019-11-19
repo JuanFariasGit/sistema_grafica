@@ -18,7 +18,7 @@ $c= new clientes($pdo);
 if(!empty($_GET['id']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET['id']) && ($u->temPermissao('PADRÃO')))) {
     $id = $_GET['id'];
     $c->delCliente($id);
-    header('Location: '.BASE_URL.'clientes.cadastrados');
+    header('Location: '.BASE_URL.'cliente');
     exit;
 } else {
     header('Location: '.BASE_URL.'login');

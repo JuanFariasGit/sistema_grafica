@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $uf = $_POST['uf'];
 
         $c->upCliente($id, $nomecompleto, $fone, $cep, $rua, $numero, $complemento, $bairro, $cidade, $uf);
-        header("Location: ".BASE_URL."clientes.cadastrados");
+        header("Location: ".BASE_URL."cliente");
         exit;
 }
 ?>
@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="text-white bg-dark py-5 d-flex justify-content-center">
                 <form method="POST" onsubmit="return validar_cadastro_cliente()">
                         <div class="d-flex justify-content-center">                            
-                                <h4 class="font-weight-bold">Cadastrar cliente (Editar)</h4>
+                                <h4 class="font-weight-bold">CLIENTE (Editar)</h4>
                         </div>  
                         <div class="form-row container"> 
                             <?php foreach($clientes as $cliente): ?>
@@ -53,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input class="form-control" name="fone" type="text" id="fone" maxlength="14" onkeydown="mascara_fone(this, fone, event)" value="<?php echo $cliente['fone']; ?>">
                                 </div> 
                                 <div class="col-sm-4">
-                                        <label for="cep">Cep :*</label>
+                                        <label for="cep">Cep :</label>
                                         <input class="form-control" type="text" name="cep" id="cep" maxlength="8" value="<?php echo $cliente['cep']; ?>">
                                 </div>
                                 <div class="col-sm-7">
@@ -80,8 +80,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <label for="uf">Estado :</label>
                                         <input class="form-control" name="uf" type="text" id="uf" value="<?php echo $cliente['uf']; ?>">
                                 </div>
-                                <div class="col-12">
-                                        <input class="btn-block btn-sm font-weight-bold my-2 bg-primary text-white border-0" type="submit" value="SALVAR">
+                                <div class="col-12 d-flex justify-content-center">
+                                        <input class="btn-sm font-weight-bold my-2 bg-primary text-white border-0" type="submit" value="SALVAR">
                                 </div>
                             <?php endforeach; ?>            
                         </div>        

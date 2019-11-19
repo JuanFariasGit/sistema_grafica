@@ -18,7 +18,7 @@ $pd= new pedidos($pdo);
 if(!empty($_GET['id']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET['id']) && ($u->temPermissao('PADRÃO')))) {
     $id = $_GET['id'];
     $pd->delPedido($id);
-    header('Location: '.BASE_URL.'pedidos.cadastrados');
+    header('Location: '.BASE_URL.'pedido');
     exit;
 } else {
     header('Location: '.BASE_URL.'login');

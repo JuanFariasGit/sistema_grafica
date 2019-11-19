@@ -35,7 +35,7 @@ if($cont == 1 && $u->temPermissao('ADMINISTRADOR') && !empty($_GET['id'])) {
             exit;
         } else {
             $u->delUsuario($id);
-            header("Location: ".BASE_URL."usuarios.cadastrados");
+            header("Location: ".BASE_URL."usuario");
             exit;   
         }
     } else {

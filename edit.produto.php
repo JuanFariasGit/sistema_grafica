@@ -21,10 +21,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $unidademedida = $_POST['unidademedida'];
     $categoria = $_POST['categoria'];
-    $valor = $_POST['valor'];
+    $valor = "R$ ".number_format(str_replace(",", ".", $_POST['valor']),2,",",".");
 
     $p->upProduto($id, $nome, $unidademedida, $categoria, $valor);
-    header("Location: ".BASE_URL."produtos.cadastrados");
+    header("Location: ".BASE_URL."produto");
     exit;
 }
 ?>
@@ -38,7 +38,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php foreach($produtos as $produto): ?>
                 <form method="post" onsubmit="return validar_cadastro_produto()">
                     <div class="d-flex justify-content-center">
-                        <h4 class="font-weight-bold">Cadastrar produto (Editar)</h4>
+                        <h4 class="font-weight-bold">Produto (Editar)</h4>
                     </div>
                     <div class="form-row">
                         <div class="col-lg-6">
@@ -54,7 +54,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </select>
                         </div>
                         <div class="col-lg-2">
-                            <label for="categoria">Categoria:<a class="text-success px-1" onclick="addCategoria()" style="cursor: pointer">( + )</a><a class="text-danger px-1" onclick="delCategoria()" style="cursor: pointer">( - )</a></label>
+                            <label for="categoria">Categoria:</label>
                             <select class="form-control" name="categoria" id="categoria">
                                 <option></option>
                                 <?php foreach($categorias as $categoria): ?>
@@ -63,11 +63,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </select>
                         </div>
                         <div class="col-lg-2">
-                            <label for="valor">Valor:</label>
-                            <input class="form-control" type="text" name="valor" id="valor" onkeydown="mascara_valor(this, valor, event)" value="<?php echo $produto['valor']; ?>">
+                            <label for="valor">Valor (R$):</label>
+                            <input class="form-control" type="text" name="valor" id="valor" value="<?php echo explode("R$", $produto['valor'])[1]; ?>">
                         </div>
-                        <div class="col-12 my-2">
-                            <input class="btn-block btn-sm bg-primary text-white border-0 font-weight-bold" type="submit" value="SALVAR">
+                        <div class="col-12 mt-4 d-flex justify-content-center">
+                            <input class="btn-sm bg-primary text-white border-0 font-weight-bold" type="submit" value="SALVAR">
                         </div>
                         <?php endforeach; ?>
                     </div>
