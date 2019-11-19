@@ -8,8 +8,8 @@ class pedidos {
         $this->pdo = $pdo;
     }
 
-    public function addPedido($cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $faltapagar, $situacao) {
-        $sql = "INSERT INTO pedidos (cliente, datahora, obs, produto, al, la, quantidade, valorunitario, subtotal, valorfrete, taxacartao, total, valorpago, faltapagar, situacao) VALUES (:cliente, STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), :obs, :produto, :al, :la, :quantidade, :valorunitario, :subtotal, :valorfrete, :taxacartao, :total, :valorpago, :faltapagar, :situacao)";
+    public function addPedido($cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao) {
+        $sql = "INSERT INTO pedidos (cliente, datahora, obs, produto, al, la, quantidade, valorunitario, subtotal, valorfrete, taxacartao, desconto,total, valorpago, faltapagar, situacao) VALUES (:cliente, STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), :obs, :produto, :al, :la, :quantidade, :valorunitario, :subtotal, :valorfrete, :taxacartao, :desconto, :total, :valorpago, :faltapagar, :situacao)";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':cliente', $cliente);
         $sql->bindValue(':datahora', $datahora);
@@ -22,6 +22,7 @@ class pedidos {
         $sql->bindValue(':subtotal', $subtotal);
         $sql->bindValue(':valorfrete', $valor_frete);
         $sql->bindValue(':taxacartao', $taxa_cartao);
+        $sql->bindValue(':desconto', $desconto);
         $sql->bindValue(':total', $total);
         $sql->bindValue(':valorpago', $valor_pago);
         $sql->bindValue(':faltapagar', $faltapagar);
@@ -76,8 +77,8 @@ class pedidos {
         $sql->execute();
     }
 
-    public function upPedido($id, $cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $faltapagar, $situacao) {
-        $sql = "UPDATE pedidos SET cliente = :cliente, datahora = STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), obs = :obs, produto = :produto, al = :al, la = :la, quantidade = :quantidade, valorunitario = :valorunitario, subtotal = :subtotal, valorfrete = :valorfrete, taxacartao = :taxacartao, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao WHERE id = :id";
+    public function upPedido($id, $cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao) {
+        $sql = "UPDATE pedidos SET cliente = :cliente, datahora = STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), obs = :obs, produto = :produto, al = :al, la = :la, quantidade = :quantidade, valorunitario = :valorunitario, subtotal = :subtotal, valorfrete = :valorfrete, taxacartao = :taxacartao, desconto = :desconto, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao WHERE id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->bindValue(':cliente', $cliente);
@@ -91,6 +92,7 @@ class pedidos {
         $sql->bindValue(':subtotal', $subtotal);
         $sql->bindValue(':valorfrete', $valor_frete);
         $sql->bindValue(':taxacartao', $taxa_cartao);
+        $sql->bindValue(':desconto', $desconto);
         $sql->bindValue(':total', $total);
         $sql->bindValue(':valorpago', $valor_pago);
         $sql->bindValue(':faltapagar', $faltapagar);

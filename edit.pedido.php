@@ -60,12 +60,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $subtotal = implode('-', $_POST['subtotal']);
     $valor_frete = $_POST['valor_frete'];
     $taxa_cartao = $_POST['taxa_cartao'];
+    $desconto = $_POST['desconto'];
     $total = $_POST['total'];
     $valor_pago = $_POST['valor_pago'];
     $falta_pagar = $_POST['falta_pagar'];
     $situacao = $_POST['situacao'];
     
-    $pd->upPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $falta_pagar, $situacao);
+    $pd->upPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
 }
 ?>
@@ -144,36 +145,40 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             </table>
                         </div>
                         <?php foreach($pedidos as $pedido): ?>
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-lg-2 py-2">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-lg py-2">
                                 <label for="valor_frete">Valor Do Frete (R$)</label>
-                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" value="<?php echo $pedido['valorfrete']; ?>" onkeyup="mudouvalor()" style="width: 80px">
+                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php echo $pedido['valorfrete']; ?>">
                             </div>
-                            <div class="col-lg-2 py-2">
+                            <div class="col-lg py-2">
                                 <label for="taxa_cartao">Taxa De Cartão (%)</label>
-                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" value="<?php echo $pedido['taxacartao']; ?>" onkeyup="mudouvalor()" style="width: 80px">
+                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php echo $pedido['taxacartao']; ?>">
                             </div>
-                            <div class="col-lg-2 d-flex align-items-center">
-                                <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="<?php echo $pedido['total']; ?>" readonly='readonly'>
+                            <div class="col-lg py-2">
+                                <label for="desconto">Desconto (R$):</label>
+                                <input class="form-control" id="desconto" type="number" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()" value="<?php echo $pedido['desconto']; ?>">
                             </div>
-                            <div class="col-lg-2 py-2">
+                            <div class="col-lg d-flex align-items-center">
+                                <input id="total" class="bg-dark text-white border-0" type="text" name="total" readonly='readonly' value="<?php echo $pedido['total']; ?>">
+                            </div>
+                            <div class="col-lg py-2">
                                 <label for="valor_pago">Valor Pago (R$)</label>
-                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" value="<?php echo $pedido['valorpago']; ?>" onkeyup="mudouvalor()" style="width: 80px">
+                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php echo $pedido['valorpago']; ?>">
                             </div>
-                            <div class="col-lg-2 d-flex align-items-center py-2">
+                            <div class="col-lg d-flex align-items-center py-2">
                                 <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="<?php echo $pedido['faltapagar']; ?>" readonly='readonly'>
                             </div>
-                            <div class="col-lg-2 py-2">
-                                <label for="situacao">Situação:</label>
+                            <div class="col-lg py-2">
+                                <label for="situacao">Situação: <a class="text-success" onclick="addSituacao()" style="cursor: pointer">( + )</a> <a class="text-danger" onclick="delSituacao()" style="cursor: pointer">( - )</a></label>
                                 <select class="form-control mb-2" name="situacao" id="situacao">
                                     <option></option>
                                     <?php foreach($situacoes as $situacao): ?>
-                                    <option value="<?php echo $situacao["nome"]; ?>" <?php if($pedido['situacao'] == $situacao['nome']) {echo "selected='selected'";}; ?>><?php echo $situacao["nome"]; ?></option>
+                                    <option value="<?php echo $situacao["nome"]; ?>"><?php echo $situacao["nome"]; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <?php endforeach; ?>
-                        </div>            
+                        </div>
+                        <?php endforeach; ?>            
                     </div>
                     <input class="btn btn-sm btn-primary font-weight-bold mt-3" type="submit" value="SALVAR">
                     </div>            

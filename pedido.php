@@ -45,12 +45,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $valor_frete = $_POST['valor_frete'];
     $taxa_cartao = $_POST['taxa_cartao'];
+    $desconto = $_POST['desconto'];
     $total = $_POST['total'];
     $valor_pago = $_POST['valor_pago'];
     $falta_pagar = $_POST['falta_pagar'];
     $situacao = $_POST['situacao'];
 
-    $pd->addPedido($clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $total, $valor_pago, $falta_pagar, $situacao);
+    $pd->addPedido($clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
 }
 
@@ -136,7 +137,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="desconto">Desconto (R$):</label>
-                                <input class="form-control" id="desconto" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()">
+                                <input class="form-control" id="desconto" type="number" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()">
                             </div>
                             <div class="col-lg d-flex align-items-center">
                                 <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="Total: R$ 0,00" readonly='readonly'>
