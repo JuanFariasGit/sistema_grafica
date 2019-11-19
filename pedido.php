@@ -136,7 +136,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="desconto">Desconto (R$):</label>
-                                <input class="form-control" id="desconto" name="desconto" step="0.01" style="width: 80px">
+                                <input class="form-control" id="desconto" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()">
                             </div>
                             <div class="col-lg d-flex align-items-center">
                                 <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="Total: R$ 0,00" readonly='readonly'>
