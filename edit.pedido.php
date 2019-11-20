@@ -173,7 +173,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <select class="form-control mb-2" name="situacao" id="situacao">
                                     <option></option>
                                     <?php foreach($situacoes as $situacao): ?>
-                                    <option value="<?php echo $situacao["nome"]; ?>"><?php echo $situacao["nome"]; ?></option>
+                                    <option value="<?php echo $situacao["nome"]; ?>" <?php if($pedido['situacao'] == $situacao["nome"]) {echo "selected='selected'";}; ?>><?php echo $situacao["nome"]; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
