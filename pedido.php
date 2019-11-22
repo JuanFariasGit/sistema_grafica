@@ -197,7 +197,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                         <td><?php echo $pedido['obs']; ?></td>
                         <td>
                           <a class="btn btn-sm btn-success my-1" href="<?php echo BASE_URL; ?>edit.pedido?id=<?php echo $pedido['id']; ?>">EDIT</a>
-                          <a class="btn btn-sm btn-warning my-1" href="<?php echo BASE_URL; ?>visualizar.pedido?id=<?php echo $pedido['id']; ?>">VISUALIZAR</a>
+                          <a class="btn btn-sm btn-warning my-1" href="<?php echo BASE_URL; ?>visualizar.pedido?cliente=<?php echo $pedido['cliente'].'?id='.$pedido['id']; ?>" target="_blank">VISUALIZAR</a>
                           <a id="<?php echo $pedido['id']; ?>" name="<?php echo $pedido['cliente']; ?>" class="btn btn-danger btn-sm" onclick="delPedido(this)" style="cursor:pointer">DEL</a>
                         </td>
                     </tr>

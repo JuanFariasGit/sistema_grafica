@@ -85,4 +85,18 @@ class clientes {
         }
         return $array;
     }
+
+    public function getClienteVisualizar($cliente) {
+        $array = array();
+
+        $sql = 'SELECT * FROM clientes WHERE nomecompleto = :nomecompleto';
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':nomecompleto', $cliente);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
+        return $array;
+    }
 }    

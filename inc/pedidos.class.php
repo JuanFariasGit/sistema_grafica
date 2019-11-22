@@ -3,6 +3,7 @@
 class pedidos {
 
     private $pdo;
+    private $id_pedido;
 
     public function __construct($pdo) {
         $this->pdo = $pdo;
@@ -126,5 +127,19 @@ class pedidos {
 			$array = $sql->fetchAll();
 		}
 		return $array;
-	}
+    }
+    
+    public function getPedidoVisualizar($id) {
+        $array = array();
+
+        $sql = "SELECT * FROM pedidos WHERE id = :id";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':id', $id);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
+        return $array;
+    }
 }
