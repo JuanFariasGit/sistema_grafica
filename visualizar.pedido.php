@@ -59,7 +59,7 @@ $html = '
     <tbody style="width: 100%;">
         <tr>';
             foreach($pedidos as $pedido):
-           $html .= '<td style="text-align: left;font-size: 8pt;text-transform:uppercase;">Ordem de serviço N° '.$pedido["id"].'</td>;
+           $html .= '<td style="text-align: left;font-size: 8pt;text-transform:uppercase;">Ordem de serviço Nº '.$pedido["id"].'</td>;
             </tr>
     </tbody>
 </table>
@@ -77,7 +77,7 @@ $html = '
         <tr>
             <td style="text-transform:uppercase;">Endereço: '.$cliente['rua'];
         if(!empty($cliente['numero'])):    
-            $html .= ' Nº '.$cliente['numero'].'</td>';
+            $html .= ' '.$cliente['numero'].'</td>';
         else:
             $html .= ' S/N</td>';
         endif;    
