@@ -50,8 +50,8 @@ $html = '
 <table style="width: 100%;margin-bottom: 30px">
     <tbody> 
         <tr>
-            <td style="text-align: left;font-weight: bold">ELLEN LANUCCE SERVIÇOS</td>
-            <td style="text-align: right;">(81)9 9591-0891</td>
+            <td style="text-align: left"><img width="200px" src="assets/imagens/logo_painel_visualizar.png"></td>
+            <td style="text-align: right;"><strong>ELLEN LANUCCE SERVIÇOS</strong><br><p style="font-size: 8pt">Rua Panelas 18 A - Arthur Lundgren II - Paulista - PE - 53416-540 - 81 9 9591-0891</p></td>
         </tr>
     </tbody>
 </table>
@@ -59,12 +59,11 @@ $html = '
     <tbody style="width: 100%;">
         <tr>';
             foreach($pedidos as $pedido):
-           $html .= '<td style="width: 25%"><img src="assets/imagens/logo_painel_visualizar.png"></td>;               
-            <td style="width: 75%;text-align: right;font-size: 30pt;text-transform:uppercase;">Ordem de serviço N° '.$pedido["id"].'</td>;
+           $html .= '<td style="text-align: left;font-size: 8pt;text-transform:uppercase;">Ordem de serviço N° '.$pedido["id"].'</td>;
             </tr>
     </tbody>
 </table>
-<table style="margin-top: 100px;width: 100%;border-top: 1px solid;border-left: 1px solid; border-right: 1px solid;font-size: 8pt;">
+<table style="margin-top: 30px;width: 100%;border-top: 1px solid;border-left: 1px solid; border-right: 1px solid;font-size: 8pt;">
     <tbody>
         <tr>';
         foreach($clientes as $cliente):
@@ -76,7 +75,7 @@ $html = '
 <table style="width: 100%;border-top: 1px solid;border-left: 1px solid; border-right: 1px solid;">
     <tbody>
         <tr>
-            <td style="font-size: 8pt;text-transform:uppercase;">: </td>
+            <td style="font-size: 8pt;text-transform:uppercase;">Endereço: </td>
         </tr>
     </tbody>
 </table>
