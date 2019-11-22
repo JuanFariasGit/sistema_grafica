@@ -72,11 +72,21 @@ $html = '
        $html .= '</tr>
     </tbody>
 </table>
-<table style="width: 100%;border-top: 1px solid;border-left: 1px solid; border-right: 1px solid;">
+<table style="width: 100%;border-top: 1px solid;border-left: 1px solid; border-right: 1px solid;font-size: 8pt;">
     <tbody>
         <tr>
-            <td style="font-size: 8pt;text-transform:uppercase;">Endereço: </td>
-        </tr>
+            <td style="text-transform:uppercase;">Endereço: '.$cliente['rua'];
+        if(!empty($cliente['numero'])):    
+            $html .= ' Nº '.$cliente['numero'].'</td>';
+        else:
+            $html .= ' S/N</td>';
+        endif;    
+       $html .= '
+            <td style="text-transform:uppercase;">BAIRRO: '.$cliente['bairro'].'</td>;
+            <td style="text-transform:uppercase;">CIDADE: '.$cliente['cidade'].'</td>;
+            <td style="text-transform:uppercase;">ESTADO: '.$cliente['uf'].'</td>;
+            <td>CEP: '.$cliente['cep'].'</td>;
+       </tr>
     </tbody>
 </table>
 <table style="width: 100%;border-top: 1px solid;border-left: 1px solid; border-right: 1px solid;font-size: 8pt;">
