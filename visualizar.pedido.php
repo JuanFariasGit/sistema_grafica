@@ -176,6 +176,13 @@ endforeach;endforeach;
 require 'vendor/autoload.php';
 
 $mpdf = new \Mpdf\Mpdf();
+$mpdf->SetHTMLFooter('
+<table width="100%">
+    <tr>
+        <td>{DATE j-m-Y}</td>
+        <td align="center">{PAGENO}/{nbpg}</td>
+    </tr>
+</table>');
 $mpdf->WriteHTML($html);
 $mpdf->Output('relatorio-pedido-'.explode('?',$_GET['cliente'])[0].'.pdf','I');   
 ?>
