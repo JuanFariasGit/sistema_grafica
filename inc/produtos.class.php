@@ -21,7 +21,7 @@ class produtos {
     public function getProduto() {
         $array = array();
 
-        $sql = 'SELECT * FROM produtos ORDER BY nome ASC';
+        $sql = 'SELECT produtos.id, produtos.nome, produtos.unidademedida, produtos.valor, categorias.nome AS categoria FROM produtos JOIN categorias on produtos.categoria = categorias.id ORDER BY nome ASC';
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 

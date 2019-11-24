@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $total = $_POST['total'];
     $valor_pago = $_POST['valor_pago'];
     $falta_pagar = $_POST['falta_pagar'];
-    $situacao = $_POST['situacao'];
+    $situacao = explode("|",$_POST['situacao'])[1];
     
     $pd->upPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
@@ -76,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php require 'inc/menu.php'; ?>
     <div class="text-white bg-dark py-5">
         <div class="container-fluid">
-            <form method="POST">
+            <form method="POST" onsubmit="return validar_pedido()">
                 <div class="d-flex justify-content-center">
                     <h4 class="font-weight-bold">PEDIDO (Editar)</h4>
                 </div>
@@ -168,11 +168,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="<?php echo $pedido['faltapagar']; ?>" readonly='readonly'>
                             </div>
                             <div class="col-lg py-2">
-                                <label for="situacao">Situação: <a class="text-success" onclick="addSituacao()" style="cursor: pointer">( + )</a> <a class="text-danger" onclick="delSituacao()" style="cursor: pointer">( - )</a></label>
+                                <label for="situacao">Situação:</label>
                                 <select class="form-control mb-2" name="situacao" id="situacao">
                                     <option></option>
                                     <?php foreach($situacoes as $situacao): ?>
-                                    <option value="<?php echo $situacao["nome"]; ?>" <?php if($pedido['situacao'] == $situacao["nome"]) {echo "selected='selected'";}; ?>><?php echo $situacao["nome"]; ?></option>
+                                    <option value="<?php echo $situacao["nome"]; ?>|<?php echo $situacao["id"]; ?>" <?php if($pedido['situacao'] == $situacao["nome"]) {echo "selected='selected'";}; ?>><?php echo $situacao["nome"]; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

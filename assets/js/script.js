@@ -298,6 +298,21 @@ function addSituacao() {
     }
 }
 
+function upSituacao() {
+    let nome = document.getElementById('situacao').value.split("|")[0];
+    let  id = document.getElementById('situacao').value.split("|")[1];
+    if(nome != "" ) {
+        let nomesituacao = prompt("Digite a situação que deseja substituir "+nome+'!');
+        if(nomesituacao != "") {
+            location = 'up.situacao?nome='+nomesituacao+'?id='+id;
+        } else {
+            alert("Você deve informar um nome tente novamente!");
+        }
+    } else {
+        alert("Você não selecionou nenhuma situação!");
+    }     
+}
+
 function categorias() {
    let x = $('#categorias');
 
@@ -310,7 +325,7 @@ function categorias() {
 
 function delCategoria() {
     let nome = document.getElementById('categoria').value;
-    if(document.getElementById('categoria').value != "") {
+    if(nome != "") {
         if(confirm('A categoria '+nome+' será deletada.') == true) {
             location = 'del.categoria?nome='+nome;
         }
@@ -320,10 +335,12 @@ function delCategoria() {
 }
 
 function delSituacao() {
-    let nome = document.getElementById('situacao').value;
-    if(document.getElementById('situacao').value != "") {
+    let id = document.getElementById('situacao').value.split('|')[1];
+    let nome = document.getElementById('situacao').value.split('|')[0];
+    
+    if(nome != "") {
         if(confirm('A situação '+nome+' será deletada.') == true) {
-            location = 'del.situacao?nome='+nome;
+            location = 'del.situacao?id='+id;
         }
     } else {
         alert("Você não selecionou nenhuma situação!");
@@ -340,6 +357,15 @@ function delProduto(produto) {
     if(confirm('O produto '+produto.name+' será deletado.') == true) {
         location = 'del.produto?id='+produto.id;
     } 
+}
+
+function validar_pedido() {
+    if(document.getElementById('situacao').value.length != 0) {
+        return true;
+    } else {
+        alert("Selecione uma situação!");
+        return false;
+    }
 }
 
 function mascara_datahora(form, fieldName, evento)

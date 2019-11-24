@@ -34,7 +34,7 @@ class pedidos {
     public function getPedido() {
         $array = array();
 
-        $sql = "SELECT * FROM pedidos ORDER BY datahora DESC";
+        $sql = "select pedidos.id, pedidos.cliente, pedidos.datahora, pedidos.obs, pedidos.produto, pedidos.al, pedidos.la, pedidos.quantidade, pedidos.valorunitario, pedidos.subtotal, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome as situacao from pedidos join situacao on pedidos.situacao = situacao.id order by pedidos.datahora desc";
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 
@@ -48,6 +48,14 @@ class pedidos {
         $sql = "INSERT INTO situacao (nome) VALUE (:situacao)";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(":situacao", $nomesituacao);
+        $sql->execute();
+    }
+
+    public function upSituacao($id,$nome) {
+        $sql = "UPDATE situacao SET nome = :situacao WHERE id = :id";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":situacao", $nome);
         $sql->execute();
     }
 
@@ -71,10 +79,10 @@ class pedidos {
         $sql->execute();   
     }
 
-    public function delSituacao($nomesituacao) {
-        $sql = "DELETE FROM situacao WHERE nome = :nome";
+    public function delSituacao($id) {
+        $sql = "DELETE FROM situacao WHERE situacao.id = :id";
         $sql = $this->pdo->prepare($sql);
-        $sql->bindValue(":nome", $nomesituacao);
+        $sql->bindValue(":id", $id);
         $sql->execute();
     }
 
@@ -104,7 +112,7 @@ class pedidos {
     public function getPedidoEdit($id) {
         $array = array();
 
-        $sql = "SELECT * FROM pedidos WHERE id = :id";
+        $sql = "SELECT pedidos.id, pedidos.cliente, pedidos.datahora, pedidos.obs, pedidos.produto, pedidos.al, pedidos.la, pedidos.quantidade, pedidos.valorunitario, pedidos.subtotal, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome AS situacao FROM pedidos JOIN situacao ON pedidos.situacao = situacao.id WHERE pedidos.id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->execute();

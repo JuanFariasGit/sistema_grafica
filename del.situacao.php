@@ -15,10 +15,10 @@ $u->setUsuario($_SESSION['logado']);
 
 $pd = new pedidos($pdo);
 
-if(!empty($_GET['nome']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET['nome']) && ($u->temPermissao('PADRÃO')))) {
-    $nome = $_GET['nome'];
+if(!empty($_GET['id']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET['id']) && ($u->temPermissao('PADRÃO')))) {
+    $id = $_GET['id'];
 
-    $pd->delSituacao($nome);
+    $pd->delSituacao($id);
     header("Location: ".BASE_URL."pedido");
     exit;
 }
