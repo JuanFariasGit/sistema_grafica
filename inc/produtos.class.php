@@ -51,10 +51,18 @@ class produtos {
         $sql->execute();
     }
 
-    public function delCategoria($nome) {
-        $sql = 'DELETE FROM categorias WHERE nome = :nome';
+    public function upCategoria($id, $nome) {
+        $sql = 'UPDATE categorias SET nome = :nome where id = :id';
         $sql = $this->pdo->prepare($sql);
-        $sql->bindValue(':nome', $nome);
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":nome", $nome);
+        $sql->execute();
+    }
+
+    public function delCategoria($id) {
+        $sql = 'DELETE FROM categorias WHERE id = :id';
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':id', $id);
         $sql->execute();
     }
 
@@ -68,7 +76,7 @@ class produtos {
     public function getProdutoEdit($id) {
         $array = array();
 
-        $sql = 'SELECT * FROM produtos WHERE id = :id';
+        $sql = 'SELECT produtos.id, produtos.nome, produtos.unidademedida, produtos.valor, categorias.nome as categoria FROM produtos join categorias on categorias.id = produtos.categoria WHERE produtos.id = :id';
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->execute();
@@ -93,7 +101,7 @@ class produtos {
     public function getProdutoBuscar($nome) {
 		$array = array();
 		
-		$sql = 'SELECT * FROM produtos WHERE nome LIKE CONCAT(:nome, "%") OR categoria LIKE CONCAT(:nome, "%") ORDER BY nome ASC';
+		$sql = 'SELECT produtos.id, produtos.nome, produtos.unidademedida, produtos.valor, categorias.nome AS categoria FROM produtos JOIN categorias ON categorias.id = produtos.categoria WHERE (produtos.nome LIKE "%":nome OR produtos.nome LIKE :nome"%" OR produtos.nome LIKE "%":nome"%")';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(":nome", $nome);
 		$sql->execute();

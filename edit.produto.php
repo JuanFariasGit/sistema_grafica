@@ -20,9 +20,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_GET['id'];
     $nome = $_POST['nome'];
     $unidademedida = $_POST['unidademedida'];
-    $categoria = $_POST['categoria'];
+    $categoria = explode("|", $_POST['categoria'])[1];
     $valor = "R$ ".number_format(str_replace(",", ".", $_POST['valor']),2,",",".");
-
+    
     $p->upProduto($id, $nome, $unidademedida, $categoria, $valor);
     header("Location: ".BASE_URL."produto");
     exit;
@@ -58,7 +58,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <select class="form-control" name="categoria" id="categoria">
                                 <option></option>
                                 <?php foreach($categorias as $categoria): ?>
-                                    <option id="<?php echo $categoria['id']; ?>" value="<?php echo $categoria['nome']; ?>" <?php if($produto['categoria'] == $categoria['nome']) {echo  "selected='selected'";}; ?>><?php echo $categoria['nome']; ?></option>
+                                    <option value="<?php echo $categoria['nome']; ?>|<?php echo $categoria['id']; ?>" <?php if($produto['categoria'] == $categoria['nome']) {echo  "selected='selected'";}; ?>><?php echo $categoria['nome']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

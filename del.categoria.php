@@ -15,10 +15,10 @@ $u->setUsuario($_SESSION['logado']);
 
 $p = new produtos($pdo);
 
-if(!empty($_GET['nome']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET['nome']) && ($u->temPermissao('PADRÃO')))) {
-    $nome = $_GET['nome'];
-
-    $p->delCategoria($nome);
+if(!empty($_GET['id']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET['id']) && ($u->temPermissao('PADRÃO')))) {
+    $id = $_GET['id'];
+   
+    $p->delCategoria($id);
     header("Location: ".BASE_URL."produto");
     exit;
 }

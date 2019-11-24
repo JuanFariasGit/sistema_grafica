@@ -313,6 +313,22 @@ function upSituacao() {
     }     
 }
 
+function upCategoria() {
+    let nome = document.getElementById('categoria').value.split("|")[0];
+    let  id = document.getElementById('categoria').value.split("|")[1];
+    if(nome != "" ) {
+        let nomecategoria = prompt("Digite a situação que deseja substituir "+nome+'!');
+        if(nomecategoria != "") {
+            location = 'up.categoria?nome='+nomecategoria+'?id='+id;
+        } else {
+            alert("Você deve informar um nome tente novamente!");
+        }
+    } else {
+        alert("Você não selecionou nenhuma situação!");
+    }     
+}
+
+
 function categorias() {
    let x = $('#categorias');
 
@@ -324,10 +340,12 @@ function categorias() {
 }
 
 function delCategoria() {
-    let nome = document.getElementById('categoria').value;
+    let nome = document.getElementById('categoria').value.split('|')[0];
+    let id   = document.getElementById('categoria').value.split('|')[1];
+    
     if(nome != "") {
         if(confirm('A categoria '+nome+' será deletada.') == true) {
-            location = 'del.categoria?nome='+nome;
+            location = 'del.categoria?id='+id;
         }
     } else {
         alert("Você não selecionou nenhuma categoria!");

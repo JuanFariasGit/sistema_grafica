@@ -18,7 +18,7 @@ $categorias = $p->getCategoria();
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $unidademedida = $_POST['unidademedida'];
-    $categoria = $_POST['categoria'];
+    $categoria = explode("|", $_POST['categoria'])[0];
     $valor = "R$ ".number_format(str_replace(",", ".", $_POST['valor']),2,",",".");
 
     $p->addProduto($nome, $unidademedida, $categoria, $valor);
@@ -57,11 +57,11 @@ if(empty($_GET['buscarProduto'])) {
                             </select>
                         </div>
                         <div class="col-lg-2">
-                            <label for="categoria">Categoria:<a class="text-success px-1" onclick="addCategoria()" style="cursor: pointer">( + )</a><a class="text-danger px-1" onclick="delCategoria()" style="cursor: pointer">( - )</a></label>
+                            <label for="categoria">Categoria:<a class="text-success px-1" onclick="addCategoria()" style="cursor: pointer">(+)</a><a class="text-primary" onclick="upCategoria()" style="cursor: pointer">(#)</a><a class="text-danger px-1" onclick="delCategoria()" style="cursor: pointer">(-)</a></label>
                             <select class="form-control" name="categoria" id="categoria">
                                 <option></option>
                                 <?php foreach($categorias as $categoria): ?>
-                                    <option id="<?php echo $categoria['id']; ?>" value="<?php echo $categoria['nome']; ?>"><?php echo $categoria['nome']; ?></option>
+                                    <option value="<?php echo $categoria['nome']; ?>|<?php echo $categoria['id']; ?>"><?php echo $categoria['nome']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
