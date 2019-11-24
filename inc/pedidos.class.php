@@ -126,7 +126,7 @@ class pedidos {
     public function getPedidoBuscar($nome) {
 		$array = array();
 		
-		$sql = 'SELECT * FROM pedidos WHERE situacao LIKE CONCAT(:nome, "%") OR cliente LIKE CONCAT(:nome, "%") ORDER BY datahora DESC';
+		$sql = 'SELECT pedidos.id, pedidos.datahora, pedidos.cliente, pedidos.total, pedidos.faltapagar, pedidos.obs, situacao.nome AS situacao FROM pedidos JOIN situacao ON situacao.id = pedidos.situacao WHERE (pedidos.cliente LIKE :nome"%" OR pedidos.cliente LIKE "%":nome OR pedidos.cliente LIKE "%":nome"%")';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(":nome", $nome);
 		$sql->execute();
