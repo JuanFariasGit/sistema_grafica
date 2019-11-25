@@ -18,7 +18,7 @@ $categorias = $p->getCategoria();
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $unidademedida = $_POST['unidademedida'];
-    $categoria = explode("|", $_POST['categoria'])[0];
+    $categoria = explode("|", $_POST['categoria'])[1];
     $valor = "R$ ".number_format(str_replace(",", ".", $_POST['valor']),2,",",".");
 
     $p->addProduto($nome, $unidademedida, $categoria, $valor);

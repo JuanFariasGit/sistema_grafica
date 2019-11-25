@@ -21,7 +21,7 @@ class produtos {
     public function getProduto() {
         $array = array();
 
-        $sql = 'SELECT produtos.id, produtos.nome, produtos.unidademedida, produtos.valor, categorias.nome AS categoria FROM produtos JOIN categorias on produtos.categoria = categorias.id ORDER BY nome ASC';
+        $sql = 'SELECT produtos.id, produtos.nome, produtos.unidademedida, produtos.valor, categorias.nome AS categoria FROM produtos LEFT JOIN categorias on produtos.categoria = categorias.id ORDER BY nome ASC';
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 
@@ -76,7 +76,7 @@ class produtos {
     public function getProdutoEdit($id) {
         $array = array();
 
-        $sql = 'SELECT produtos.id, produtos.nome, produtos.unidademedida, produtos.valor, categorias.nome as categoria FROM produtos join categorias on categorias.id = produtos.categoria WHERE produtos.id = :id';
+        $sql = 'SELECT produtos.id, produtos.nome, produtos.unidademedida, produtos.valor, categorias.nome as categoria FROM produtos LEFT JOIN categorias on categorias.id = produtos.categoria WHERE produtos.id = :id';
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->execute();

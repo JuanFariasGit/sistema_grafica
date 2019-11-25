@@ -3,8 +3,7 @@
 class pedidos {
 
     private $pdo;
-    private $id_pedido;
-
+    
     public function __construct($pdo) {
         $this->pdo = $pdo;
     }
@@ -34,7 +33,7 @@ class pedidos {
     public function getPedido() {
         $array = array();
 
-        $sql = "select pedidos.id, pedidos.cliente, pedidos.datahora, pedidos.obs, pedidos.produto, pedidos.al, pedidos.la, pedidos.quantidade, pedidos.valorunitario, pedidos.subtotal, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome as situacao from pedidos join situacao on pedidos.situacao = situacao.id order by pedidos.datahora desc";
+        $sql = "SELECT pedidos.id, pedidos.cliente, pedidos.datahora, pedidos.obs, pedidos.produto, pedidos.al, pedidos.la, pedidos.quantidade, pedidos.valorunitario, pedidos.subtotal, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome as situacao from pedidos left join situacao on pedidos.situacao = situacao.id order by pedidos.datahora desc";
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 
@@ -112,7 +111,7 @@ class pedidos {
     public function getPedidoEdit($id) {
         $array = array();
 
-        $sql = "SELECT pedidos.id, pedidos.cliente, pedidos.datahora, pedidos.obs, pedidos.produto, pedidos.al, pedidos.la, pedidos.quantidade, pedidos.valorunitario, pedidos.subtotal, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome AS situacao FROM pedidos JOIN situacao ON pedidos.situacao = situacao.id WHERE pedidos.id = :id";
+        $sql = "SELECT pedidos.id, pedidos.cliente, pedidos.datahora, pedidos.obs, pedidos.produto, pedidos.al, pedidos.la, pedidos.quantidade, pedidos.valorunitario, pedidos.subtotal, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome AS situacao FROM pedidos left JOIN situacao ON pedidos.situacao = situacao.id WHERE pedidos.id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->execute();
@@ -126,7 +125,7 @@ class pedidos {
     public function getPedidoBuscar($nome) {
 		$array = array();
 		
-		$sql = 'SELECT pedidos.id, pedidos.datahora, pedidos.cliente, pedidos.total, pedidos.faltapagar, pedidos.obs, situacao.nome AS situacao FROM pedidos JOIN situacao ON situacao.id = pedidos.situacao WHERE (pedidos.cliente LIKE :nome"%" OR pedidos.cliente LIKE "%":nome OR pedidos.cliente LIKE "%":nome"%" OR situacao.nome LIKE :nome"%" OR situacao.nome LIKE "%":nome OR situacao.nome LIKE "%":nome"%")';
+		$sql = 'SELECT pedidos.id, pedidos.datahora, pedidos.cliente, pedidos.total, pedidos.faltapagar, pedidos.obs, situacao.nome AS situacao FROM pedidos left JOIN situacao ON situacao.id = pedidos.situacao WHERE (pedidos.cliente LIKE :nome"%" OR pedidos.cliente LIKE "%":nome OR pedidos.cliente LIKE "%":nome"%" OR situacao.nome LIKE :nome"%" OR situacao.nome LIKE "%":nome OR situacao.nome LIKE "%":nome"%")';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(":nome", $nome);
 		$sql->execute();
