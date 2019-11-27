@@ -28,14 +28,12 @@ foreach($produtos as $produto) {
 
 $produtos_edit_array = array();
 foreach($pedidos as $pedido) {
-    if($pedido['produto'] != "") {
-        $produtos_edit_array = explode(",", $pedido['produto']);
-    }
-     $la_edit_array = explode(",", $pedido['la']);
-     $al_edit_array = explode(",", $pedido['al']);
-     $quantidade_edit_array = explode(",", $pedido['quantidade']);   
-     $valorunitario_edit_array = explode("-", $pedido['valorunitario']);
-     $subtotal_edit_array = explode("-" , $pedido['subtotal']);
+    $produtos_edit_array = explode(",", $pedido['produto']);
+    $la_edit_array = explode(",", $pedido['la']);
+    $al_edit_array = explode(",", $pedido['al']);
+    $quantidade_edit_array = explode(",", $pedido['quantidade']);   
+    $valorunitario_edit_array = explode("-", $pedido['valorunitario']);
+    $subtotal_edit_array = explode("-" , $pedido['subtotal']);
 }
 
 $verificar_unidade = array();

@@ -51,7 +51,7 @@ $html = '
     <tbody> 
         <tr>
             <td style="text-align: left"><img width="200px" src="assets/imagens/logo_painel_visualizar.png"></td>
-            <td style="text-align: right;"><strong>ELLEN LANUCCE SERVIÇOS</strong><br><p style="font-size: 8pt">Rua Panelas 18 A - Arthur Lundgren II - Paulista - PE - 53416-540 - 81 9 9591-0891</p></td>
+            <td style="text-align: right;"><strong>ELLEN LANUCCE SERVIÇOS</strong><br><p style="font-size: 8pt;">Rua Panelas 18 A - Arthur Lundgren II - Paulista - PE - 53416-540 - 81 9 9591-0891</p><br><p style="font-size: 8pt;">suaimpressora@gmail.com - CNPJ 25.986.182/0001-42</p></td>
         </tr>
     </tbody>
 </table>
@@ -102,8 +102,8 @@ $html = '
             <th scope="col">PRODUTO</th>
             <th scope="col">Uni</th>
             <th scope="col">AL x LA</th>
-            <th scope="col">QUATIDADE</th>
-            <th scope="col">VALOR UNITÁRIO</th>
+            <th scope="col">Qtd</th>
+            <th scope="col">Valor Uni</th>
             <th scope="col">SUBTOTAL</th>
         </tr>
     </theader>
@@ -114,7 +114,7 @@ $html = '
             <td style="text-align: left;text-transform:uppercase;">'.$produtos_v_array[$i].'</td>            
             <td style="text-align: center;text-transform:uppercase;">'.$array_unidade[$i].'</td>';
             if($array_unidade[$i] === "m²"):
-                $html .= '<td style="text-align: center;">'.$la_v_array[$i].'x'.$la_v_array[$i].'</td>';
+                $html .= '<td style="text-align: center;">'.$al_v_array[$i].'x'.$la_v_array[$i].'</td>';
             else:
                 $html .= '<td style="text-align: center"></td>';
             endif;    
