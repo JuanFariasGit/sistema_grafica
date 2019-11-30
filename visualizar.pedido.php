@@ -154,7 +154,7 @@ $html = '
                 $html .= '<td style="text-align: center">R$ 0,00</td>';
             endif;
             if(!empty($pedido['total'])):        
-                $html .= '<td style="text-align: center">'.explode(":", $pedido['total'])[1].'</td>';
+                $html .= '<td style="text-align: center">R$'.str_replace(".",",", $pedido['total']).'</td>';
             else:
                 $html .= '<td style="text-align: center">R$ 0,00</td>';
             endif;        
@@ -164,7 +164,7 @@ $html = '
                 $html .= '<td style="text-align: center">R$ 0,00</td>';
             endif;
             if(!empty($pedido['faltapagar'])):    
-                $html .= '<td style="text-align: center">'.explode(":", $pedido['faltapagar'])[1].'</td>';
+                $html .= '<td style="text-align: center">R$'.str_replace(".",",", $pedido['faltapagar']).'</td>';
             else:
                 $html .= '<td style="text-align: center"></td>';
             endif;                    
@@ -177,5 +177,5 @@ require 'vendor/autoload.php';
 
 $mpdf = new \Mpdf\Mpdf();
 $mpdf->WriteHTML($html);
-$mpdf->Output('relatorio-pedido-'.explode('?',$_GET['cliente'])[0].'.pdf','I');   
+$mpdf->Output('relatorio-pedido-'.explode('?id=',$_GET['cliente'])[1].'_'.explode("?", $_GET['cliente'])[0].'.pdf','I');   
 ?>

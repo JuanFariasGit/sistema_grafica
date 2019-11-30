@@ -13,6 +13,7 @@ if(empty($_SESSION['logado'])) {
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
+$usuariologado = $u->getUsuarioNome($_SESSION['logado'])['nome'];
 $c = new clientes($pdo);
 $clientes = $c->getCliente();
 $p = new produtos($pdo);
@@ -46,12 +47,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $valor_frete = $_POST['valor_frete'];
     $taxa_cartao = $_POST['taxa_cartao'];
     $desconto = $_POST['desconto'];
-    $total = $_POST['total'];
+    $total = str_replace(',','.', explode("Total: R$", $_POST['total']))[1];
     $valor_pago = $_POST['valor_pago'];
-    $falta_pagar = $_POST['falta_pagar'];
-    $situacao = explode("|",$_POST['situacao'])[1];
+    $falta_pagar = str_replace(",",".", explode("Falta Pagar: R$", $_POST['falta_pagar']))[1];
+    $situacao = explode("|",$_POST['situacao'])[1];  
    
-
     $pd->addPedido($clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
 }
@@ -152,7 +152,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="situacao">Situação: <a class="text-success" onclick="addSituacao()" style="cursor: pointer">(+)</a> <a class="text-primary" onclick="upSituacao()" style="cursor: pointer">(#)</a> <a class="text-danger" onclick="delSituacao()" style="cursor: pointer">(-)</a></label>
-                                <select class="form-control mb-2" name="situacao" id="situacao">
+                                <select class="form-control mb-2" name="situacao" id="situacao" style="max-width: 150px">
                                     <option></option>
                                     <?php foreach($situacoes as $situacao): ?>
                                     <option value="<?php echo $situacao['nome']; ?>|<?php echo $situacao['id']; ?>"><?php echo $situacao["nome"]; ?></option>
@@ -163,10 +163,11 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                     </div>
                     <input class="btn btn-sm btn-primary font-weight-bold" type="submit" value="CADASTRAR">
                     </div>            
-            </form> 
+            </form>
+            <hr style="background-color:white;"> 
         </div>
         <form method="get">
-          <div class="form-group d-sm-flex align-items-center justify-content-center">
+          <div class="form-group d-sm-flex align-items-center justify-content-center container">
             <input class="form-control my-2" type="search" name="buscarPedido" style="max-width: 500px">
             <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">
           </div>
@@ -192,8 +193,8 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                         <td><?php echo $pedido['id']; ?></td>
                         <td><?php echo date('d/m/Y H:i',strtotime($pedido['datahora'])); ?></td>
                         <td><?php echo $pedido['cliente']; ?></td>
-                        <td><?php echo explode(":", $pedido['total'])[1]; ?></td>
-                        <td><?php echo explode(":", $pedido['faltapagar'])[1]; ?></td>
+                        <td><?php echo "R$ ".str_replace(".",",", $pedido['total']); ?></td>
+                        <td><?php echo "R$ ".str_replace(".",",", $pedido['faltapagar']); ?></td>
                         <td><?php echo $pedido['situacao']; ?></td>
                         <td><?php echo $pedido['obs']; ?></td>
                         <td>

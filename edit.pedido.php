@@ -13,6 +13,7 @@ if(empty($_SESSION['logado'])) {
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
+$usuariologado = $u->getUsuarioNome($_SESSION['logado'])['nome'];
 $c = new clientes($pdo);
 $clientes = $c->getCliente();
 $p = new produtos($pdo);
@@ -59,9 +60,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $valor_frete = $_POST['valor_frete'];
     $taxa_cartao = $_POST['taxa_cartao'];
     $desconto = $_POST['desconto'];
-    $total = $_POST['total'];
+    $total = str_replace(',','.', explode("Total: R$", $_POST['total']))[1];
     $valor_pago = $_POST['valor_pago'];
-    $falta_pagar = $_POST['falta_pagar'];
+    $falta_pagar = str_replace(",",".", explode("Falta Pagar: R$", $_POST['falta_pagar']))[1];
     $situacao = explode("|",$_POST['situacao'])[1];
     
     $pd->upPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
@@ -156,14 +157,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input class="form-control" id="desconto" type="number" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()" value="<?php echo $pedido['desconto']; ?>">
                             </div>
                             <div class="col-lg d-flex align-items-center">
-                                <input id="total" class="bg-dark text-white border-0" type="text" name="total" readonly='readonly' value="<?php echo $pedido['total']; ?>">
+                                <input id="total" class="bg-dark text-white border-0" type="text" name="total" readonly='readonly' value="<?php echo "Total: R$".str_replace(".",",", $pedido['total']); ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="valor_pago">Valor Pago (R$)</label>
                                 <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php echo $pedido['valorpago']; ?>">
                             </div>
                             <div class="col-lg d-flex align-items-center py-2">
-                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="<?php echo $pedido['faltapagar']; ?>" readonly='readonly'>
+                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="<?php echo "Falta Pagar: R$".str_replace(".",",", $pedido['faltapagar']); ?>" readonly='readonly'>
                             </div>
                             <div class="col-lg py-2">
                                 <label for="situacao">Situação:</label>

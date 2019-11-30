@@ -11,6 +11,7 @@ if(empty($_SESSION['logado'])) {
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
+$usuariologado = $u->getUsuarioNome($_SESSION['logado'])['nome'];
 
 $c = new clientes($pdo);
 
@@ -86,9 +87,10 @@ if(empty($_GET['buscarCliente'])) {
                                 <div class="col-12 d-flex justify-content-center">
                                         <input class="btn-sm font-weight-bold my-2 btn-primary text-white border-0" type="submit" value="CADASTRAR">
                                 </div>        
-                        </div>        
+                        </div>    
                 </form>
                 <form method="get">
+                  <hr style="background-color:white;">      
                   <div class="form-group d-sm-flex align-items-center justify-content-center">
                     <input class="form-control my-1" type="search" name="buscarCliente" style="max-width: 500px">
                     <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">

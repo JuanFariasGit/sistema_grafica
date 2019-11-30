@@ -78,6 +78,7 @@ class usuarios {
 	}
 
 	public function getUsuarioNome($id) {
+		$nome = "";
 		$sql = 'SELECT nome FROM usuarios WHERE id = :id';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(':id', $id);
@@ -152,11 +153,11 @@ class usuarios {
 
 			$link = "http://www.suaimpressora.com.br/sistema-interno/redefinir.senha?token=".$token;
 
-			$mensagem = "Clique no link para redefinir sua senha:<br/>".$link;
+			$mensagem = "Clique no link para redefinir sua senha: ".$link;
 
 			$assunto = "Redefinição de senha";
 
-			$headers = 'From: contato@suaimpressora.com.br'."\r\n".'X-Mailer: PHP/'.phpversion();
+			$headers = 'From: suaimpressora@gmail.com'."\r\n".'X-Mailer: PHP/'.phpversion();
 			mail($email, $assunto, $mensagem, $headers);
 			echo '<script>alert("O link para redefinir sua senha foi enviado para o seu E-mail com sucesso !!!"); location = "http://www.suaimpressora.com.br/sistema-interno/login";</script>';
 			exit;

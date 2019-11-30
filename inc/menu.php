@@ -29,7 +29,7 @@
               <a class="dropdown-item" href="<?php echo BASE_URL; ?>login/logout">Sair</a>
             </div>
         </li>
-        <span class="navbar-text"><?php echo $u->getUsuarioNome($_SESSION['logado'])['nome']; ?></span>        
+        <span class="navbar-text"><?php if(isset($usuariologado)) {echo $usuariologado;}; ?></span>        
       </ul>  
     </div>
   </div>

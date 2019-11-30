@@ -11,6 +11,7 @@ if(empty($_SESSION['logado'])) {
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
+$usuariologado = $u->getUsuarioNome($_SESSION['logado'])['nome'];
 $array_u = $u->getUsuario();
 
 $array_nome  = array();
@@ -61,7 +62,7 @@ if(empty($_GET['buscarUsuario'])) {
 
     <?php if($u->temPermissao('ADMINISTRADOR')): ?>
                 <?php require 'inc/menu.php'; ?>
-                <div class="text-white bg-dark py-5">
+                <div class="text-white bg-dark py-5 container-fluid">
                     <form method="POST" class="my-auto" onsubmit="return validar_usuario()">
                         <div class="d-flex justify-content-center">                            
                             <h4 class="font-weight-bold">USUÁRIO</h4>
@@ -93,6 +94,7 @@ if(empty($_GET['buscarUsuario'])) {
                         </div>
                     </form>
                     <form method="get">
+                      <hr style="background-color:white;">
                       <div class="form-group d-sm-flex align-items-center justify-content-center">
                         <input class="form-control my-2" type="search" name="buscarUsuario" style="max-width: 500px">
                         <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">

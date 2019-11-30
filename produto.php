@@ -11,6 +11,7 @@ if(empty($_SESSION['logado'])) {
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
+$usuariologado = $u->getUsuarioNome($_SESSION['logado'])['nome'];
 
 $p = new produtos($pdo);
 $categorias = $p->getCategoria();
@@ -74,6 +75,7 @@ if(empty($_GET['buscarProduto'])) {
                         </div>
                     </div>
                 </form>
+                <hr style="background-color:white;">
                 <form method="get">
                   <div class="form-group d-sm-flex align-items-center justify-content-center">
                     <input class="form-control my-1" type="search" name="buscarProduto" style="max-width: 500px">

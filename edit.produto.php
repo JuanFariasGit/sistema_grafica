@@ -11,6 +11,7 @@ if(empty($_SESSION['logado'])) {
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
+$usuariologado = $u->getUsuarioNome($_SESSION['logado'])['nome'];
 
 $p = new produtos($pdo);
 $produtos = $p->getProdutoEdit($_GET['id']);

@@ -12,6 +12,7 @@ if(empty($_SESSION['logado'])) {
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
+$usuariologado = $u->getUsuarioNome($_SESSION['logado'])['nome'];
 
 $c= new clientes($pdo);
 $clientes = $c->getClienteEdit($_GET['id']);
