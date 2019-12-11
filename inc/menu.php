@@ -17,6 +17,9 @@
         </li>
         <li class="nav-item">
            <a class="nav-link" href="<?php echo BASE_URL; ?>pedido">Pedido</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo BASE_URL; ?>relatorio">Relatório</a>
         </li>              
       </ul>
       <ul class="navbar-nav ml-auto">

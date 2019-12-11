@@ -78,14 +78,15 @@ class usuarios {
 	}
 
 	public function getUsuarioNome($id) {
-		$nome = "";
+		$array = array();
 		$sql = 'SELECT nome FROM usuarios WHERE id = :id';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(':id', $id);
 		$sql->execute();
 
 		if($sql->rowCount() > 0) {
-			$nome = $sql->fetch();
+			$array = $sql->fetch();
+			$nome = $array['nome'];
 		}
 		return $nome;
 	}

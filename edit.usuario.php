@@ -10,7 +10,7 @@ if(empty($_SESSION['logado'])) {
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
-$usuariologado = $u->getUsuarioNome($_SESSION['logado'])['nome'];
+$usuariologado = $u->getUsuarioNome($_SESSION['logado']);
 $dados_u = $u->getUsuarioEdit($_GET['id']);
 $array_u = $u->getUsuario();
 

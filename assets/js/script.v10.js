@@ -249,35 +249,6 @@ function validar_cadastro_produto() {
     }
 }
 
-function mascara_fone(form, fieldName, evento)
-{
-    if (evento != null)
-    {
-        let code;
-        let navegador = navigator.appName;
-
-        if (navegador.indexOf("Netscape") != -1) {
-            code = evento.which;
-        } else {
-            code = evento.keycode;
-        }
-        if (code == 8)
-            return true;
-    }
-    
-    let fone = '';
-    fone = fone + form.value;
-
-    if (fone.length == 2) {
-        fone = fone + ' 9 ';
-        fieldName.value = fone;
-    }
-    if (fone.length == 9) {
-        fone = fone + '-';
-        fieldName.value = fone;
-    }
-}
-
 function delCliente(cliente) {
     if(confirm('O cliente '+cliente.name+' será deletado.') == true) {
         location = 'del.cliente?id='+cliente.id;
@@ -299,44 +270,39 @@ function addSituacao() {
 }
 
 function upSituacao() {
-    let nome = document.getElementById('situacao').value.split("|")[0];
-    let  id = document.getElementById('situacao').value.split("|")[1];
-    if(nome != "" ) {
-        let nomesituacao = prompt("Digite a situação que deseja substituir "+nome+'!');
+    const nome = document.getElementById('situacao').value.split("|")[0];
+    const  id = document.getElementById('situacao').value.split("|")[1];    
+    
+    if(nome != "") {
+        const nomesituacao = prompt("Digite a situação que deseja substituir "+nome+'!');
         if(nomesituacao != "") {
-            location = 'up.situacao?nome='+nomesituacao+'?id='+id;
+            if(nomesituacao != null) {           
+                location = 'up.situacao?nome='+nomesituacao+'?id='+id;
+            }
         } else {
-            alert("Você deve informar um nome tente novamente!");
+            alert("Você deve informa um nome tente novamente");
         }
     } else {
-        alert("Você não selecionou nenhuma situação!");
-    }     
+        alert("Você não selecionou nenhuma situação");
+    }
 }
 
 function upCategoria() {
-    let nome = document.getElementById('categoria').value.split("|")[0];
-    let  id = document.getElementById('categoria').value.split("|")[1];
-    if(nome != "" ) {
-        let nomecategoria = prompt("Digite a situação que deseja substituir "+nome+'!');
+    const nome = document.getElementById('categoria').value.split("|")[0];
+    const  id = document.getElementById('categoria').value.split("|")[1];
+
+    if(nome != "") {
+        const nomecategoria = prompt("Digite a situação que deseja substituir "+nome+'!');
         if(nomecategoria != "") {
-            location = 'up.categoria?nome='+nomecategoria+'?id='+id;
+            if(nomecategoria != null) {           
+                location = 'up.categoria?nome='+nomecategoria+'?id='+id;
+            }
         } else {
-            alert("Você deve informar um nome tente novamente!");
+            alert("Você deve informa um nome tente novamente");
         }
     } else {
-        alert("Você não selecionou nenhuma situação!");
-    }     
-}
-
-
-function categorias() {
-   let x = $('#categorias');
-
-   if(x.css('display') == 'none') {
-       x.css('display', 'block');
-   } else {
-       x.css('display', 'none');
-   }
+        alert("Você não selecionou nenhuma categoria");
+    }
 }
 
 function delCategoria() {

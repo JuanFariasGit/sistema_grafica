@@ -1,5 +1,4 @@
 <?php 
-ob_start();
 require 'inc/config.php';
 require 'inc/usuarios.class.php';
 require 'inc/clientes.class.php';
@@ -114,7 +113,7 @@ $html = '
             <td style="text-align: left;text-transform:uppercase;">'.$produtos_v_array[$i].'</td>            
             <td style="text-align: center;text-transform:uppercase;">'.$array_unidade[$i].'</td>';
             if($array_unidade[$i] === "m²"):
-                $html .= '<td style="text-align: center;">'.$al_v_array[$i].'x'.$la_v_array[$i].'</td>';
+                $html .= '<td style="text-align: center;">'.str_replace('.', ',', $al_v_array[$i]).'x'.str_replace('.',',', $la_v_array[$i]).'</td>';
             else:
                 $html .= '<td style="text-align: center"></td>';
             endif;    
@@ -154,7 +153,7 @@ $html = '
                 $html .= '<td style="text-align: center">R$ 0,00</td>';
             endif;
             if(!empty($pedido['total'])):        
-                $html .= '<td style="text-align: center">R$'.str_replace(".",",", $pedido['total']).'</td>';
+                $html .= '<td style="text-align: center">R$ '.str_replace(".",",", $pedido['total']).'</td>';
             else:
                 $html .= '<td style="text-align: center">R$ 0,00</td>';
             endif;        
@@ -164,7 +163,7 @@ $html = '
                 $html .= '<td style="text-align: center">R$ 0,00</td>';
             endif;
             if(!empty($pedido['faltapagar'])):    
-                $html .= '<td style="text-align: center">R$'.str_replace(".",",", $pedido['faltapagar']).'</td>';
+                $html .= '<td style="text-align: center">R$ '.str_replace(".",",", $pedido['faltapagar']).'</td>';
             else:
                 $html .= '<td style="text-align: center"></td>';
             endif;                    

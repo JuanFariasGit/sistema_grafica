@@ -149,4 +149,32 @@ class pedidos {
         }
         return $array;
     }
+
+    public function gerarRelatorioGeral($anomes) {
+		$array = array();
+
+		$sql = 'SELECT datahora, sum(total) AS total_, sum(valorpago) AS valor_pago, sum(faltapagar) AS falta_pagar FROM pedidos WHERE datahora LIKE :datahora"%"';
+		$sql = $this->pdo->prepare($sql);
+		$sql->bindValue(":datahora", $anomes);
+		$sql->execute();
+
+		if($sql->rowCount() > 0) {
+			$array = $sql->fetchAll();
+		}
+		return $array;
+    }
+    
+    public function gerarRelatorioDevedores($anomes) {
+		$array = array();
+
+		$sql = 'SELECT cliente, total, valorpago, faltapagar, datahora FROM pedidos WHERE datahora LIKE :datahora"%" AND faltapagar > 0';
+		$sql = $this->pdo->prepare($sql);
+		$sql->bindValue(":datahora", $anomes);
+		$sql->execute();
+
+		if($sql->rowCount() > 0) {
+			$array = $sql->fetchAll();
+		}
+		return $array;
+	}
 }
