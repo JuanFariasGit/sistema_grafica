@@ -17,12 +17,20 @@ class usuarios {
 		$sql->bindValue(":email", $email);
 		$sql->bindValue(":senha", $senha);
 		$sql->execute();
-
+		
 		if($sql->rowCount() > 0) {
 			$sql = $sql->fetch();
-
-			$_SESSION['logado'] = $sql['id'];
-
+			
+			$ip = $_SERVER['REMOTE_ADDR'];
+		    $id = $_SESSION['logado'] = $sql['id'];
+			
+			$sql = "UPDATE usuarios SET ip = :ip WHERE id = :id";
+			$sql = $this->pdo->prepare($sql);
+			
+			$sql->bindValue(":ip", $ip);
+			$sql->bindValue(":id", $id);
+			$sql->execute();
+	
 			return true;
 		}
 
@@ -236,5 +244,17 @@ class usuarios {
 		$sql->bindValue(':id', $id);
 		$sql->bindValue(':senha', $senha);
 		$sql->execute();
+	}
+
+	public function getUsuarioId($nome) {
+		$sql = $this->pdo->prepare("SELECT id FROM usuarios WHERE nome = :nome");
+		$sql->bindValue(":nome", $nome);
+		$sql->execute();
+
+		if($sql->rowCount() > 0) {
+			$sql = $sql->fetch();
+			$id = $sql['id'];
+		}
+		return $id;
 	}
 }

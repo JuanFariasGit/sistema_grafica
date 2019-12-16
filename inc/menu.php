@@ -29,6 +29,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="<?php echo BASE_URL; ?>redefinir.senha.logado?id=<?php echo $_SESSION['logado']; ?>">Alterar Senha</a>
+              <a class="dropdown-item" href="<?php echo BASE_URL; ?>historico">Histórico De Login</a>
               <a class="dropdown-item" href="<?php echo BASE_URL; ?>login/logout">Sair</a>
             </div>
         </li>

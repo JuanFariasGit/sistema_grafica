@@ -4,10 +4,23 @@ require 'inc/usuarios.class.php';
 require 'inc/pedidos.class.php';
 session_start();
 
-if(empty($_SESSION['logado'])) {
-    header('Location: '.BASE_URL.'login');
+if(!empty($_SESSION['logado'])) {
+    $id = $_SESSION['logado'];
+    $ip = $_SERVER['REMOTE_ADDR'];
+    
+    $sql = $pdo->prepare("SELECT * FROM usuarios WHERE id = :id AND ip = :ip");
+    $sql->bindValue(":id", $id);
+    $sql->bindValue(":ip", $ip);
+    $sql->execute();
+    
+    if($sql->rowCount() == 0) {
+        header("Location: ".BASE_URL."login");
+        exit;
+    }
+  } else {
+    header("Location: ".BASE_URL."login");
     exit;
-}
+  }
 
 $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
@@ -35,7 +48,7 @@ if(!empty($_GET['gerar_relatorio'])) {
                     <button class="btn btn-sm btn-block btn-success mx-sm-2 my-sm-0 mx-auto my-2 font-weight-bold"style ="max-width: 150px">GERAR RELATÓRIO</button>
                 </div>    
             </form>
-            <?php if(isset($relatorio_geral) && isset($relatorio_devedores)): ?>
+            <?php if(isset($relatorio_geral) && $relatorio_geral[0]['datahora'] != ""): ?>
             <h4 class="text-center text-white font-weight-bold">GERAL</h4>
             <table class="table table-dark text-center">
                 <thead>
@@ -80,7 +93,16 @@ if(!empty($_GET['gerar_relatorio'])) {
                     <?php endforeach; ?> 
                 </tbody>
             </table>
-        <?php endif; ?>
+                <?php elseif(isset($_GET['gerar_relatorio'])): echo '<h5 class="text-center text-danger pt-3">Nada foi encontrado referente a '.$_GET['gerar_relatorio'].' !!!</h5>'; ?>
+             <?php endif; ?>
         </div>
+        <?php else:
+            require 'inc/menu.php';
+        echo    "<div class='d-flex flex-column justify-content-center align-items-center bg-dark text-white' style='min-height: 50vh'>
+                    <h4 class='font-weight-bold'>É presiso ter permissão de administrador</h4>
+                    <img class='my-2' width='300px' src='assets/imagens/logo.png'>
+                </div>
+            "         
+    ?>         
     <?php endif; ?>
 <?php require 'inc/footer.php'; ?>

@@ -3,10 +3,22 @@ require 'inc/config.php';
 require 'inc/usuarios.class.php';
 session_start();
 
-
-if(empty($_SESSION['logado'])) {
-	header('Location: '.BASE_URL.'login');
-	exit;
+if(!empty($_SESSION['logado'])) {
+  $id = $_SESSION['logado'];
+  $ip = $_SERVER['REMOTE_ADDR'];
+  
+  $sql = $pdo->prepare("SELECT * FROM usuarios WHERE id = :id AND ip = :ip");
+  $sql->bindValue(":id", $id);
+  $sql->bindValue(":ip", $ip);
+  $sql->execute();
+  
+  if($sql->rowCount() == 0) {
+      header("Location: ".BASE_URL."login");
+      exit;
+  }
+} else {
+  header("Location: ".BASE_URL."login");
+  exit;
 }
 
 $u = new usuarios($pdo);
@@ -45,7 +57,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if(!empty($nome) && !empty($email)) {
         $u->addUsuario($nome, $email, $senha, $permissao);
-        header("Location: ".BASE_URL."usuarios.cadastrados");
+        header("Location: ".BASE_URL."usuario");
         exit;
     }    
 }
