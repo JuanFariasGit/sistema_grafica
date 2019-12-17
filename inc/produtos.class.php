@@ -18,6 +18,23 @@ class produtos {
         $sql->execute();
     }
    
+    public function getIdProduto($arraynome) {
+        $array = array();
+
+        foreach($arraynome as $nome){
+
+            $sql = $this->pdo->prepare("SELECT id FROM produtos WHERE nome = :nome");
+            $sql->bindValue(":nome", $nome);
+            $sql->execute();
+
+            if ($sql->rowCount() > 0) {
+                $sql = $sql->fetch();
+                array_push($array, $sql['id']);
+            }
+        }   
+        return $array; 
+    }
+
     public function getProduto() {
         $array = array();
 

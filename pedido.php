@@ -36,26 +36,27 @@ $situacoes = $pd->getSituacao();
 
 $produtospedido = $quantidade = $al = $la = $valorunitario = $subtotal = ""; 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST['id_pedido'];
     $clientenome = $_POST['cliente'];
     $datahora = $_POST['datahora'];
     $obs = $_POST['obs'];
     if(!empty($_POST['produtospedido'])) {
-        $produtospedido = implode(',', $_POST['produtospedido']);
+        $produtospedido = $p->getIdProduto($_POST['produtospedido']);
     }
     if(!empty($_POST['quantidade'])) {
-        $quantidade = implode(',', $_POST['quantidade']);
+        $quantidade = $_POST['quantidade'];
     }
     if(!empty($_POST['al'])) {
-        $al = implode(',', $_POST['al']);
+        $al = $_POST['al'];
     }
     if(!empty($_POST['la'])) {
-        $la = implode(',', $_POST['la']);
+        $la = $_POST['la'];
     }
     if(!empty($_POST['valorunitario'])) {
-        $valorunitario = implode('-', $_POST['valorunitario']);
+        $valorunitario = $_POST['valorunitario'];
     }
     if(!empty($_POST['subtotal'])) {
-        $subtotal = implode('-', $_POST['subtotal']);
+        $subtotal = $_POST['subtotal'];
     }
     $valor_frete = $_POST['valor_frete'];
     $taxa_cartao = $_POST['taxa_cartao'];
@@ -65,7 +66,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $falta_pagar = str_replace(",",".", explode("Falta Pagar: R$", $_POST['falta_pagar']))[1];
     $situacao = explode("|",$_POST['situacao'])[1];  
    
-    $pd->addPedido($clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
+    $pd->addPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
 }
 
@@ -75,6 +76,8 @@ if(empty($_GET['buscarPedido'])) {
   $nome = trim($_GET['buscarPedido']);
   $pedidos = $pd->getPedidoBuscar($nome);
 }
+
+$id_pedido = $pd->getIdPedido();
 ?>
 
 <?php require 'inc/header.php'; ?>
@@ -88,8 +91,12 @@ if(empty($_GET['buscarPedido'])) {
                 </div>
                 <div class="form-row d-flex justify-content-center">
                     <div class="col-sm-12 d-sm-flex justify-content-sm-center">
-                        <div class="col-sm-4">
-                            <label for="datahora">Data e Hora</label>
+                        <div class="col-sm-1">
+                        <label for="id_pedido">ID:</label>
+                            <input id="id_pedido" class="form-control" name="id_pedido" value="<?php echo $id_pedido; ?>" readonly='readonly' >
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="datahora">Data e Hora:</label>
                             <input class="form-control" type="text" name="datahora" id="datahora" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)" value="<?php date_default_timezone_set('America/Recife');
 $date = date('d/m/Y H:i');echo $date; ?>"> 
                         </div>
@@ -98,7 +105,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                             <select class="form-control" name="cliente" id="cliente">
                                 <option></option>
                                 <?php foreach($clientes as $cliente): ?>
-                                <option value="<?php echo $cliente['nomecompleto']; ?>"><?php echo $cliente['nomecompleto']; ?></option>
+                                <option value="<?php echo $cliente['id']; ?>"><?php echo $cliente['nomecompleto']; ?></option>
                                 <?php endforeach; ?>
                             </select>  
                         </div>
@@ -115,7 +122,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                             <select class="form-control mb-2" name="produtos" id="produtos">
                                 <option></option>
                                 <?php foreach($produtos as $produto): ?>
-                                <option value="<?php echo $produto['valor']; ?>|<?php echo $produto['nome']; ?>|<?php echo $produto['unidademedida']; ?>"><?php echo $produto['nome']; ?></option>
+                                <option value="<?php echo "R$ ".number_format($produto['valor'], 2, ',', '.'); ?>|<?php echo $produto['nome']; ?>|<?php echo $produto['unidademedida']; ?>"><?php echo $produto['nome']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <a class="btn-sm btn btn-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
