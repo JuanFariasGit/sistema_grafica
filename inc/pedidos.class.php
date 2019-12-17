@@ -62,7 +62,7 @@ class pedidos {
     public function getPedido() {
         $array = array();
 
-        $sql = "SELECT pedidos.id, pedidos.cliente, pedidos.datahora, pedidos.obs, pedidos.produto, pedidos.al, pedidos.la, pedidos.quantidade, pedidos.valorunitario, pedidos.subtotal, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome as situacao from pedidos left join situacao on pedidos.situacao = situacao.id order by pedidos.datahora desc";
+        $sql = "SELECT pedidos.id, pedidos.datahora, clientes.nomecompleto AS cliente, pedidos.total, pedidos.faltapagar, situacao.nome AS situacao, pedidos.obs FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente LEFT JOIN situacao ON situacao.id = pedidos.situacao ORDER BY pedidos.datahora DESC";
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 
