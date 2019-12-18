@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 18-Dez-2019 às 05:00
+-- Tempo de geração: 18-Dez-2019 às 15:16
 -- Versão do servidor: 10.3.16-MariaDB
 -- versão do PHP: 7.3.7
 
@@ -89,7 +89,9 @@ CREATE TABLE `historico` (
 INSERT INTO `historico` (`id`, `id_usuario`, `datahora`, `ip`, `so`, `Navegador`) VALUES
 (20, 1, '2019-12-17 10:12:00', '::1', 'Windows 10', 'Firefox'),
 (21, 1, '2019-12-17 23:11:00', '::1', 'Windows 10', 'Firefox'),
-(22, 1, '2019-12-18 00:18:00', '::1', 'Windows 10', 'Firefox');
+(22, 1, '2019-12-18 00:18:00', '::1', 'Windows 10', 'Firefox'),
+(23, 1, '2019-12-18 01:02:00', '::1', 'Windows 10', 'Firefox'),
+(24, 1, '2019-12-18 10:44:00', '::1', 'Windows 10', 'Firefox');
 
 -- --------------------------------------------------------
 
@@ -134,8 +136,7 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`id`, `id_cliente`, `datahora`, `obs`, `valorfrete`, `taxacartao`, `desconto`, `total`, `valorpago`, `faltapagar`, `situacao`) VALUES
-(31, 12, '2019-12-17 22:14:00', '', 2.00, 5.00, 4.00, 11.39, 6.50, 4.89, 28),
-(32, 12, '2019-12-18 00:37:00', '', 0.00, 5.00, 0.00, 12.86, 10.00, 2.86, 27);
+(35, 12, '2019-12-18 11:08:00', '', 0.00, 0.00, 0.00, 12.25, 0.00, 12.25, 27);
 
 -- --------------------------------------------------------
 
@@ -148,18 +149,17 @@ CREATE TABLE `pedido_produtos` (
   `id_produto` int(11) NOT NULL,
   `quantidade` varchar(10) NOT NULL,
   `al` varchar(10) NOT NULL,
-  `la` varchar(10) NOT NULL
+  `la` varchar(10) NOT NULL,
+  `valoruni` float(9,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `pedido_produtos`
 --
 
-INSERT INTO `pedido_produtos` (`id_pedido`, `id_produto`, `quantidade`, `al`, `la`) VALUES
-(31, 263, '1', '1.25', '1'),
-(31, 270, '1', '1', '1'),
-(32, 263, '1', '1', '1'),
-(32, 270, '1', '1', '1');
+INSERT INTO `pedido_produtos` (`id_pedido`, `id_produto`, `quantidade`, `al`, `la`, `valoruni`) VALUES
+(35, 263, '1', '1', '1', 7.00),
+(35, 270, '1', '1', '1', 5.25);
 
 -- --------------------------------------------------------
 
@@ -180,7 +180,7 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `nome`, `categoria`, `unidademedida`, `valor`) VALUES
-(263, 'Banner', 34, 'm²', 7.00),
+(263, 'Banner 25x12', 34, 'm²', 6.00),
 (270, 'Copo de porcelana', 36, 'uni', 5.25);
 
 -- --------------------------------------------------------
@@ -336,7 +336,7 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `historico`
 --
 ALTER TABLE `historico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `historico_senha`
@@ -348,7 +348,7 @@ ALTER TABLE `historico_senha`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`

@@ -48,9 +48,10 @@ class pedidos {
             $sql->bindValue(":id_produto", $produto_id);
             $sql->execute();
 
-            $sql = $this->pdo->prepare("UPDATE pedido_produtos SET al = :altura, la = :largura, quantidade = :quantidade WHERE id_pedido = :id_pedido AND id_produto = :id_produto");
+            $sql = $this->pdo->prepare("UPDATE pedido_produtos SET al = :altura, la = :largura, quantidade = :quantidade, valoruni = :valorunitario WHERE id_pedido = :id_pedido AND id_produto = :id_produto");
             $sql->bindValue(":altura", $al[$i]);
             $sql->bindValue(":largura", $la[$i]);
+            $sql->bindValue(":valorunitario", str_replace(",", ".", explode(" ", ($valorunitario[$i]))[1]));
             $sql->bindValue(":quantidade", $quantidade[$i]);
             $sql->bindValue(":id_pedido", $id);
             $sql->bindValue(":id_produto", $produto_id);
@@ -163,7 +164,7 @@ class pedidos {
     public function getPedidoProdutosEdit($id) {
         $array = array();
 
-        $sql = $this->pdo->prepare("SELECT produtos.nome AS produto, pedido_produtos.al, pedido_produtos.la, produtos.unidademedida AS uni, pedido_produtos.quantidade, produtos.valor AS valoruni, pedido_produtos.al*pedido_produtos.la*pedido_produtos.quantidade*produtos.valor AS subtotal FROM pedido_produtos LEFT JOIN produtos ON produtos.id = id_produto WHERE id_pedido = :id");
+        $sql = $this->pdo->prepare("SELECT produtos.nome AS produto, pedido_produtos.al, pedido_produtos.la, produtos.unidademedida AS uni, pedido_produtos.quantidade, pedido_produtos.valoruni, pedido_produtos.al*pedido_produtos.la*pedido_produtos.quantidade*pedido_produtos.valoruni AS subtotal FROM pedido_produtos LEFT JOIN produtos ON produtos.id = id_produto WHERE id_pedido = :id");
         $sql->bindValue(":id", $id);
         $sql->execute();
 
