@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $unidademedida = $_POST['unidademedida'];
     $categoria = explode("|", $_POST['categoria'])[1];
-    $valor = "R$ ".number_format(str_replace(",", ".", $_POST['valor']),2,",",".");
+    $valor = str_replace(',', '.', $_POST['valor']);
     
     $p->upProduto($id, $nome, $unidademedida, $categoria, $valor);
     header("Location: ".BASE_URL."produto");
@@ -78,7 +78,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <div class="col-lg-2">
                             <label for="valor">Valor (R$):</label>
-                            <input class="form-control" type="text" name="valor" id="valor" value="<?php echo explode("R$", $produto['valor'])[1]; ?>">
+                            <input class="form-control" type="text" name="valor" id="valor" value="<?php echo str_replace(".", ",", $produto['valor']); ?>">
                         </div>
                         <div class="col-12 mt-4 d-flex justify-content-center">
                             <input class="btn-sm bg-primary text-white border-0 font-weight-bold" type="submit" value="SALVAR">

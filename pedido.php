@@ -37,7 +37,7 @@ $situacoes = $pd->getSituacao();
 $produtospedido = $quantidade = $al = $la = $valorunitario = $subtotal = ""; 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id_pedido'];
-    $clientenome = $_POST['cliente'];
+    $cliente_id = $_POST['cliente'];
     $datahora = $_POST['datahora'];
     $obs = $_POST['obs'];
     if(!empty($_POST['produtospedido'])) {
@@ -65,8 +65,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $valor_pago = $_POST['valor_pago'];
     $falta_pagar = str_replace(",",".", explode("Falta Pagar: R$", $_POST['falta_pagar']))[1];
     $situacao = explode("|",$_POST['situacao'])[1];  
-   
-    $pd->addPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
+    
+    $pd->addPedido($id, $cliente_id, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
 }
 

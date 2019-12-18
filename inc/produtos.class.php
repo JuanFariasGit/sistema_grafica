@@ -105,6 +105,8 @@ class produtos {
     }
 
     public function upProduto($id, $nome, $unidademedida, $categoria, $valor) {
+        $array_produtos = array();
+
         $sql = 'UPDATE produtos SET nome = :nome, unidademedida = :unidademedida, categoria = :categoria, valor = :valor WHERE id = :id';
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);

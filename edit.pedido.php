@@ -39,7 +39,7 @@ $pedido_produtos = $pd->getPedidoProdutosEdit($_GET['id']);
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id_pedido'];
-    $clientenome = $_POST['cliente'];
+    $cliente_id = $_POST['cliente'];
     $datahora = $_POST['datahora'];
     $obs = $_POST['obs'];
     if(!empty($_POST['produtospedido'])) {
@@ -64,13 +64,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $taxa_cartao = $_POST['taxa_cartao'];
     $desconto = $_POST['desconto'];
     $total = str_replace(',','.', explode("Total: R$", $_POST['total']))[1];
-    echo $total;exit;
     $valor_pago = $_POST['valor_pago'];
     $falta_pagar = str_replace(",",".", explode("Falta Pagar: R$", $_POST['falta_pagar']))[1];
     $situacao = explode("|",$_POST['situacao'])[1];  
        
     
-    $pd->upPedido($id, $clientenome, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
+    $pd->upPedido($id, $cliente_id, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
 }
 ?>
@@ -100,7 +99,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <select class="form-control" name="cliente" id="cliente">
                                 <option></option>
                                 <?php foreach($clientes as $cliente): ?>
-                                <option value="<?php echo $cliente['nomecompleto']; ?>" <?php if($pedido['cliente'] == $cliente['nomecompleto']) {echo "selected = 'selected'";}; ?>><?php echo $cliente['nomecompleto']; ?></option>
+                                <option value="<?php echo $cliente['id']; ?>" <?php if($pedido['cliente'] == $cliente['nomecompleto']) {echo "selected = 'selected'";}; ?>><?php echo $cliente['nomecompleto']; ?></option>
                                 <?php endforeach; ?>
                             </select>  
                         </div>
@@ -118,7 +117,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <select class="form-control mb-2" name="produtos" id="produtos">
                                 <option></option>
                                 <?php foreach($produtos as $produto): ?>
-                                <option value="<?php echo $produto['valor']; ?>|<?php echo $produto['nome']; ?>|<?php echo $produto['unidademedida']; ?>"><?php echo $produto['nome']; ?></option>
+                                <option value="<?php echo "R$ ".number_format($produto['valor'], 2, ',', '.'); ?>|<?php echo $produto['nome']; ?>|<?php echo $produto['unidademedida']; ?>"><?php echo $produto['nome']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <a class="btn-sm btn btn-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
@@ -156,15 +155,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-lg py-2">
                                 <label for="valor_frete">Valor Do Frete (R$)</label>
-                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php echo $pedido['valorfrete']; ?>">
+                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php if($pedido['valorfrete'] > 0) {echo $pedido['valorfrete'];} else {echo "";} ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="taxa_cartao">Taxa De Cartão (%)</label>
-                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php echo $pedido['taxacartao']; ?>">
+                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php if($pedido['taxacartao'] > 0) {echo $pedido['taxacartao'];} else {echo "";} ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="desconto">Desconto (R$):</label>
-                                <input class="form-control" id="desconto" type="number" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()" value="<?php echo $pedido['desconto']; ?>">
+                                <input class="form-control" id="desconto" type="number" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()" value="<?php if($pedido['desconto'] > 0) {echo $pedido['desconto'];} else {echo "";} ?>">
                             </div>
                             <div class="col-lg d-flex align-items-center">
                                 <input id="total" class="bg-dark text-white border-0" type="text" name="total" readonly='readonly' value="<?php echo "Total: R$ ".str_replace(".",",", $pedido['total']); ?>">

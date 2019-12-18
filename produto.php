@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $unidademedida = $_POST['unidademedida'];
     $categoria = explode("|", $_POST['categoria'])[1];
-    $valor = "R$ ".number_format(str_replace(",", ".", $_POST['valor']),2,",",".");
+    $valor = str_replace(",", ".", $_POST['valor']);
 
     $p->addProduto($nome, $unidademedida, $categoria, $valor);
     header("Location: ".BASE_URL."produto");
@@ -115,7 +115,7 @@ if(empty($_GET['buscarProduto'])) {
                         <td><p class='my-1'><?php echo $produto['nome'];?></p></td>
                         <td><p class='my-1'><?php echo $produto['unidademedida'];?></p></td>
                         <td><p class='my-1'><?php echo $produto['categoria'];?></p></td>
-                        <td><p class='my-1'><?php echo $produto['valor'];?></p></td>
+                        <td><p class='my-1'><?php echo "R$ ".str_replace(".", ",", $produto['valor']);?></p></td>
                         <td>
                           <a class="btn btn-sm btn-success my-1" href="<?php echo BASE_URL; ?>edit.produto?id=<?php echo $produto['id']; ?>">EDIT</a>
                           <a id="<?php echo $produto['id']; ?>" name="<?php echo $produto['nome']; ?>" class="btn btn-danger btn-sm" onclick="delProduto(this)" style="cursor:pointer">DEL</a>

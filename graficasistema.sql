@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 17-Dez-2019 às 22:45
+-- Tempo de geração: 18-Dez-2019 às 05:00
 -- Versão do servidor: 10.3.16-MariaDB
 -- versão do PHP: 7.3.7
 
@@ -87,7 +87,9 @@ CREATE TABLE `historico` (
 --
 
 INSERT INTO `historico` (`id`, `id_usuario`, `datahora`, `ip`, `so`, `Navegador`) VALUES
-(20, 1, '2019-12-17 10:12:00', '::1', 'Windows 10', 'Firefox');
+(20, 1, '2019-12-17 10:12:00', '::1', 'Windows 10', 'Firefox'),
+(21, 1, '2019-12-17 23:11:00', '::1', 'Windows 10', 'Firefox'),
+(22, 1, '2019-12-18 00:18:00', '::1', 'Windows 10', 'Firefox');
 
 -- --------------------------------------------------------
 
@@ -118,9 +120,9 @@ CREATE TABLE `pedidos` (
   `id_cliente` int(11) NOT NULL,
   `datahora` datetime NOT NULL,
   `obs` text NOT NULL,
-  `valorfrete` varchar(50) NOT NULL,
-  `taxacartao` varchar(50) NOT NULL,
-  `desconto` varchar(50) NOT NULL,
+  `valorfrete` float(9,2) NOT NULL,
+  `taxacartao` float(9,2) NOT NULL,
+  `desconto` float(9,2) NOT NULL,
   `total` float(9,2) NOT NULL,
   `valorpago` float(9,2) NOT NULL,
   `faltapagar` float(9,2) NOT NULL,
@@ -132,7 +134,8 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`id`, `id_cliente`, `datahora`, `obs`, `valorfrete`, `taxacartao`, `desconto`, `total`, `valorpago`, `faltapagar`, `situacao`) VALUES
-(30, 12, '2019-12-17 18:35:00', 'teste', '5', '5', '4', 62.16, 0.00, 62.16, 28);
+(31, 12, '2019-12-17 22:14:00', '', 2.00, 5.00, 4.00, 11.39, 6.50, 4.89, 28),
+(32, 12, '2019-12-18 00:37:00', '', 0.00, 5.00, 0.00, 12.86, 10.00, 2.86, 27);
 
 -- --------------------------------------------------------
 
@@ -153,8 +156,10 @@ CREATE TABLE `pedido_produtos` (
 --
 
 INSERT INTO `pedido_produtos` (`id_pedido`, `id_produto`, `quantidade`, `al`, `la`) VALUES
-(30, 263, '1', '1', '1'),
-(30, 265, '1', '1', '1');
+(31, 263, '1', '1.25', '1'),
+(31, 270, '1', '1', '1'),
+(32, 263, '1', '1', '1'),
+(32, 270, '1', '1', '1');
 
 -- --------------------------------------------------------
 
@@ -175,8 +180,8 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`id`, `nome`, `categoria`, `unidademedida`, `valor`) VALUES
-(263, 'Banner', 34, 'm²', 50.25),
-(265, 'Caneca De Porcelona', 36, 'uni', 8.00);
+(263, 'Banner', 34, 'm²', 7.00),
+(270, 'Copo de porcelana', 36, 'uni', 5.25);
 
 -- --------------------------------------------------------
 
@@ -283,8 +288,8 @@ ALTER TABLE `pedidos`
 -- Índices para tabela `pedido_produtos`
 --
 ALTER TABLE `pedido_produtos`
-  ADD UNIQUE KEY `nome_produto` (`id_produto`),
-  ADD KEY `id_pedido` (`id_pedido`) USING BTREE;
+  ADD KEY `id_pedido` (`id_pedido`) USING BTREE,
+  ADD KEY `id_produto` (`id_produto`) USING BTREE;
 
 --
 -- Índices para tabela `produtos`
@@ -331,7 +336,7 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de tabela `historico`
 --
 ALTER TABLE `historico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de tabela `historico_senha`
@@ -343,13 +348,13 @@ ALTER TABLE `historico_senha`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
 
 --
 -- AUTO_INCREMENT de tabela `situacao`
@@ -383,15 +388,13 @@ ALTER TABLE `historico`
 -- Limitadores para a tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`situacao`) REFERENCES `situacao` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`);
+  ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`situacao`) REFERENCES `situacao` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Limitadores para a tabela `pedido_produtos`
 --
 ALTER TABLE `pedido_produtos`
-  ADD CONSTRAINT `pedido_produtos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`),
-  ADD CONSTRAINT `pedido_produtos_ibfk_2` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`);
+  ADD CONSTRAINT `pedido_produtos_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limitadores para a tabela `produtos`
