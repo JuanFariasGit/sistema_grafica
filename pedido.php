@@ -93,7 +93,7 @@ $id_pedido = $pd->getIdPedido();
                     <div class="col-sm-12 d-sm-flex justify-content-sm-center">
                         <div class="col-sm-1">
                         <label for="id_pedido">ID:</label>
-                            <input id="id_pedido" class="form-control" name="id_pedido" value="<?php echo $id_pedido; ?>" readonly='readonly' >
+                            <input id="id_pedido" class="form-control" name="id_pedido" value="<?php echo $id_pedido; ?>" readonly='readonly'>
                         </div>
                         <div class="col-sm-3">
                             <label for="datahora">Data e Hora:</label>

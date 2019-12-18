@@ -140,9 +140,22 @@ class pedidos {
     public function getPedidoEdit($id) {
         $array = array();
 
-        $sql = "SELECT pedidos.id, pedidos.cliente, pedidos.datahora, pedidos.obs, pedidos.produto, pedidos.al, pedidos.la, pedidos.quantidade, pedidos.valorunitario, pedidos.subtotal, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome AS situacao FROM pedidos left JOIN situacao ON pedidos.situacao = situacao.id WHERE pedidos.id = :id";
+        $sql = "SELECT pedidos.id, pedidos.datahora, clientes.nomecompleto AS cliente, pedidos.total, pedidos.faltapagar, situacao.nome AS situacao, pedidos.obs, pedidos.valorfrete, pedidos.taxacartao, pedidos.valorpago, pedidos.desconto FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente LEFT JOIN situacao ON situacao.id = pedidos.situacao WHERE pedidos.id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
+        return $array;
+    }
+
+    public function getPedidoProdutosEdit($id) {
+        $array = array();
+
+        $sql = $this->pdo->prepare("SELECT produtos.nome AS produto, pedido_produtos.al, pedido_produtos.la, produtos.unidademedida AS uni, pedido_produtos.quantidade, produtos.valor AS valoruni, pedido_produtos.quantidade*produtos.valor AS subtotal FROM pedido_produtos LEFT JOIN produtos ON produtos.id = id_produto WHERE id_pedido = :id");
+        $sql->bindValue(":id", $id);
         $sql->execute();
 
         if($sql->rowCount() > 0) {
