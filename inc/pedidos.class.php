@@ -219,7 +219,7 @@ class pedidos {
     public function gerarRelatorioDevedores($anomes) {
 		$array = array();
 
-		$sql = 'SELECT cliente, total, valorpago, faltapagar, datahora FROM pedidos WHERE datahora LIKE :datahora"%" AND faltapagar > 0';
+		$sql = 'SELECT pedidos.datahora, clientes.nomecompleto AS cliente, pedidos.total, pedidos.valorpago, pedidos.faltapagar FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE pedidos.datahora LIKE :datahora"%" AND pedidos.faltapagar > 0';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(":datahora", $anomes);
 		$sql->execute();

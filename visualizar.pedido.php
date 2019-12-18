@@ -28,36 +28,10 @@ $u = new usuarios($pdo);
 $u->setUsuario($_SESSION['logado']);
 $pd = new pedidos($pdo);
 $pedidos = $pd->getPedidoVisualizar(explode('=',$_GET['cliente'])[1]);
+$pedido_produtos = $pd->getPedidoProdutosEdit(explode('=',$_GET['cliente'])[1]);
 $c = new clientes($pdo);
 $clientes = $c->getClienteVisualizar(explode('?',$_GET['cliente'])[0]);
-$p = new produtos($pdo);
-$produtos = $p->getProduto();
 
-$unidade_e_produto = array();
-foreach($produtos as $produto) {
-    array_push($unidade_e_produto, $produto['unidademedida']."*".$produto['nome']);
-}
-
-$produtos_v_array = array();
-foreach($pedidos as $pedido) {
-    if($pedido['produto'] != "") {
-        $produtos_v_array = explode(",", $pedido['produto']);
-    }
-     $la_v_array = explode(",", $pedido['la']);
-     $al_v_array = explode(",", $pedido['al']);
-     $quantidade_v_array = explode(",", $pedido['quantidade']);   
-     $valorunitario_v_array = explode("-", $pedido['valorunitario']);
-     $subtotal_v_array = explode("-" , $pedido['subtotal']);
-}
-
-$array_unidade = array();
-for($i = 0; $i < count($produtos_v_array); $i++) {
-    for($j = 0; $j < count($unidade_e_produto); $j++) {
-        if($produtos_v_array[$i] === explode("*", $unidade_e_produto[$j])[1]) {
-            array_push($array_unidade, explode("*", $unidade_e_produto[$j])[0]);
-        }
-    }
-}
 
 $html = '
 <table style="width: 100%;margin-bottom: 30px">
@@ -121,21 +95,20 @@ $html = '
         </tr>
     </theader>
     <tbody>';
-    if(count($produtos_v_array) > 0):
-        for($i = 0; $i < count($produtos_v_array); $i++):
+    foreach($pedido_produtos as $pedido_produto):
        $html .= '<tr>
-            <td style="text-align: left;text-transform:uppercase;">'.$produtos_v_array[$i].'</td>            
-            <td style="text-align: center;text-transform:uppercase;">'.$array_unidade[$i].'</td>';
-            if($array_unidade[$i] === "m²"):
-                $html .= '<td style="text-align: center;">'.str_replace('.', ',', $al_v_array[$i]).'x'.str_replace('.',',', $la_v_array[$i]).'</td>';
+            <td style="text-align: left;text-transform:uppercase;">'.$pedido_produto['produto'].'</td>            
+            <td style="text-align: center;text-transform:uppercase;">'.$pedido_produto['uni'].'</td>';
+            if($pedido_produto['uni'] === "m²"):
+                $html .= '<td style="text-align: center;">'.str_replace('.', ',', $pedido_produto['al']).'x'.str_replace('.',',', $pedido_produto['la']).'</td>';
             else:
                 $html .= '<td style="text-align: center"></td>';
             endif;    
-            $html .= '<td style="text-align: center;">'.$quantidade_v_array[$i].'</td>
-            <td style="text-align: center;">'.$valorunitario_v_array[$i].'</td>
-            <td style="text-align: center;">'.$subtotal_v_array[$i].'</td>;
+            $html .= '<td style="text-align: center;">'.$pedido_produto['quantidade'].'</td>
+            <td style="text-align: center;">'."R$ ".number_format($pedido_produto['valoruni'], 2, ',', '.').'</td>
+            <td style="text-align: center;">'."R$ ".number_format($pedido_produto['subtotal'], 2, ',', '.').'</td>;
         </tr>';
-        endfor;endif;
+        endforeach;
     $html .= '</tbody>
 </table>
 <table style="margin-top: 10px;width: 100%;font-size: 8pt;">
