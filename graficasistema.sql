@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 18-Dez-2019 às 15:16
+-- Tempo de geração: 19-Dez-2019 às 02:39
 -- Versão do servidor: 10.3.16-MariaDB
 -- versão do PHP: 7.3.7
 
@@ -65,7 +65,8 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `nomecompleto`, `fone`, `cep`, `rua`, `numero`, `complemento`, `bairro`, `cidade`, `uf`) VALUES
-(12, 'Ramon De Oliveira Farias', '81 9 9999-9747', '', '', '', '', '', '', '');
+(12, 'Ramon De Oliveira Farias', '81 9 9999-9747', '', '', '', '', '', '', ''),
+(15, 'Juan De Oliveira Farias', '81 9 9999-9747', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -87,11 +88,7 @@ CREATE TABLE `historico` (
 --
 
 INSERT INTO `historico` (`id`, `id_usuario`, `datahora`, `ip`, `so`, `Navegador`) VALUES
-(20, 1, '2019-12-17 10:12:00', '::1', 'Windows 10', 'Firefox'),
-(21, 1, '2019-12-17 23:11:00', '::1', 'Windows 10', 'Firefox'),
-(22, 1, '2019-12-18 00:18:00', '::1', 'Windows 10', 'Firefox'),
-(23, 1, '2019-12-18 01:02:00', '::1', 'Windows 10', 'Firefox'),
-(24, 1, '2019-12-18 10:44:00', '::1', 'Windows 10', 'Firefox');
+(26, 1, '2019-12-18 13:53:00', '::1', 'Windows 10', 'Firefox');
 
 -- --------------------------------------------------------
 
@@ -136,7 +133,7 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`id`, `id_cliente`, `datahora`, `obs`, `valorfrete`, `taxacartao`, `desconto`, `total`, `valorpago`, `faltapagar`, `situacao`) VALUES
-(35, 12, '2019-12-18 11:08:00', '', 0.00, 0.00, 0.00, 12.25, 0.00, 12.25, 27);
+(26, 15, '2019-12-18 22:31:00', '', 0.00, 0.00, 0.00, 6.00, 0.00, 6.00, 27);
 
 -- --------------------------------------------------------
 
@@ -145,11 +142,13 @@ INSERT INTO `pedidos` (`id`, `id_cliente`, `datahora`, `obs`, `valorfrete`, `tax
 --
 
 CREATE TABLE `pedido_produtos` (
+  `id` int(11) NOT NULL,
   `id_pedido` int(11) NOT NULL,
-  `id_produto` int(11) NOT NULL,
-  `quantidade` varchar(10) NOT NULL,
-  `al` varchar(10) NOT NULL,
-  `la` varchar(10) NOT NULL,
+  `produto` varchar(100) NOT NULL,
+  `uni` varchar(10) NOT NULL,
+  `al` int(11) NOT NULL,
+  `la` int(11) NOT NULL,
+  `quantidade` int(11) NOT NULL,
   `valoruni` float(9,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -157,9 +156,8 @@ CREATE TABLE `pedido_produtos` (
 -- Extraindo dados da tabela `pedido_produtos`
 --
 
-INSERT INTO `pedido_produtos` (`id_pedido`, `id_produto`, `quantidade`, `al`, `la`, `valoruni`) VALUES
-(35, 263, '1', '1', '1', 7.00),
-(35, 270, '1', '1', '1', 5.25);
+INSERT INTO `pedido_produtos` (`id`, `id_pedido`, `produto`, `uni`, `al`, `la`, `quantidade`, `valoruni`) VALUES
+(48, 26, 'Copo Porcelana', 'uni', 1, 1, 1, 6.00);
 
 -- --------------------------------------------------------
 
@@ -171,17 +169,9 @@ CREATE TABLE `produtos` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `categoria` int(11) DEFAULT NULL,
-  `unidademedida` varchar(100) NOT NULL,
+  `unidademedida` varchar(10) NOT NULL,
   `valor` float(9,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `produtos`
---
-
-INSERT INTO `produtos` (`id`, `nome`, `categoria`, `unidademedida`, `valor`) VALUES
-(263, 'Banner 25x12', 34, 'm²', 6.00),
-(270, 'Copo de porcelana', 36, 'uni', 5.25);
 
 -- --------------------------------------------------------
 
@@ -288,8 +278,8 @@ ALTER TABLE `pedidos`
 -- Índices para tabela `pedido_produtos`
 --
 ALTER TABLE `pedido_produtos`
-  ADD KEY `id_pedido` (`id_pedido`) USING BTREE,
-  ADD KEY `id_produto` (`id_produto`) USING BTREE;
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pedido_produtos_ibfk_1` (`id_pedido`);
 
 --
 -- Índices para tabela `produtos`
@@ -330,13 +320,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `historico`
 --
 ALTER TABLE `historico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de tabela `historico_senha`
@@ -348,13 +338,19 @@ ALTER TABLE `historico_senha`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT de tabela `pedido_produtos`
+--
+ALTER TABLE `pedido_produtos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
 
 --
 -- AUTO_INCREMENT de tabela `situacao`

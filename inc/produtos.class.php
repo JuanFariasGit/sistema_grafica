@@ -129,5 +129,17 @@ class produtos {
 			$array = $sql->fetchAll();
 		}
 		return $array;
-	}
+    }
+    
+    public function getUni($id) {
+        $sql = "SELECT unidademedida FROM produtos WHERE id = :id";
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $sql = $sql->fetch();
+            $uni = $sql['unidademedida'];
+        } 
+        return $uni; 
+    }
 }

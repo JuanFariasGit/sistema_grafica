@@ -36,14 +36,15 @@ $situacoes = $pd->getSituacao();
 $pedidos = $pd->getPedidoEdit($_GET['id']);
 $pedido_produtos = $pd->getPedidoProdutosEdit($_GET['id']);
 
-
+$produtospedido = $quantidade = $al = $la = $valorunitario = "";
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id_pedido'];
     $cliente_id = $_POST['cliente'];
     $datahora = $_POST['datahora'];
     $obs = $_POST['obs'];
     if(!empty($_POST['produtospedido'])) {
-        $produtospedido = $p->getIdProduto($_POST['produtospedido']);
+        $produtospedido = $_POST['produtospedido'];
+        $id_produtos    = $p->getIdProduto($_POST['produtospedido']);
     }
     if(!empty($_POST['quantidade'])) {
         $quantidade = $_POST['quantidade'];
@@ -57,9 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!empty($_POST['valorunitario'])) {
         $valorunitario = $_POST['valorunitario'];
     }
-    if(!empty($_POST['subtotal'])) {
-        $subtotal = $_POST['subtotal'];
-    }
+    
     $valor_frete = $_POST['valor_frete'];
     $taxa_cartao = $_POST['taxa_cartao'];
     $desconto = $_POST['desconto'];
@@ -69,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $situacao = explode("|",$_POST['situacao'])[1];  
        
     
-    $pd->upPedido($id, $cliente_id, $datahora, $obs, $produtospedido, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto,$total, $valor_pago, $falta_pagar, $situacao);
+    $pd->upPedido($id, $cliente_id, $datahora, $obs, $produtospedido, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $taxa_cartao, $desconto, $total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
 }
 ?>

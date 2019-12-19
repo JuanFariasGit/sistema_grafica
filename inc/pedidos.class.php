@@ -26,7 +26,7 @@ class pedidos {
         }
     }
 
-    public function addPedido($id , $id_cliente, $datahora, $obs, $produtos_id, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao) {
+    public function addPedido($id , $id_cliente, $datahora, $obs, $produtos, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao) {
         $sql = "INSERT INTO pedidos (id, id_cliente, datahora, obs, valorfrete, taxacartao, desconto, total, valorpago, faltapagar, situacao) VALUES (:id, :id_cliente, STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), :obs, :valorfrete, :taxacartao, :desconto, :total, :valorpago, :faltapagar, :situacao)";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
@@ -42,19 +42,25 @@ class pedidos {
         $sql->bindValue(':situacao', $situacao);
         $sql->execute();
                 
-        foreach($produtos_id as $i => $produto_id) {
-            $sql = $this->pdo->prepare("INSERT INTO pedido_produtos (id_pedido, id_produto) VALUES (:id_pedido, :id_produto)");
-            $sql->bindValue(":id_pedido", $id);
-            $sql->bindValue(":id_produto", $produto_id);
+        foreach($produtos as $i => $produto) {
+            $sql = "SELECT unidademedida FROM produtos WHERE id = :id_produto";
+            $sql = $this->pdo->prepare($sql);
+            $sql->bindValue(":id_produto", $id_produtos[$i]);
             $sql->execute();
 
-            $sql = $this->pdo->prepare("UPDATE pedido_produtos SET al = :altura, la = :largura, quantidade = :quantidade, valoruni = :valorunitario WHERE id_pedido = :id_pedido AND id_produto = :id_produto");
-            $sql->bindValue(":altura", $al[$i]);
-            $sql->bindValue(":largura", $la[$i]);
-            $sql->bindValue(":valorunitario", str_replace(",", ".", explode(" ", ($valorunitario[$i]))[1]));
-            $sql->bindValue(":quantidade", $quantidade[$i]);
+            if ($sql->rowCount() > 0) {
+                $sql = $sql->fetch();
+                $uni = $sql['unidademedida'];
+            } 
+            
+            $sql = $this->pdo->prepare("INSERT INTO pedido_produtos (id_pedido, produto, uni, al, la, quantidade, valoruni) VALUES (:id_pedido, :produto, :uni, :al, :la, :quantidade, :valoruni)");
             $sql->bindValue(":id_pedido", $id);
-            $sql->bindValue(":id_produto", $produto_id);
+            $sql->bindValue(":produto", $produto);
+            $sql->bindValue(":uni", $uni);
+            $sql->bindValue(":al", $al[$i]);
+            $sql->bindValue(":la", $la[$i]);
+            $sql->bindValue(":quantidade", $quantidade[$i]);
+            $sql->bindValue(":valoruni", number_format(explode(" ", $valorunitario[$i])[1], 2, ",", "."));
             $sql->execute();
         }     
     }
@@ -114,7 +120,7 @@ class pedidos {
         $sql->execute();
     }
 
-    public function upPedido($id, $id_cliente, $datahora, $obs, $produtos, $al, $la, $quantidade, $valorunitario, $subtotal, $valor_frete, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao) {
+    public function upPedido($id , $id_cliente, $datahora, $obs, $produtos, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao) {
         $sql = "UPDATE pedidos SET id_cliente = :id_cliente, datahora = STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), obs = :obs, valorfrete = :valorfrete, taxacartao = :taxacartao, desconto = :desconto, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao WHERE id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
@@ -129,22 +135,32 @@ class pedidos {
         $sql->bindValue(':faltapagar', $faltapagar);
         $sql->bindValue(':situacao', $situacao);
         $sql->execute();
-       
+        
+        $sql = $this->pdo->prepare("DELETE FROM pedido_produtos WHERE id_pedido = :id");
+        $sql->bindValue(":id", $id);
+        $sql->execute();
 
-        foreach($produtos_id as $i => $produto_id) {
-            $sql = $this->pdo->prepare("UPDATE pedido_produtos SET id_pedido = :id_pedido, id_produto = :id_produto");
-            $sql->bindValue(":id_pedido", $id);
-            $sql->bindValue(":id_produto", $produto_id);
+        foreach($produtos as $i => $produto) {
+            $sql = "SELECT unidademedida FROM produtos WHERE id = :id_produto";
+            $sql = $this->pdo->prepare($sql);
+            $sql->bindValue(":id_produto", $id_produtos[$i]);
             $sql->execute();
 
-            $sql = $this->pdo->prepare("UPDATE pedido_produtos SET al = :altura, la = :largura, quantidade = :quantidade WHERE id_pedido = :id_pedido AND id_produto = :id_produto");
-            $sql->bindValue(":altura", $al[$i]);
-            $sql->bindValue(":largura", $la[$i]);
+            if ($sql->rowCount() > 0) {
+                $sql = $sql->fetch();
+                $uni = $sql['unidademedida'];
+            } 
+            
+            $sql = $this->pdo->prepare("INSERT INTO pedido_produtos (id_pedido, produto, uni, al, la, quantidade, valoruni) VALUES (:id_pedido, :produto, :uni, :al, :la, :quantidade, :valoruni)");
+            $sql->bindValue(":id_pedido", $id);
+            $sql->bindValue(":produto", $produto);
+            $sql->bindValue(":uni", $uni);
+            $sql->bindValue(":al", $al[$i]);
+            $sql->bindValue(":la", $la[$i]);
             $sql->bindValue(":quantidade", $quantidade[$i]);
-            $sql->bindValue(":id_pedido", $id);
-            $sql->bindValue(":id_produto", $produto_id);
+            $sql->bindValue(":valoruni", number_format(explode(" ", $valorunitario[$i])[1], 2, ",", "."));
             $sql->execute();
-        }     
+        }
     }
 
     public function getPedidoEdit($id) {
@@ -164,7 +180,7 @@ class pedidos {
     public function getPedidoProdutosEdit($id) {
         $array = array();
 
-        $sql = $this->pdo->prepare("SELECT produtos.nome AS produto, pedido_produtos.al, pedido_produtos.la, produtos.unidademedida AS uni, pedido_produtos.quantidade, pedido_produtos.valoruni, pedido_produtos.al*pedido_produtos.la*pedido_produtos.quantidade*pedido_produtos.valoruni AS subtotal FROM pedido_produtos LEFT JOIN produtos ON produtos.id = id_produto WHERE id_pedido = :id");
+        $sql = $this->pdo->prepare("SELECT produto, uni, al, la, quantidade, valoruni, al*la*quantidade*valoruni  AS subtotal FROM pedido_produtos WHERE id_pedido = :id");
         $sql->bindValue(":id", $id);
         $sql->execute();
 
