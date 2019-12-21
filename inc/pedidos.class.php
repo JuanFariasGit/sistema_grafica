@@ -244,5 +244,30 @@ class pedidos {
 			$array = $sql->fetchAll();
 		}
 		return $array;
-	}
+    }
+    
+    public function getRelatorioQuatidadePedidosClientes($anomes) {
+        $array_cliente = array();
+        $array_relatorio_cliente = array();
+
+        $sql = $this->pdo->prepare('SELECT clientes.nomecompleto AS cliente FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE pedidos.datahora LIKE :datahora"%" ORDER BY clientes.nomecompleto');
+        $sql->bindValue(":datahora", $anomes);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) { 
+            $array_cliente = $sql->fetchAll();
+            $verificador = "";
+            foreach($array_cliente as $cliente) {
+                if ($verificador != $cliente) {
+                    $verificador = $cliente;
+                    $sql = $this->pdo->prepare('SELECT pedidos.datahora, clientes.nomecompleto AS cliente, count(pedidos.id_cliente) AS quantidade FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE clientes.nomecompleto = :cliente AND datahora LIKE :datahora"%"');
+                    $sql->bindValue(":cliente", $cliente['cliente']);
+                    $sql->bindValue(":datahora", $anomes);
+                    $sql->execute();
+                    array_push($array_relatorio_cliente, $sql->fetch());
+                }    
+            }
+            return $array_relatorio_cliente;
+        }
+    }
 }

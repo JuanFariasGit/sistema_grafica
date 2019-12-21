@@ -34,6 +34,7 @@ if(!empty($_GET['gerar_relatorio'])) {
     $anomes = implode('-', $array_r);
     $relatorio_geral = $p->gerarRelatorioGeral($anomes);
     $relatorio_devedores = $p->gerarRelatorioDevedores($anomes);
+    $relatorio_pedidos_quantidade_clientes = $p->getRelatorioQuatidadePedidosClientes($anomes);
 }
 ?>
 
@@ -44,7 +45,7 @@ if(!empty($_GET['gerar_relatorio'])) {
             <h4 class="text-center text-white font-weight-bold">RELATÓRIO</h4>
             <form method="get">
                 <div class="form-group d-sm-flex justify-content-center container-fluid">
-                    <input class="form-control mx-sm-0 mx-auto" type="search" name="gerar_relatorio" style="max-width: 200px" placeholder="MÊS/ANO">
+                    <input class="form-control mx-sm-0 mx-auto" type="search" name="gerar_relatorio" style="max-width: 200px" pattern="[0-9]{2}/[0-9]{4}" placeholder="MÊS/ANO">
                     <button class="btn btn-sm btn-block btn-success mx-sm-2 my-sm-0 mx-auto my-2 font-weight-bold"style ="max-width: 150px">GERAR RELATÓRIO</button>
                 </div>    
             </form>
@@ -55,8 +56,8 @@ if(!empty($_GET['gerar_relatorio'])) {
                     <tr>
                         <th scope="col">Mês E Ano</th>
                         <th scope="col">Total</th>
-                        <th scope="col">Total Pago</th>
-                        <th scope="col">Falta Pagar</th>
+                        <th scope="col">Total Recebido</th>
+                        <th scope="col">Falta Receber</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +92,25 @@ if(!empty($_GET['gerar_relatorio'])) {
                         <td><?php echo "R$ ".number_format($r['faltapagar'],2,',','.'); ?></td>
                     </tr>
                     <?php endforeach; ?> 
+                </tbody>
+            </table>
+            <h4 class="text-center text-white font-weight-bold">QUANTIDADE DE PEDIDOS POR CLIENTE</h4>
+            <table class="table table-dark text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">Data E Hora</th>
+                        <th>Cliente</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach($relatorio_pedidos_quantidade_clientes as $r): ?>
+                    <tr>
+                        <td><?php echo date('d/m/Y H:i',strtotime($r['datahora'])); ?></td>
+                        <td><?php echo $r['cliente']; ?></td>
+                        <td><?php echo $r['quantidade']; ?></td>
+                    </tr>
+                <?php endforeach; ?>    
                 </tbody>
             </table>
                 <?php elseif(isset($_GET['gerar_relatorio'])): echo '<h5 class="text-center text-danger pt-3">Nada foi encontrado referente a '.$_GET['gerar_relatorio'].' !!!</h5>'; ?>
