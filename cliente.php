@@ -141,8 +141,8 @@ if(empty($_GET['buscarCliente'])) {
                         <td><p class='my-1'><?php echo $cliente['cidade'];?></p></td>
                         <td><p class='my-1'><?php echo $cliente['uf'];?></p></td>
                         <td>
-                          <a class="btn btn-sm btn-success my-1" href="<?php echo BASE_URL; ?>edit.cliente?id=<?php echo $cliente['id']; ?>">EDIT</a>
-                          <a id="<?php echo $cliente['id']; ?>" name="<?php echo $cliente['nomecompleto']; ?>" class="btn btn-danger btn-sm" onclick="delCliente(this)" style="cursor:pointer">DEL</a>
+                          <a href="<?php echo BASE_URL; ?>edit.cliente?id=<?php echo $cliente['id']; ?>"><i class='fas fa-pen' style='font-size:24px'></i></a>
+                          <a id="<?php echo $cliente['id']; ?>" name="<?php echo $cliente['nomecompleto']; ?>" onclick="delCliente(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:24px'></i></a>
                         </td>
                       </tr>
                       <?php endforeach; ?>

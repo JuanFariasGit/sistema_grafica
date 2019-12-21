@@ -141,8 +141,8 @@ if(empty($_GET['buscarUsuario'])) {
                               </p>
                             </td>
                             <td>
-                              <a class="btn btn-sm btn-success my-1" href="<?php echo BASE_URL; ?>edit.usuario?id=<?php echo $usuario['id']; ?>">EDIT</a>
-                              <a id="<?php echo $usuario['id']; ?>" name="<?php echo $usuario['nome']; ?>" class="btn btn-danger btn-sm <?php echo $usuario['permissao'] ?>" onclick="delUsuario(this)" style="cursor:pointer">DEL</a>
+                              <a href="<?php echo BASE_URL; ?>edit.usuario?id=<?php echo $usuario['id']; ?>"><i class='fas fa-pen' style='font-size:24px'></i></a>
+                              <a id="<?php echo $usuario['id']; ?>" name="<?php echo $usuario['nome']; ?>" class="<?php echo $usuario['permissao'] ?>" onclick="delUsuario(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:24px'></i></a>
                             </td>
                           </tr>
                           <?php endforeach; ?>

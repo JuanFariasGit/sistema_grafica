@@ -31,6 +31,10 @@ $usuariologado = $u->getUsuarioNome($_SESSION['logado']);
 
 $h = new historico($pdo);
 
+if(empty($_SESSION['senha_historico'])) {
+    header("Location: ".BASE_URL."senha.historico");
+}
+
 if(!empty(explode("?usuario=", $_GET['id_acesso'])[0]) && $u->temPermissao("ADMINISTRADOR")) {
     $id = explode("?usuario=", $_GET['id_acesso'])[0];
     

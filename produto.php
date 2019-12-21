@@ -117,8 +117,8 @@ if(empty($_GET['buscarProduto'])) {
                         <td><p class='my-1'><?php echo $produto['categoria'];?></p></td>
                         <td><p class='my-1'><?php echo "R$ ".str_replace(".", ",", $produto['valor']);?></p></td>
                         <td>
-                          <a class="btn btn-sm btn-success my-1" href="<?php echo BASE_URL; ?>edit.produto?id=<?php echo $produto['id']; ?>">EDIT</a>
-                          <a id="<?php echo $produto['id']; ?>" name="<?php echo $produto['nome']; ?>" class="btn btn-danger btn-sm" onclick="delProduto(this)" style="cursor:pointer">DEL</a>
+                          <a href="<?php echo BASE_URL; ?>edit.produto?id=<?php echo $produto['id']; ?>"><i class='fas fa-pen' style='font-size:24px'></i></a>
+                          <a id="<?php echo $produto['id']; ?>" name="<?php echo $produto['nome']; ?>" onclick="delProduto(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:24px'></i></a>
                         </td>
                       </tr>
                       <?php endforeach; ?>
