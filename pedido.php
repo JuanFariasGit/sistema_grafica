@@ -214,7 +214,13 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                         <td><?php echo $pedido['cliente']; ?></td>
                         <td><?php echo "R$ ".str_replace(".",",", $pedido['total']); ?></td>
                         <td><?php echo "R$ ".str_replace(".",",", $pedido['faltapagar']); ?></td>
-                        <td><?php echo $pedido['situacao']; ?></td>
+                        <td>
+                            <select class="form-control mb-2 mx-auto" name="situacao_ajax" style="max-width: 150px">
+                                <?php foreach($situacoes as $situacao): ?>
+                                <option value="<?php echo $situacao['id']; ?>|<?php echo $pedido['id']; ?>" <?php echo ($pedido['situacao'] == $situacao['nome']) ? "selected='selected'" : ""; ?>><?php echo $situacao["nome"]; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
                         <td><?php echo $pedido['obs']; ?></td>
                         <td>
                           <a href="<?php echo BASE_URL; ?>edit.pedido?id=<?php echo $pedido['id']; ?>"><i class='fas fa-pen' style='font-size:24px'></i></a>

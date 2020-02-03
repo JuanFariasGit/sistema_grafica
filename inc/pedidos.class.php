@@ -270,4 +270,11 @@ class pedidos {
             return $array_relatorio_cliente;
         }
     }
+
+    public function upSituacaoPedido($id_pedido, $id_situacao) {
+        $sql = $this->pdo->prepare("UPDATE pedidos SET situacao = :id_situacao WHERE id = :id_pedido");
+        $sql->bindValue(":id_pedido", $id_pedido);
+        $sql->bindValue(":id_situacao", $id_situacao);
+        $sql->execute();
+    }
 }

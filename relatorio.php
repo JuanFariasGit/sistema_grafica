@@ -29,7 +29,7 @@ $usuariologado = $u->getUsuarioNome($_SESSION['logado']);
 $p = new pedidos($pdo);
 
 if(!empty($_GET['gerar_relatorio'])) {
-    $array = explode('/', $_GET['gerar_relatorio']);
+    $array = explode('/', trim($_GET['gerar_relatorio']));
     $array_r = array_reverse($array);
     $anomes = implode('-', $array_r);
     $relatorio_geral = $p->gerarRelatorioGeral($anomes);
@@ -45,7 +45,7 @@ if(!empty($_GET['gerar_relatorio'])) {
             <h4 class="text-center text-white font-weight-bold">RELATÓRIO</h4>
             <form method="get">
                 <div class="form-group d-sm-flex justify-content-center container-fluid">
-                    <input class="form-control mx-sm-0 mx-auto" type="search" name="gerar_relatorio" style="max-width: 200px" pattern="[0-9]{2}/[0-9]{4}" placeholder="MÊS/ANO">
+                    <input class="form-control mx-sm-0 mx-auto" type="search" name="gerar_relatorio" style="max-width: 300px" placeholder="MÊS/ANO OU DIA/MÊS/ANO">
                     <button class="btn btn-sm btn-block btn-success mx-sm-2 my-sm-0 mx-auto my-2 font-weight-bold"style ="max-width: 150px">GERAR RELATÓRIO</button>
                 </div>    
             </form>
@@ -54,7 +54,7 @@ if(!empty($_GET['gerar_relatorio'])) {
             <table class="table table-dark text-center">
                 <thead>
                     <tr>
-                        <th scope="col">Mês E Ano</th>
+                        <th scope="col"><?php echo (strlen(trim($_GET['gerar_relatorio'])) == 7) ? "Mês/Ano" : "Dia/Mês/Ano"; ?></th>
                         <th scope="col">Total</th>
                         <th scope="col">Total Recebido</th>
                         <th scope="col">Falta Receber</th>
@@ -63,7 +63,7 @@ if(!empty($_GET['gerar_relatorio'])) {
                 <tbody>
                    <?php foreach($relatorio_geral as $r): ?>
                     <tr>
-                        <td><?php echo date('m/Y',strtotime($r['datahora'])); ?></td>
+                        <td><?php echo (strlen(trim($_GET['gerar_relatorio'])) == 7) ? date('m/Y',strtotime($r['datahora'])) : date('d/m/Y',strtotime($r['datahora'])); ?></td>
                         <td><?php echo "R$ ".number_format($r['total_'],2,',','.'); ?></td>
                         <td><?php echo "R$ ".number_format($r['valor_pago'],2,',','.'); ?></td>
                         <td><?php echo "R$ ".number_format($r['falta_pagar'],2,',','.'); ?></td>

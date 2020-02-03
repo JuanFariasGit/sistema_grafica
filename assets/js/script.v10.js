@@ -388,3 +388,15 @@ function mascara_datahora(form, fieldName, evento)
         fieldName.value = datahora;
     }
 }
+
+$('[name=situacao_ajax]').change(function() {
+    const id_pedido = $(this).val().split("|")[1];
+    const id_situacao = $(this).val().split("|")[0];
+
+    $.ajax({
+        type:'POST',
+        url:'http://localhost/sistema_grafica/situacao_ajax',
+        data:{id_pedido:id_pedido, id_situacao:id_situacao}
+    });
+
+});
