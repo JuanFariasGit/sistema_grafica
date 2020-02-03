@@ -73,7 +73,10 @@ class pedidos {
         $sql->execute();
 
         if($sql->rowCount() > 0) {
-            $array = $sql->fetchAll();
+            $pedidos = $sql->fetchAll();
+            foreach($pedidos as $pedido) {
+                ($pedido['situacao'] != "Concluído") ? array_push($array, $pedido) : "";
+            }
         }
         return $array;
     }

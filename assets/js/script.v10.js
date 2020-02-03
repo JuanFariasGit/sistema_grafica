@@ -390,13 +390,19 @@ function mascara_datahora(form, fieldName, evento)
 }
 
 $('[name=situacao_ajax]').change(function() {
+    const nome_situacao = $(this).val().split("|")[2];
     const id_pedido = $(this).val().split("|")[1];
     const id_situacao = $(this).val().split("|")[0];
 
     $.ajax({
         type:'POST',
         url:'http://localhost/sistema_grafica/situacao_ajax',
-        data:{id_pedido:id_pedido, id_situacao:id_situacao}
+        data:{id_pedido:id_pedido, id_situacao:id_situacao},
+        success: function() {
+            if(nome_situacao == "Concluído") {
+                $("#"+id_pedido).remove();
+            }         
+        }
     });
 
 });

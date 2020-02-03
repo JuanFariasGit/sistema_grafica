@@ -23,9 +23,15 @@ if(!empty($_SESSION['logado'])) {
     exit;
   }
 
+$u = new usuarios($pdo);
+$u->setUsuario($_SESSION['logado']);
 
+if(($u->temPermissao("ADMINISTRADOR")) || ($u->temPermissao("PADRÃO"))) {
   $id_pedido = $_POST['id_pedido'];
   $id_situacao = $_POST['id_situacao'];
 
   $pd = new pedidos($pdo);
   $pd->upSituacaoPedido($id_pedido, $id_situacao);
+} else {
+  header("Location: ".BASE_URL."login");
+}

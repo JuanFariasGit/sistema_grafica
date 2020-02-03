@@ -208,16 +208,16 @@ $date = date('d/m/Y H:i');echo $date; ?>">
             <tbody>
             <?php if(count($pedidos) > 0): ?>
                 <?php foreach($pedidos as $pedido): ?>
-                    <tr>
+                    <tr id="<?php echo $pedido['id']; ?>">
                         <td><?php echo $pedido['id']; ?></td>
                         <td><?php echo date('d/m/Y H:i',strtotime($pedido['datahora'])); ?></td>
                         <td><?php echo $pedido['cliente']; ?></td>
                         <td><?php echo "R$ ".str_replace(".",",", $pedido['total']); ?></td>
                         <td><?php echo "R$ ".str_replace(".",",", $pedido['faltapagar']); ?></td>
                         <td>
-                            <select class="form-control mb-2 mx-auto" name="situacao_ajax" style="max-width: 150px">
+                            <select class="form-control mb-2 mx-auto bg-dark text-white border-0 rounded-0" name="situacao_ajax" style="max-width: 150px">
                                 <?php foreach($situacoes as $situacao): ?>
-                                <option value="<?php echo $situacao['id']; ?>|<?php echo $pedido['id']; ?>" <?php echo ($pedido['situacao'] == $situacao['nome']) ? "selected='selected'" : ""; ?>><?php echo $situacao["nome"]; ?></option>
+                                <option value="<?php echo $situacao['id']; ?>|<?php echo $pedido['id']; ?>|<?php echo $situacao['nome']; ?>" <?php echo ($pedido['situacao'] == $situacao['nome']) ? "selected='selected'" : ""; ?>><?php echo $situacao["nome"]; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </td>
@@ -228,7 +228,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                           <a id="<?php echo $pedido['id']; ?>" name="<?php echo $pedido['cliente']; ?>" onclick="delPedido(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:24px'></i></a>
                         </td>
                     </tr>
-                <?php endforeach; ?> 
+                    <?php endforeach; ?> 
                 <?php else: echo "<h5 class='text-danger text-center'>Não há nenhum cadastro !!!</h5>"?>  
               <?php endif; ?> 
             </tbody>
