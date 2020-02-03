@@ -196,7 +196,7 @@ class pedidos {
     public function getPedidoBuscar($nome) {
 		$array = array();
 		
-		$sql = 'SELECT pedidos.id, pedidos.datahora, pedidos.cliente, pedidos.total, pedidos.faltapagar, pedidos.obs, situacao.nome AS situacao FROM pedidos left JOIN situacao ON situacao.id = pedidos.situacao WHERE (pedidos.cliente LIKE :nome"%" OR pedidos.cliente LIKE "%":nome OR pedidos.cliente LIKE "%":nome"%" OR situacao.nome LIKE :nome"%" OR situacao.nome LIKE "%":nome OR situacao.nome LIKE "%":nome"%")';
+		$sql = 'SELECT pedidos.id, clientes.nomecompleto as cliente, pedidos.datahora, pedidos.obs, pedidos.valorfrete, pedidos.taxacartao, pedidos.desconto, pedidos.total, pedidos.valorpago, pedidos.faltapagar, situacao.nome as situacao FROM pedidos LEFT JOIN clientes ON pedidos.id_cliente = clientes.id LEFT JOIN situacao ON pedidos.situacao = situacao.id WHERE clientes.nomecompleto LIKE "%":nome"%" OR situacao.nome LIKE "%":nome"%"';
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(":nome", $nome);
 		$sql->execute();
