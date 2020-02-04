@@ -58,6 +58,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     $valor_frete = $_POST['valor_frete'];
+    $valor_arte  = $_POST['valor_arte'];
+    $valor_outros = $_POST['valor_outros'];
     $taxa_cartao = $_POST['taxa_cartao'];
     $desconto = $_POST['desconto'];
     $total = str_replace(',','.', explode("Total: R$", $_POST['total']))[1];
@@ -65,7 +67,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $falta_pagar = str_replace(",",".", explode("Falta Pagar: R$", $_POST['falta_pagar']))[1];
     $situacao = explode("|",$_POST['situacao'])[1];  
     
-    $pd->addPedido($id, $cliente_id, $datahora, $obs, $produtospedido, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $taxa_cartao, $desconto, $total, $valor_pago, $falta_pagar, $situacao);
+    $pd->addPedido($id, $cliente_id, $datahora, $obs, $produtospedido, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $falta_pagar, $situacao);
     header("Location: ".BASE_URL."pedido");
 }
 
@@ -148,29 +150,37 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                         </div>
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-lg py-2">
-                                <label for="valor_frete">Valor Do Frete (R$)</label>
+                                <label for="valor_frete" style="font-size: 12px">Valor Do Frete (R$)</label>
                                 <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div class="col-lg py-2">
-                                <label for="taxa_cartao">Taxa De Cartão (%)</label>
+                                <label for="valor_arte" style="font-size: 12px">Valor De Arte (R$)</label>
+                                <input id="valor_arte" class="form-control" type="number" name="valor_arte" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
+                            </div>
+                            <div class="col-lg py-2">
+                                <label for="valor_outros" style="font-size: 12px">Outros (R$)</label>
+                                <input id="valor_outros" class="form-control" type="number" name="valor_outros" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
+                            </div>
+                            <div class="col-lg py-2">
+                                <label for="taxa_cartao" style="font-size: 12px">Taxa De Cartão (%)</label>
                                 <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div class="col-lg py-2">
-                                <label for="desconto">Desconto (R$):</label>
+                                <label for="desconto" style="font-size: 12px">Desconto (R$):</label>
                                 <input class="form-control" id="desconto" type="number" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()">
                             </div>
                             <div class="col-lg d-flex align-items-center">
-                                <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="Total: R$ 0,00" readonly='readonly'>
+                                <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="Total: R$ 0,00" readonly='readonly' style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">
-                                <label for="valor_pago">Valor Pago (R$)</label>
+                                <label for="valor_pago" style="font-size: 12px">Valor Pago (R$)</label>
                                 <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()" style="width: 80px">
                             </div>
                             <div class="col-lg d-flex align-items-center py-2">
-                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="Falta pagar: R$ 0,00" readonly='readonly'>
+                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="Falta pagar: R$ 0,00" readonly='readonly' style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">
-                                <label for="situacao">Situação: <a class="text-success" onclick="addSituacao()" style="cursor: pointer">(+)</a> <a class="text-primary" onclick="upSituacao()" style="cursor: pointer">(#)</a> <a class="text-danger" onclick="delSituacao()" style="cursor: pointer">(-)</a></label>
+                                <label for="situacao" style="font-size: 12px">Situação: <a class="text-success" onclick="addSituacao()" style="cursor: pointer">(+)</a> <a class="text-primary" onclick="upSituacao()" style="cursor: pointer">(#)</a> <a class="text-danger" onclick="delSituacao()" style="cursor: pointer">(-)</a></label>
                                 <select class="form-control mb-2" name="situacao" id="situacao" style="max-width: 150px">
                                     <option></option>
                                     <?php foreach($situacoes as $situacao): ?>

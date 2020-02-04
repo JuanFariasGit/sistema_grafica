@@ -12,33 +12,13 @@ function addproduto() {
     for(i = 0; i < document.getElementsByClassName('items').length; i++) {
         soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
     };
-    let valor_frete = Number(document.getElementById('valor_frete').value);
-    let taxa_cartao = Number(document.getElementById('taxa_cartao').value)/100;
-    let desconto = Number(document.getElementById('desconto').value);
-    if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-        document.getElementById('total').value = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-    }    
-    else if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0)) {
-        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma + valor_frete).toFixed(2).replace('.',',');
-    }
-    else if((document.getElementById('valor_frete').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-        document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma - desconto).toFixed(2).replace('.',',');
-    } 
-    else if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-    }
-    else if(document.getElementById('valor_frete').value.length > 0) {
-        document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
-    }
-    else if(document.getElementById('taxa_cartao').value.length > 0) {
-        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
-    }
-    else if(document.getElementById('desconto').value.length > 0) {
-        document.getElementById('total').value = 'Total: R$ '+(soma - desconto).toFixed(2).replace('.',',');
-    } 
-    else {
-        document.getElementById('total').value = 'Total: R$ '+soma.toFixed(2).replace('.',',');
-    }    
+    let valor_frete = (document.getElementById('valor_frete').value.length > 0) ? Number(document.getElementById('valor_frete').value) : 0;
+    let valor_arte = (document.getElementById('valor_arte').value.length > 0) ? Number(document.getElementById('valor_arte').value) : 0;
+    let valor_outros = (document.getElementById('valor_outros').value.length > 0) ? Number(document.getElementById('valor_outros').value) : 0;
+    let taxa_cartao = (document.getElementById('taxa_cartao').value.length > 0) ? Number(document.getElementById('taxa_cartao').value)/100 : 0;
+    let desconto = (document.getElementById('desconto').value.length > 0) ? Number(document.getElementById('desconto').value) : 0;
+    
+    document.getElementById('total').value = 'Total: R$ '+(valor_frete + valor_arte + valor_outros + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
     document.getElementById('falta_pagar').value = "Falta Pagar: R$ "+Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',','.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".",",");  
 }
 
@@ -59,34 +39,14 @@ function mudouvalor() {
     for(i = 0; i < document.getElementsByClassName('items').length; i++) {
         soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
     };
-    let valor_frete = Number(document.getElementById('valor_frete').value);
-    let taxa_cartao = Number(document.getElementById('taxa_cartao').value)/100;
-    let desconto = Number(document.getElementById('desconto').value);
-    if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-        document.getElementById('total').value = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-    }    
-    else if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0)) {
-        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma + valor_frete).toFixed(2).replace('.',',');
-    }
-    else if((document.getElementById('valor_frete').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-        document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma - desconto).toFixed(2).replace('.',',');
-    } 
-    else if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-    }
-    else if(document.getElementById('valor_frete').value.length > 0) {
-        document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
-    }
-    else if(document.getElementById('taxa_cartao').value.length > 0) {
-        document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
-    }
-    else if(document.getElementById('desconto').value.length > 0) {
-        document.getElementById('total').value = 'Total: R$ '+(soma - desconto).toFixed(2).replace('.',',');
-    } 
-    else {
-        document.getElementById('total').value = 'Total: R$ '+soma.toFixed(2).replace('.',',');
-    }    
-    document.getElementById('falta_pagar').value = "Falta Pagar: R$ "+Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',','.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".",",");    
+    let valor_frete = (document.getElementById('valor_frete').value.length > 0) ? Number(document.getElementById('valor_frete').value) : 0;
+    let valor_arte = (document.getElementById('valor_arte').value.length > 0) ? Number(document.getElementById('valor_arte').value) : 0;
+    let valor_outros = (document.getElementById('valor_outros').value.length > 0) ? Number(document.getElementById('valor_outros').value) : 0;
+    let taxa_cartao = (document.getElementById('taxa_cartao').value.length > 0) ? Number(document.getElementById('taxa_cartao').value)/100 : 0;
+    let desconto = (document.getElementById('desconto').value.length > 0) ? Number(document.getElementById('desconto').value) : 0;
+    
+    document.getElementById('total').value = 'Total: R$ '+(valor_frete + valor_arte + valor_outros + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
+    document.getElementById('falta_pagar').value = "Falta Pagar: R$ "+Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',','.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".",",");
 }
 
 function delItem(e) {
@@ -95,34 +55,14 @@ function delItem(e) {
     for(i = 0; i < document.getElementsByClassName('items').length; i++) {
         soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
       }; 
-      let valor_frete = Number(document.getElementById('valor_frete').value);
-      let taxa_cartao = Number(document.getElementById('taxa_cartao').value)/100;
-      let desconto = Number(document.getElementById('desconto').value);
-      if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-          document.getElementById('total').value = 'Total: R$ '+(valor_frete + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-      }    
-      else if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('valor_frete').value.length > 0)) {
-          document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma + valor_frete).toFixed(2).replace('.',',');
-      }
-      else if((document.getElementById('valor_frete').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-          document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma - desconto).toFixed(2).replace('.',',');
-      } 
-      else if((document.getElementById('taxa_cartao').value.length > 0) && (document.getElementById('desconto').value.length > 0)) {
-          document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-      }
-      else if(document.getElementById('valor_frete').value.length > 0) {
-          document.getElementById('total').value = 'Total: R$ '+(valor_frete + soma).toFixed(2).replace('.',',');
-      }
-      else if(document.getElementById('taxa_cartao').value.length > 0) {
-          document.getElementById('total').value = 'Total: R$ '+(taxa_cartao*soma + soma).toFixed(2).replace('.',',');
-      }
-      else if(document.getElementById('desconto').value.length > 0) {
-          document.getElementById('total').value = 'Total: R$ '+(soma - desconto).toFixed(2).replace('.',',');
-      } 
-      else {
-          document.getElementById('total').value = 'Total: R$ '+soma.toFixed(2).replace('.',',');
-      }    
-    document.getElementById('falta_pagar').value = "Falta Pagar: R$ "+Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',','.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".",",");   
+      let valor_frete = (document.getElementById('valor_frete').value.length > 0) ? Number(document.getElementById('valor_frete').value) : 0;
+      let valor_arte = (document.getElementById('valor_arte').value.length > 0) ? Number(document.getElementById('valor_arte').value) : 0;
+      let valor_outros = (document.getElementById('valor_outros').value.length > 0) ? Number(document.getElementById('valor_outros').value) : 0;
+      let taxa_cartao = (document.getElementById('taxa_cartao').value.length > 0) ? Number(document.getElementById('taxa_cartao').value)/100 : 0;
+      let desconto = (document.getElementById('desconto').value.length > 0) ? Number(document.getElementById('desconto').value) : 0;
+      
+      document.getElementById('total').value = 'Total: R$ '+(valor_frete + valor_arte + valor_outros + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
+      document.getElementById('falta_pagar').value = "Falta Pagar: R$ "+Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',','.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".",",");
 }
 
 function validar_redefinir_senha_logado() {
