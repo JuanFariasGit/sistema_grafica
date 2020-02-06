@@ -165,7 +165,7 @@ class pedidos {
             $sql->bindValue(":al", $al[$i]);
             $sql->bindValue(":la", $la[$i]);
             $sql->bindValue(":quantidade", $quantidade[$i]);
-            $sql->bindValue(":valoruni", number_format(explode(" ", $valorunitario[$i])[1], 2, ",", "."));
+            $sql->bindValue(":valoruni", str_replace(",", ".", explode(" ", $valorunitario[$i])[1]));
             $sql->execute();
         }
     }
