@@ -115,9 +115,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endforeach; ?>
         <?php else:
               require 'inc/menu.php';
-         echo    "<div class='d-flex flex-column justify-content-center align-items-center bg-dark text-white' style='min-height: 75vh'>
+         echo    "<div class='d-flex flex-column justify-content-center align-items-center bg-dark text-white' style='min-height: 50vh'>
                      <h4 class='font-weight-bold'>É presiso ter permissão de administrador</h4>
-                     <img class='my-2' width='100px' src='assets/imagens/logo.png'>
+                     <img class='my-2' width='300px' src='assets/imagens/logo.png'>
                  </div>
                 "         
        ?>         

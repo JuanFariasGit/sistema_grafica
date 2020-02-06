@@ -111,10 +111,12 @@ $html = '
         endforeach;
     $html .= '</tbody>
 </table>
-<table style="margin-top: 10px;width: 100%;font-size: 8pt;">
+<table style="margin-top: 10px; width: 100%;font-size: 8pt;">
     <theader>
         <tr>
             <th scope="col">VALOR FRETE</th>
+            <th scope="col">VALOR ARTE</th>
+            <th scope="col">VALOR OUTROS</th>
             <th scope="col">TAXA CARTÃO</th>
             <th scope="col">DESCONTO</th>
             <th scope="col">TOTAL</th>
@@ -129,30 +131,40 @@ $html = '
             else:
                 $html .= '<td style="text-align: center;">R$ 0,00</td>';
             endif;
+            if(!empty($pedido['valorarte'])):    
+                $html .= '<td style="text-align: center;">R$ '.number_format(str_replace(",", ".", $pedido['valorarte']),2,',','.').'</td>';
+            else:
+                $html .= '<td style="text-align: center;">R$ 0,00</td>';
+            endif;
+            if(!empty($pedido['valoroutros'])):    
+                $html .= '<td style="text-align: center;">R$ '.number_format(str_replace(",", ".", $pedido['valoroutros']),2,',','.').'</td>';
+            else:
+                $html .= '<td style="text-align: center;">R$ 0,00</td>';
+            endif;
             if(!empty($pedido['taxacartao'])):    
                 $html .= '<td style="text-align: center;">'.number_format(str_replace(",", ".", $pedido['taxacartao']),2,',','.').' %</td>';
             else:
                 $html .= '<td style="text-align: center;">0,00 %</td>';
             endif;
             if(!empty($pedido['desconto'])):
-                $html  .= '<td style="text-align: center">R$ '.number_format(str_replace(',','.',$pedido['desconto']),2,',','.').'</td>';
+                $html  .= '<td style="text-align: center;">R$ '.number_format(str_replace(',','.',$pedido['desconto']),2,',','.').'</td>';
             else:
-                $html .= '<td style="text-align: center">R$ 0,00</td>';
+                $html .= '<td style="text-align: center;">R$ 0,00</td>';
             endif;
             if(!empty($pedido['total'])):        
-                $html .= '<td style="text-align: center">R$ '.str_replace(".",",", $pedido['total']).'</td>';
+                $html .= '<td style="text-align: center;">R$ '.str_replace(".",",", $pedido['total']).'</td>';
             else:
-                $html .= '<td style="text-align: center">R$ 0,00</td>';
+                $html .= '<td style="text-align: center;">R$ 0,00</td>';
             endif;        
             if(!empty($pedido['valorpago'])):    
-                $html .= '<td style="text-align: center">R$ '.number_format(str_replace(',','.',$pedido['valorpago']),2,',','.').'</td>';
+                $html .= '<td style="text-align: center;">R$ '.number_format(str_replace(',','.',$pedido['valorpago']),2,',','.').'</td>';
             else:
-                $html .= '<td style="text-align: center">R$ 0,00</td>';
+                $html .= '<td style="text-align: center;">R$ 0,00</td>';
             endif;
             if(!empty($pedido['faltapagar'])):    
-                $html .= '<td style="text-align: center">R$ '.str_replace(".",",", $pedido['faltapagar']).'</td>';
+                $html .= '<td style="text-align: center;">R$ '.str_replace(".",",", $pedido['faltapagar']).'</td>';
             else:
-                $html .= '<td style="text-align: center"></td>';
+                $html .= '<td style="text-align: center;"></td>';
             endif;                    
         $html .= '</tr>
     </tbody>

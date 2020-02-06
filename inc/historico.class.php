@@ -75,7 +75,7 @@ class historico {
     public function getHistorico() {
         $array = array();
 
-        $sql = $this->pdo->prepare("SELECT historico.id, historico.datahora, historico.ip, historico.so, historico.navegador, usuarios.nome as usuario FROM historico LEFT JOIN usuarios ON historico.id_usuario = usuarios.id ORDER BY historico.id DESC");
+        $sql = $this->pdo->prepare("SELECT historico.id, historico.datahora, historico.ip, historico.so, historico.navegador, usuarios.nome as usuario FROM historico LEFT JOIN usuarios ON historico.id_usuario = usuarios.id ORDER BY historico.id DESC LIMIT 10");
         $sql->execute();
 
         if($sql->rowCount() > 0) {

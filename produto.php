@@ -49,7 +49,7 @@ if(empty($_GET['buscarProduto'])) {
 
 <?php require 'inc/header.php'; ?>
     
-    <?php if(($u->temPermissao('ADMINISTRADOR')) || ($u->temPermissao('PADRÃO'))): ?>
+    <?php if(($u->temPermissao('ADMINISTRADOR'))): ?>
         <?php require 'inc/menu.php'; ?>
         <div class="text-white bg-dark py-5">
             <div class="container-fluid">
@@ -129,9 +129,14 @@ if(empty($_GET['buscarProduto'])) {
                 </div>
             </div>
         </div>
-        <?php else: 
-            header("Location: ".BASE_URL."login");
-            ?>
+        <?php else:
+              require 'inc/menu.php';
+         echo    "<div class='d-flex flex-column justify-content-center align-items-center bg-dark text-white' style='min-height: 50vh'>
+                     <h4 class='font-weight-bold'>É presiso ter permissão de administrador</h4>
+                     <img class='my-2' width='300px' src='assets/imagens/logo.png'>
+                 </div>
+                "         
+       ?>         
         <?php endif; ?>
 
 <?php require 'inc/footer.php'; ?>    

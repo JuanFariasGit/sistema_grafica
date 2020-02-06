@@ -28,12 +28,16 @@ $u->setUsuario($_SESSION['logado']);
 
 $c= new produtos($pdo);
 
-if(!empty($_GET['id']) &&  ($u->temPermissao('ADMINISTRADOR') || !empty($_GET['id']) && ($u->temPermissao('PADRÃO')))) {
+if(!empty($_GET['id']) &&  ($u->temPermissao('ADMINISTRADOR'))){
     $id = $_GET['id'];
     $c->delProduto($id);
     header('Location: '.BASE_URL.'produto');
     exit;
 } else {
-    header('Location: '.BASE_URL.'login');
-    exit;  
+    echo    "<div class='d-flex flex-column justify-content-center align-items-center bg-dark text-white' style='min-height: 50vh'>
+                     <h4 class='font-weight-bold'>É presiso ter permissão de administrador</h4>
+                     <img class='my-2' width='100px' src='assets/imagens/logo.png'>
+                 </div>
+                ";
+                exit;  
 }

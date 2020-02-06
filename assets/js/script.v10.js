@@ -330,19 +330,37 @@ function mascara_datahora(form, fieldName, evento)
 }
 
 $('[name=situacao_ajax]').change(function() {
-    const nome_situacao = $(this).val().split("|")[2];
-    const id_pedido = $(this).val().split("|")[1];
-    const id_situacao = $(this).val().split("|")[0];
+    const nome_situacao = this.value.split("|")[2];
+    const id_pedido = this.value.split("|")[1];
+    const id_situacao = this.value.split("|")[0];
+    const option = 1;
 
     $.ajax({
         type:'POST',
-        url:'http://localhost/sistema_grafica/situacao_ajax',
-        data:{id_pedido:id_pedido, id_situacao:id_situacao},
+        url:'http://localhost/sistema_grafica/ajax',
+        data:{id_pedido:id_pedido, id_situacao:id_situacao, option:option},
         success: function() {
             if(nome_situacao == "Concluído") {
                 $("#"+id_pedido).remove();
             }         
         }
     });
+});
 
+$('.pedido_visualizar').click(function() {
+    const id_pedido = this.id;
+    const option = 2;
+    
+    $.ajax({
+        type:'POST',
+        url:'http://localhost/sistema_grafica/ajax',
+        data:{id_pedido:id_pedido, option:option},
+        success: function(produtos) {
+            Swal.fire({ 
+               title: "PEDIDO " + id_pedido, 
+               html: produtos,
+               confirmButtonText: "FECHAR", 
+              }); 
+        }
+    });
 });

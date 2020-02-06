@@ -234,8 +234,9 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                         <td><?php echo $pedido['obs']; ?></td>
                         <td>
                           <a href="<?php echo BASE_URL; ?>edit.pedido?id=<?php echo $pedido['id']; ?>"><i class='fas fa-pen' style='font-size:24px'></i></a>
+                          <a id="<?php echo $pedido['id']; ?>" class="pedido_visualizar"><i class="fa fa-eye text-success" style='font-size:24px;cursor: pointer'></i></a>
                           <a href="<?php echo BASE_URL; ?>visualizar.pedido?cliente=<?php echo $pedido['cliente'].'?id='.$pedido['id']; ?>" target="_blank"><i class='fas fa-file-alt text-warning' style='font-size:24px'></i></a>
-                          <a id="<?php echo $pedido['id']; ?>" name="<?php echo $pedido['cliente']; ?>" onclick="delPedido(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:24px'></i></a>
+                          <a id="<?php echo $pedido['id']; ?>" name="<?php echo $pedido['cliente']; ?>" onclick="delPedido(this)"><i class='fas fa-trash-alt text-danger' style='font-size:24px; cursor:pointer'></i></a>
                         </td>
                     </tr>
                     <?php endforeach; ?> 

@@ -45,7 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php require 'inc/header.php'; ?>
     
-    <?php if(($u->temPermissao('ADMINISTRADOR')) || ($u->temPermissao('PADRÃO'))): ?>
+    <?php if(($u->temPermissao('ADMINISTRADOR'))): ?>
         <?php require 'inc/menu.php'; ?>
         <div class="text-white bg-dark py-5">
             <div class="container">
@@ -88,9 +88,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </form>
             </div>    
         </div>
-        <?php else: 
-            header("Location: ".BASE_URL."login");
-            ?>
+        <?php else:
+              require 'inc/menu.php';
+         echo    "<div class='d-flex flex-column justify-content-center align-items-center bg-dark text-white' style='min-height: 75vh'>
+                     <h4 class='font-weight-bold'>É presiso ter permissão de administrador</h4>
+                     <img class='my-2' width='100px' src='assets/imagens/logo.png'>
+                 </div>
+                "         
+       ?>         
         <?php endif; ?>
 
 <?php require 'inc/footer.php'; ?>    
