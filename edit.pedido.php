@@ -40,7 +40,8 @@ $produtospedido = $quantidade = $al = $la = $valorunitario = "";
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id_pedido'];
     $cliente_id = $_POST['cliente'];
-    $datahora = $_POST['datahora'];
+    $emissao = $_POST['emissao'];
+    $entrega = $_POST['entrega'];
     $obs = $_POST['obs'];
     if(!empty($_POST['produtospedido'])) {
         $produtospedido = $_POST['produtospedido'];
@@ -70,7 +71,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $situacao = explode("|",$_POST['situacao'])[1];  
        
     
-    $pd->upPedido($id, $cliente_id, $datahora, $obs, $produtospedido, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $falta_pagar, $situacao);
+    $pd->upPedido($id, $cliente_id, $emissao, $obs, $produtospedido, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $falta_pagar, $situacao, $entrega, $usuariologado);
     header("Location: ".BASE_URL."pedido");
 }
 ?>
@@ -91,11 +92,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="id_pedido">ID:</label>
                                 <input id="id_pedido" class="form-control" name="id_pedido" value="<?php echo $pedido['id']; ?>" readonly='readonly' >
                         </div>
-                        <div class="col-sm-3">
-                            <label for="datahora">Data e Hora</label>
-                            <input class="form-control" type="text" name="datahora" id="datahora" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)" value="<?php echo date('d/m/Y H:i',strtotime($pedido['datahora'])); ?>"> 
+                        <div class="col-sm-2">
+                            <label for="vendedor_name">Vendedor:</label>
+                            <input id="vendedor_name" class="form-control" type="text" name="vendedor_name" value="<?php echo $usuariologado; ?>" readonly="readonly">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
+                            <label for="emissao">Emissão</label>
+                            <input class="form-control" type="text" name="emissao" id="emissao" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)" value="<?php echo date('d/m/Y H:i',strtotime($pedido['emissao'])); ?>"> 
+                        </div>
+                        <div class="col-sm-3">
                             <label for="cliente">Cliente:</label>
                             <select class="form-control" name="cliente" id="cliente">
                                 <option></option>
@@ -113,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <?php endforeach; ?>
                     <div class="col-sm-12 d-sm-flex justify-content-sm-center">    
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <label for="produtos">Produtos:</label>
                             <select class="form-control mb-2" name="produtos" id="produtos">
                                 <option></option>
@@ -123,7 +128,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>
                             <a class="btn-sm btn btn-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
                         </div>
-                        <div class="col-sm-4"></div>
+                        <div class="col-sm-2">
+                            <label for="entrega">Entrega:</label>
+                            <input id="entrega" class="form-control" type="text" name="entrega" value="<?php echo date('d/m/Y',strtotime($pedido['entrega'])); ?>">                        
+                        </div>
                     </div>
                     <div class="col-sm-12 d-flex justify-content-center flex-column my-2">  
                         <div class="table-responsive">
@@ -156,32 +164,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="row d-flex justify-content-center align-items-center">
                             <div class="col-lg py-2">
                                 <label for="valor_frete" style="font-size: 12px">Valor Do Frete (R$)</label>
-                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php if($pedido['valorfrete'] > 0) {echo $pedido['valorfrete'];} else {echo "";} ?>">
+                                <input id="valor_frete" class="form-control" type="number" name="valor_frete" step="0.01" onkeyup="mudouvalor()"  value="<?php if($pedido['valorfrete'] > 0) {echo $pedido['valorfrete'];} else {echo "";} ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="valor_arte" style="font-size: 12px">Valor De Arte (R$)</label>
-                                <input id="valor_arte" class="form-control" type="number" name="valor_arte" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php if($pedido['valorarte'] > 0) {echo $pedido['valorarte'];} else {echo "";} ?>">
+                                <input id="valor_arte" class="form-control" type="number" name="valor_arte" step="0.01" onkeyup="mudouvalor()"  value="<?php if($pedido['valorarte'] > 0) {echo $pedido['valorarte'];} else {echo "";} ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="valor_outros" style="font-size: 12px">Outros (R$)</label>
-                                <input id="valor_outros" class="form-control" type="number" name="valor_outros" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php if($pedido['valoroutros'] > 0) {echo $pedido['valoroutros'];} else {echo "";} ?>">
+                                <input id="valor_outros" class="form-control" type="number" name="valor_outros" step="0.01" onkeyup="mudouvalor()"  value="<?php if($pedido['valoroutros'] > 0) {echo $pedido['valoroutros'];} else {echo "";} ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="taxa_cartao" style="font-size: 12px">Taxa De Cartão (%)</label>
-                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php if($pedido['taxacartao'] > 0) {echo $pedido['taxacartao'];} else {echo "";} ?>">
+                                <input id="taxa_cartao" class="form-control" type="number" name="taxa_cartao" step="0.01" onkeyup="mudouvalor()"  value="<?php if($pedido['taxacartao'] > 0) {echo $pedido['taxacartao'];} else {echo "";} ?>">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="desconto" style="font-size: 12px">Desconto (R$):</label>
-                                <input class="form-control" id="desconto" type="number" name="desconto" step="0.01" style="width: 80px" onkeyup="mudouvalor()" value="<?php if($pedido['desconto'] > 0) {echo $pedido['desconto'];} else {echo "";} ?>">
+                                <input class="form-control" id="desconto" type="number" name="desconto" step="0.01"  onkeyup="mudouvalor()" value="<?php if($pedido['desconto'] > 0) {echo $pedido['desconto'];} else {echo "";} ?>">
                             </div>
-                            <div class="col-lg d-flex align-items-center">
+                            <div class="col-lg d-flex align-items-center px-0">
                                 <input id="total" class="bg-dark text-white border-0" type="text" name="total" readonly='readonly' value="<?php echo "Total: R$ ".str_replace(".",",", $pedido['total']); ?>" style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="valor_pago" style="font-size: 12px">Valor Pago (R$)</label>
-                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()" style="width: 80px" value="<?php if($pedido['valorpago'] > 0) {echo $pedido['valorpago'];} else {echo "";} ?>">
+                                <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()"  value="<?php if($pedido['valorpago'] > 0) {echo $pedido['valorpago'];} else {echo "";} ?>">
                             </div>
-                            <div class="col-lg d-flex align-items-center py-2">
+                            <div class="col-lg d-flex align-items-center py-2 px-0">
                                 <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="<?php echo "Falta Pagar: R$ ".str_replace(".",",", $pedido['faltapagar']); ?>" readonly='readonly' style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">

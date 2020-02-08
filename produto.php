@@ -108,9 +108,8 @@ if(empty($_GET['buscarProduto'])) {
                       </tr>
                     </thead>
                     <tbody>
-                      <?php if(count($produtos) > 0): ?>
                       <?php foreach($produtos as $produto): ?>
-                      <tr>
+                      <tr id="<?php echo $produto['id']; ?>">
                         <td><p class="my-1"><?php echo $produto['id']; ?></p></td>
                         <td><p class='my-1'><?php echo $produto['nome'];?></p></td>
                         <td><p class='my-1'><?php echo $produto['unidademedida'];?></p></td>
@@ -122,8 +121,6 @@ if(empty($_GET['buscarProduto'])) {
                         </td>
                       </tr>
                       <?php endforeach; ?>
-                      <?php else: echo "<h5 class='text-center text-danger'>Não há nenhum cadastro !!!</h5>"; ?>
-                      <?php endif; ?>
                     </tbody>
                   </table>
                 </div>

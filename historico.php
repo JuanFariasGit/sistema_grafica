@@ -56,14 +56,14 @@ $historico = $h->getHistorico();
                         </thead>
                         <tbody>
                             <?php foreach($historico as $h): ?>
-                            <tr>
+                            <tr id="<?php echo $h['id']; ?>">
                                 <td><?php echo $h['id']; ?></td>
                                 <td><?php echo $h['usuario']; ?></td>
                                 <td><?php echo date('d/m/Y H:i',strtotime($h['datahora'])); ?></td>
                                 <td><?php echo $h['ip']; ?></td>
                                 <td><?php echo $h['so']; ?></td>
                                 <td><?php echo $h['navegador']; ?></td>
-                                <td><a class="btn btn-danger btn-sm" href="<?php echo BASE_URL; ?>del.historico?id_acesso=<?php echo $h['id']; ?>?usuario=<?php echo $h['usuario']; ?>" style="cursor:pointer">DEL</a></td>
+                                <td><a id="<?php echo $h['id']; ?>" name="<?php echo $h['usuario']; ?>" class="btn btn-danger btn-sm" onclick="delHistorico(this)" style="cursor:pointer">DEL</a></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

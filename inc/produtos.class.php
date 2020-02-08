@@ -66,14 +66,34 @@ class produtos {
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':nome', $nome);
         $sql->execute();
+
+        $sql = "SELECT id FROM categorias WHERE nome = :nome";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':nome', $nome);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $sql = $sql->fetch();
+        }
+        return $sql['id'];
     }
 
     public function upCategoria($id, $nome) {
-        $sql = 'UPDATE categorias SET nome = :nome where id = :id';
+        $sql = 'UPDATE categorias SET nome = :nome WHERE id = :id';
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(":id", $id);
         $sql->bindValue(":nome", $nome);
         $sql->execute();
+
+        $sql = 'SELECT nome FROM categorias WHERE id = :id';
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $sql = $sql->fetch();
+        }
+        return $sql['nome'];
     }
 
     public function delCategoria($id) {

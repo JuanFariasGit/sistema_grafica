@@ -106,7 +106,17 @@ function validar_usuario() {
 function delUsuario(usuario) {
     if((document.getElementsByClassName("ADMINISTRADOR").length > 1) || (usuario.className.indexOf('PADRÃO') != -1)) {
       if(confirm('O usuário '+usuario.name+' será deletado.') === true) {
-         location = 'del.usuario?id='+usuario.id;
+        let id_usuario = usuario.id;
+        let option = 3;
+
+        $.ajax ({
+            type:'POST',
+            url:'http://localhost/sistema_grafica/ajax',
+            data:{id_usuario:id_usuario, option:option},
+            success: function() {
+                $("#"+id_usuario).remove();
+            }
+        })    
       } 
     } else if ((document.getElementsByClassName("ADMINISTRADOR").length == 1) && (usuario.className.indexOf('ADMINISTRADOR') != -1)) {
         alert('O usuário '+usuario.name+' é o único Administrador. Não será possível deletá-lo.');
@@ -191,33 +201,74 @@ function validar_cadastro_produto() {
 
 function delCliente(cliente) {
     if(confirm('O cliente '+cliente.name+' será deletado.') == true) {
-        location = 'del.cliente?id='+cliente.id;
+        let id_cliente = cliente.id;
+        let option = 4;
+
+        $.ajax ({
+            type:'POST',
+            url:'http://localhost/sistema_grafica/ajax',
+            data:{id_cliente:id_cliente, option:option},
+            success: function() {
+                $("#"+id_cliente).remove();
+            }
+        })
     }    
 }
 
 function addCategoria() {
     let nomecategoria = prompt("Adicionar categoria:");
-    if(nomecategoria != null) {
-        location = 'add.categoria?nome='+nomecategoria;
+    if(nomecategoria != "") {
+        let option = 11;
+
+        $.ajax ({
+            type:'POST',
+            url:'http://localhost/sistema_grafica/ajax',
+            data:{add_nome_categoria:nomecategoria, option:option},
+            success: function(id) {
+                $("#categoria").append("<option id='"+id+"' value='"+nomecategoria+"|"+id+"'>"+nomecategoria+"</option>");
+            }
+       });
+    } else {
+        alert("Você não informou a categoria");
     }
 }
 
 function addSituacao() {
     let nomesituacao = prompt("Adicionar situação:");
-    if(nomesituacao != null) {
-        location = 'add.situacao?nome='+nomesituacao;
+    if(nomesituacao != "") {        
+       let option = 8;
+
+       $.ajax ({
+            type:'POST',
+            url:'http://localhost/sistema_grafica/ajax',
+            data:{add_nome_situacao:nomesituacao, option:option},
+            success: function(id) {
+                $("#situacao").append("<option id='"+id+"' value='"+nomesituacao+"|"+id+"'>"+nomesituacao+"</option>");
+            }
+       })
+    } else {
+        alert("Você não informou a situação");
     }
 }
 
 function upSituacao() {
-    const nome = document.getElementById('situacao').value.split("|")[0];
-    const  id = document.getElementById('situacao').value.split("|")[1];    
-    
+    let nome = document.getElementById('situacao').value.split("|")[0];
+    let  id = document.getElementById('situacao').value.split("|")[1];    
+    let option = 9;
+
     if(nome != "") {
         const nomesituacao = prompt("Digite a situação que deseja substituir "+nome+'!');
         if(nomesituacao != "") {
             if(nomesituacao != null) {           
-                location = 'up.situacao?nome='+nomesituacao+'?id='+id;
+                $.ajax ({
+                    type:'POST',
+                    url:'http://localhost/sistema_grafica/ajax',
+                    data:{up_id_situacao:id, up_nome_situacao:nomesituacao, option:option},
+                    success: function(nomesituacaonovo) {
+                        $('#'+id).remove();
+                        $("#situacao").append("<option id='"+id+"' value='"+nomesituacaonovo+"|"+id+"'>"+nomesituacaonovo+"</option>");
+                    }
+                })
             }
         } else {
             alert("Você deve informa um nome tente novamente");
@@ -230,12 +281,21 @@ function upSituacao() {
 function upCategoria() {
     const nome = document.getElementById('categoria').value.split("|")[0];
     const  id = document.getElementById('categoria').value.split("|")[1];
+    const option = 12;
 
     if(nome != "") {
         const nomecategoria = prompt("Digite a situação que deseja substituir "+nome+'!');
         if(nomecategoria != "") {
             if(nomecategoria != null) {           
-                location = 'up.categoria?nome='+nomecategoria+'?id='+id;
+                $.ajax ({
+                    type:'POST',
+                    url:'http://localhost/sistema_grafica/ajax',
+                    data:{up_id_categoria:id, up_nome_categoria:nomecategoria, option:option},
+                    success: function(nomecategorianovo) {
+                        ;$('#'+id).remove();
+                        $("#categoria").append("<option id='"+id+"' value='"+nomecategorianovo+"|"+id+"'>"+nomecategorianovo+"</option>");
+                    }
+                })
             }
         } else {
             alert("Você deve informa um nome tente novamente");
@@ -248,10 +308,18 @@ function upCategoria() {
 function delCategoria() {
     let nome = document.getElementById('categoria').value.split('|')[0];
     let id   = document.getElementById('categoria').value.split('|')[1];
+    let option = 13;
     
     if(nome != "") {
         if(confirm('A categoria '+nome+' será deletada.') == true) {
-            location = 'del.categoria?id='+id;
+            $.ajax ({
+                type:'POST',
+                url:'http://localhost/sistema_grafica/ajax',
+                data:{del_id_categoria:id, option:option},
+                success: function() {
+                    $("#"+id).remove();
+                }
+            })
         }
     } else {
         alert("Você não selecionou nenhuma categoria!");
@@ -261,25 +329,55 @@ function delCategoria() {
 function delSituacao() {
     let id = document.getElementById('situacao').value.split('|')[1];
     let nome = document.getElementById('situacao').value.split('|')[0];
+    let option = 10;
     
     if(nome != "") {
-        if(confirm('A situação '+nome+' será deletada.') == true) {
-            location = 'del.situacao?id='+id;
+        if(confirm('A situação '+nome+' será deletada.') == true && nome != "Concluído") {
+            $.ajax ({
+                type:'POST',
+                url:'http://localhost/sistema_grafica/ajax',
+                data:{del_id_situacao:id, option:option},
+                success: function() {
+                    $('#'+id).remove();
+                }
+            })
+        } else if (nome == "Concluído") {
+            alert("Concluído é uma situação padrão não pôde ser deletada!");
         }
     } else {
         alert("Você não selecionou nenhuma situação!");
-    }        
+    }       
 }
 
 function delPedido(pedido) {
     if(confirm('O pedido de '+pedido.name+' será deletado.') == true) {
-        location = 'del.pedido?id='+pedido.id;
+        let id_pedido = pedido.id;
+        let option = 6;
+
+        $.ajax ({
+            type:'POST',
+            url:'http://localhost/sistema_grafica/ajax',
+            data:{id_pedido:id_pedido, option:option},
+            success: function() {
+                $("#"+id_pedido).remove();
+            }
+        })    
     } 
 }
 
 function delProduto(produto) {
     if(confirm('O produto '+produto.name+' será deletado.') == true) {
-        location = 'del.produto?id='+produto.id;
+        let id_produto = produto.id;
+        let option = 5;
+
+        $.ajax ({
+            type:'POST',
+            url:'http://localhost/sistema_grafica/ajax',
+            data:{id_produto:id_produto, option:option},
+            success: function() {
+                $("#"+id_produto).remove();
+            }
+        })    
     } 
 }
 
@@ -333,6 +431,7 @@ $('[name=situacao_ajax]').change(function() {
     const nome_situacao = this.value.split("|")[2];
     const id_pedido = this.value.split("|")[1];
     const id_situacao = this.value.split("|")[0];
+    const url = location.href;
     const option = 1;
 
     $.ajax({
@@ -341,7 +440,10 @@ $('[name=situacao_ajax]').change(function() {
         data:{id_pedido:id_pedido, id_situacao:id_situacao, option:option},
         success: function() {
             if(nome_situacao == "Concluído") {
-                $("#"+id_pedido).remove();
+                $('#'+id_pedido).remove();
+            } 
+            else if(url != "http://localhost/sistema_grafica/pedido") {
+                location.href = "http://localhost/sistema_grafica/pedido";
             }         
         }
     });
@@ -364,3 +466,20 @@ $('.pedido_visualizar').click(function() {
         }
     });
 });
+
+function delHistorico(historico) {
+    if(confirm('O historico de '+historico.name+' de ID '+historico.id+' será deletado') == true) {
+
+        let id_historico = historico.id;
+        let option = 7;
+
+        $.ajax ({
+            type:'POST',
+            url:'http://localhost/sistema_grafica/ajax',
+            data:{id_historico:id_historico, option:option},
+            success: function() {
+               $("#"+id_historico).remove();
+            }
+        })
+    }    
+}

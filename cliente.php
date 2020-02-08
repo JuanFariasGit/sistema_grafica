@@ -115,15 +115,14 @@ if(empty($_GET['buscarCliente'])) {
                       <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Nome completo</th>
-                        <td scope="col">Fone</td>
+                        <th scope="col">Fone</th>
                         <th  scope="col">Cidade</th>
                         <th scope="col">Ações</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php if(count($clientes) > 0): ?>
                       <?php foreach($clientes as $cliente): ?>
-                      <tr>
+                      <tr id="<?php echo $cliente['id'] ?>">
                         <td><p class='my-1'><?php echo $cliente['id'];?></p></td>
                         <td><p class='my-1'><?php echo $cliente['nomecompleto'];?></p></td>
                         <td><a class='my-1' href="https://wa.me/55<?php echo str_replace('-','',str_replace(' ','',$cliente['fone'])) ?>" target="_blank"><?php echo $cliente['fone'];?></a></td>
@@ -134,8 +133,6 @@ if(empty($_GET['buscarCliente'])) {
                         </td>
                       </tr>
                       <?php endforeach; ?>
-                      <?php else: echo "<h5 class='text-center text-danger'>Não há nenhum cadastro !!!</h5>"; ?>
-                      <?php endif; ?>
                     </tbody>
                   </table>
                 </div>

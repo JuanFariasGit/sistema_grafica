@@ -126,7 +126,7 @@ if(empty($_GET['buscarUsuario'])) {
                         </thead>
                         <tbody>
                           <?php foreach($usuarios as $usuario): ?>
-                          <tr>
+                          <tr id="<?php echo $usuario['id']; ?>">
                             <td><p class="my-1"><?php echo $usuario['id']; ?></p></td>
                             <td><p class='my-1'><?php echo $usuario['nome']; ?></p></td>
                             <td><p class='my-1'><?php echo $usuario['email']; ?></p></td>

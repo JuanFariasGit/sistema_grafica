@@ -68,9 +68,19 @@ class usuarios {
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(':nome', $nome);
 		$sql->bindValue(':email', $email);
-		$sql->bindValue(':senha', $senha);
+		$sql->bindValue(':senha', md5($senha));
 		$sql->bindValue(':permissao', $permissao);
 		$sql->execute();
+
+		$sql = 'SELECT * FROM usuarios WHERE nome = :nome';
+		$sql = $this->pdo->prepare($sql);
+		$sql->bindValue(':nome', $nome);
+		$sql->execute();
+
+		if($sql->rowCount() > 0) {
+			$sql = $sql->fetch();
+		}
+		return $sql;
 	}
 	
 	public function getUsuario() {

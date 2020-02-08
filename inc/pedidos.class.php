@@ -26,12 +26,12 @@ class pedidos {
         }
     }
 
-    public function addPedido($id , $id_cliente, $datahora, $obs, $produtos, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao) {
-        $sql = "INSERT INTO pedidos (id, id_cliente, datahora, obs, valorfrete, valorarte, valoroutros, taxacartao, desconto, total, valorpago, faltapagar, situacao) VALUES (:id, :id_cliente, STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), :obs, :valorfrete, :valorarte, :valoroutros, :taxacartao, :desconto, :total, :valorpago, :faltapagar, :situacao)";
+    public function addPedido($id , $id_cliente, $emissao, $obs, $produtos, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao, $entrega, $vendedor) {
+        $sql = "INSERT INTO pedidos (id, id_cliente, emissao, obs, valorfrete, valorarte, valoroutros, taxacartao, desconto, total, valorpago, faltapagar, situacao, entrega, vendedor) VALUES (:id, :id_cliente, STR_TO_DATE(:emissao, '%d/%m/%Y %H:%i'), :obs, :valorfrete, :valorarte, :valoroutros, :taxacartao, :desconto, :total, :valorpago, :faltapagar, :situacao, STR_TO_DATE(:entrega, '%d/%m/%Y'), :vendedor)";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->bindValue(':id_cliente', $id_cliente);
-        $sql->bindValue(':datahora', $datahora);
+        $sql->bindValue(':emissao', $emissao);
         $sql->bindValue(':obs', $obs);
         $sql->bindValue(':valorfrete', $valor_frete);
         $sql->bindValue(':valorarte', $valor_arte);
@@ -42,6 +42,8 @@ class pedidos {
         $sql->bindValue(':valorpago', $valor_pago);
         $sql->bindValue(':faltapagar', $faltapagar);
         $sql->bindValue(':situacao', $situacao);
+        $sql->bindValue(':entrega', $entrega);
+        $sql->bindValue(":vendedor", $vendedor);
         $sql->execute();
                 
         foreach($produtos as $i => $produto) {
@@ -70,7 +72,7 @@ class pedidos {
     public function getPedido() {
         $array = array();
 
-        $sql = "SELECT pedidos.id, pedidos.datahora, clientes.nomecompleto AS cliente, pedidos.total, pedidos.faltapagar, situacao.nome AS situacao, pedidos.obs FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente LEFT JOIN situacao ON situacao.id = pedidos.situacao ORDER BY pedidos.datahora DESC";
+        $sql = "SELECT pedidos.id, pedidos.emissao, clientes.nomecompleto AS cliente, pedidos.total, pedidos.faltapagar, situacao.nome AS situacao, pedidos.obs FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente LEFT JOIN situacao ON situacao.id = pedidos.situacao ORDER BY pedidos.emissao DESC";
         $sql = $this->pdo->prepare($sql);
         $sql->execute();
 
@@ -88,6 +90,16 @@ class pedidos {
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(":situacao", $nomesituacao);
         $sql->execute();
+
+        $sql = "SELECT id FROM situacao WHERE nome = :situacao";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(":situacao", $nomesituacao);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $sql = $sql->fetch();
+        }
+        return $sql['id'];
     }
 
     public function upSituacao($id,$nome) {
@@ -96,6 +108,17 @@ class pedidos {
         $sql->bindValue(":id", $id);
         $sql->bindValue(":situacao", $nome);
         $sql->execute();
+
+        $sql = "SELECT nome FROM situacao WHERE id = :id";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if($sql->rowCount() > 0) {
+            $sql = $sql->fetch();
+        }
+
+        return $sql['nome'];
     }
 
     public function getSituacao() {
@@ -125,12 +148,12 @@ class pedidos {
         $sql->execute();
     }
 
-    public function upPedido($id , $id_cliente, $datahora, $obs, $produtos, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao) {
-        $sql = "UPDATE pedidos SET id_cliente = :id_cliente, datahora = STR_TO_DATE(:datahora, '%d/%m/%Y %H:%i'), obs = :obs, valorfrete = :valorfrete, valorarte = :valorarte, valoroutros = :valoroutros, taxacartao = :taxacartao, desconto = :desconto, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao WHERE id = :id";
+    public function upPedido($id , $id_cliente, $emissao, $obs, $produtos, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao, $entrega, $vendedor) {
+        $sql = "UPDATE pedidos SET id_cliente = :id_cliente, emissao = STR_TO_DATE(:emissao, '%d/%m/%Y %H:%i'), obs = :obs, valorfrete = :valorfrete, valorarte = :valorarte, valoroutros = :valoroutros, taxacartao = :taxacartao, desconto = :desconto, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao, entrega = STR_TO_DATE(:entrega, '%d/%m/%Y %H:%i'), vendedor = :vendedor WHERE id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->bindValue(':id_cliente', $id_cliente);
-        $sql->bindValue(':datahora', $datahora);
+        $sql->bindValue(':emissao', $emissao);
         $sql->bindValue(':obs', $obs);
         $sql->bindValue(':valorfrete', $valor_frete);
         $sql->bindValue(':valorarte', $valor_arte);
@@ -141,6 +164,8 @@ class pedidos {
         $sql->bindValue(':valorpago', $valor_pago);
         $sql->bindValue(':faltapagar', $faltapagar);
         $sql->bindValue(':situacao', $situacao);
+        $sql->bindValue(':entrega', $entrega);
+        $sql->bindValue(':vendedor', $vendedor);
         $sql->execute();
         
         $sql = $this->pdo->prepare("DELETE FROM pedido_produtos WHERE id_pedido = :id");
@@ -173,7 +198,7 @@ class pedidos {
     public function getPedidoEdit($id) {
         $array = array();
 
-        $sql = "SELECT pedidos.id, pedidos.datahora, clientes.nomecompleto AS cliente, pedidos.total, pedidos.faltapagar, situacao.nome AS situacao, pedidos.obs, pedidos.valorfrete, pedidos.valorarte, pedidos.valoroutros, pedidos.taxacartao, pedidos.valorpago, pedidos.desconto FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente LEFT JOIN situacao ON situacao.id = pedidos.situacao WHERE pedidos.id = :id";
+        $sql = "SELECT pedidos.id, pedidos.emissao, clientes.nomecompleto AS cliente, pedidos.total, pedidos.faltapagar, situacao.nome AS situacao, pedidos.obs, pedidos.valorfrete, pedidos.valorarte, pedidos.valoroutros, pedidos.taxacartao, pedidos.valorpago, pedidos.desconto, pedidos.entrega, pedidos.vendedor  FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente LEFT JOIN situacao ON situacao.id = pedidos.situacao WHERE pedidos.id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->execute();
