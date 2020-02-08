@@ -461,6 +461,7 @@ $('.pedido_visualizar').click(function() {
             Swal.fire({ 
                title: "PEDIDO " + id_pedido, 
                html: produtos,
+               width: 850,
                confirmButtonText: "FECHAR", 
               }); 
         }

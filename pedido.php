@@ -236,7 +236,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                                 <?php endforeach; ?>
                             </select>
                         </td>
-                        <td><?php echo $pedido['obs']; ?></td>
+                        <td><?php echo $pedido['obs']; ?><wbr></td>
                         <td>
                             <a href="<?php echo BASE_URL; ?>edit.pedido?id=<?php echo $pedido['id']; ?>"><i class='fas fa-pen' style='font-size:24px'></i></a>
                             <a id="<?php echo $pedido['id']; ?>" class="pedido_visualizar"><i class="fa fa-eye text-success" style='font-size:24px;cursor: pointer'></i></a>
