@@ -90,16 +90,6 @@ class pedidos {
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(":situacao", $nomesituacao);
         $sql->execute();
-
-        $sql = "SELECT id FROM situacao WHERE nome = :situacao";
-        $sql = $this->pdo->prepare($sql);
-        $sql->bindValue(":situacao", $nomesituacao);
-        $sql->execute();
-
-        if($sql->rowCount() > 0) {
-            $sql = $sql->fetch();
-        }
-        return $sql['id'];
     }
 
     public function upSituacao($id,$nome) {
@@ -108,17 +98,6 @@ class pedidos {
         $sql->bindValue(":id", $id);
         $sql->bindValue(":situacao", $nome);
         $sql->execute();
-
-        $sql = "SELECT nome FROM situacao WHERE id = :id";
-        $sql = $this->pdo->prepare($sql);
-        $sql->bindValue(":id", $id);
-        $sql->execute();
-
-        if($sql->rowCount() > 0) {
-            $sql = $sql->fetch();
-        }
-
-        return $sql['nome'];
     }
 
     public function getSituacao() {

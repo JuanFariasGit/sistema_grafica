@@ -128,8 +128,8 @@ if(empty($_GET['buscarCliente'])) {
                         <td><a class='my-1' href="https://wa.me/55<?php echo str_replace('-','',str_replace(' ','',$cliente['fone'])) ?>" target="_blank"><?php echo $cliente['fone'];?></a></td>
                         <td><p class='my-1'><?php echo $cliente['cidade'];?></p></td>
                         <td>
-                          <a href="<?php echo BASE_URL; ?>edit.cliente?id=<?php echo $cliente['id']; ?>"><i class='fas fa-pen' style='font-size:24px'></i></a>
-                          <a id="<?php echo $cliente['id']; ?>" name="<?php echo $cliente['nomecompleto']; ?>" onclick="delCliente(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:24px'></i></a>
+                          <a href="<?php echo BASE_URL; ?>edit.cliente?id=<?php echo $cliente['id']; ?>"><i class='fas fa-pen' style='font-size:12pt'></i></a>
+                          <a id="<?php echo $cliente['id']; ?>" name="<?php echo $cliente['nomecompleto']; ?>" onclick="delCliente(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:12pt'></i></a>
                         </td>
                       </tr>
                       <?php endforeach; ?>

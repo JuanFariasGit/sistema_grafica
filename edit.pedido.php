@@ -130,7 +130,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="col-sm-2">
                             <label for="entrega">Entrega:</label>
-                            <input id="entrega" class="form-control" type="text" name="entrega" value="<?php echo date('d/m/Y',strtotime($pedido['entrega'])); ?>">                        
+                            <input id="entrega" class="form-control" type="text" name="entrega" maxlength="10" onkeydown="mascara_data(this, entrega, event)" value="<?php echo date('d/m/Y',strtotime($pedido['entrega'])); ?>">                        
                         </div>
                     </div>
                     <div class="col-sm-12 d-flex justify-content-center flex-column my-2">  

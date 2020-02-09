@@ -32,8 +32,11 @@ $pedido_produtos = $pd->getPedidoProdutosEdit(explode('=',$_GET['cliente'])[1]);
 $c = new clientes($pdo);
 $clientes = $c->getClienteVisualizar(explode('?',$_GET['cliente'])[0]);
 
+$html = '<img width="64px" src="assets/imagens/logo_painel_visualizar.png"><br><br>';
 
-$html = '
+$html .= '';
+
+/*$html = '
 <table style="width: 100%;margin-bottom: 30px">
     <tbody> 
         <tr>
@@ -170,10 +173,10 @@ $html = '
     </tbody>
 </table>
 ';
-endforeach;endforeach;
+endforeach;endforeach; */
 require 'vendor/autoload.php';
 
-$mpdf = new \Mpdf\Mpdf();
+$mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [48, 210]]);
 $mpdf->WriteHTML($html);
 $mpdf->Output('relatorio-pedido-'.explode('?id=',$_GET['cliente'])[1].'_'.explode("?", $_GET['cliente'])[0].'.pdf','I');   
 ?>

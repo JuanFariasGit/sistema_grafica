@@ -113,11 +113,20 @@ if(empty($_GET['buscarProduto'])) {
                         <td><p class="my-1"><?php echo $produto['id']; ?></p></td>
                         <td><p class='my-1'><?php echo $produto['nome'];?></p></td>
                         <td><p class='my-1'><?php echo $produto['unidademedida'];?></p></td>
-                        <td><p class='my-1'><?php echo $produto['categoria'];?></p></td>
+                        <td>
+                          <p class='my-1'>
+                            <select class="form-control mx-auto bg-dark text-white border-0 rounded-0" name="categoria" id="categoria" style="max-width: 200px">
+                                  <option></option>
+                                  <?php foreach($categorias as $categoria): ?>
+                                      <option value="<?php echo $categoria['nome']; ?>|<?php echo $categoria['id']; ?>|<?php echo $produto['id']; ?>" <?php echo ($produto['categoria']) == $categoria['nome'] ? "selected='selected'" : "" ?>><?php echo $categoria['nome']; ?></option>
+                                  <?php endforeach; ?>
+                              </select>
+                          </p>
+                        </td>
                         <td><p class='my-1'><?php echo "R$ ".str_replace(".", ",", $produto['valor']);?></p></td>
                         <td>
-                          <a href="<?php echo BASE_URL; ?>edit.produto?id=<?php echo $produto['id']; ?>"><i class='fas fa-pen' style='font-size:24px'></i></a>
-                          <a id="<?php echo $produto['id']; ?>" name="<?php echo $produto['nome']; ?>" onclick="delProduto(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:24px'></i></a>
+                          <a href="<?php echo BASE_URL; ?>edit.produto?id=<?php echo $produto['id']; ?>"><i class='fas fa-pen' style='font-size:12pt'></i></a>
+                          <a id="<?php echo $produto['id']; ?>" name="<?php echo $produto['nome']; ?>" onclick="delProduto(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:12pt'></i></a>
                         </td>
                       </tr>
                       <?php endforeach; ?>

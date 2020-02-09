@@ -29,6 +29,7 @@
   $u = new usuarios($pdo);
   $u->setUsuario($_SESSION['logado']);
 
+  $id_categoria = isset($_POST['id_categoria']) ? $_POST['id_categoria'] : '';
   $id_pedido = isset($_POST['id_pedido']) ? $_POST['id_pedido'] : '';
   $id_situacao = isset($_POST['id_situacao']) ? $_POST['id_situacao'] : '';
   $id_cliente = isset($_POST['id_cliente']) ? $_POST['id_cliente'] : '';
@@ -106,8 +107,7 @@
       echo $data;
     break;
     case 9:
-      $data = $pd->upSituacao($up_id_situacao, $up_nome_situacao);
-      echo $data;
+      $pd->upSituacao($up_id_situacao, $up_nome_situacao);
     break;
     case 10:
       $pd->delSituacao($del_id_situacao);
@@ -117,10 +117,12 @@
       echo $data;
     break;
     case 12:
-      $data = $p->upCategoria($up_id_categoria, $up_nome_categoria);
-      echo $data;
+      $p->upCategoria($up_id_categoria, $up_nome_categoria);
     break;
     case 13:
       $p->delCategoria($del_id_categoria);
+    break;
+    case 14:
+      $p->upCategoriaProduto($id_categoria, $id_produto);
     break;
   }

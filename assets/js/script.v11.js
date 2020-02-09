@@ -224,8 +224,8 @@ function addCategoria() {
             type:'POST',
             url:'http://localhost/sistema_grafica/ajax',
             data:{add_nome_categoria:nomecategoria, option:option},
-            success: function(id) {
-                $("#categoria").append("<option id='"+id+"' value='"+nomecategoria+"|"+id+"'>"+nomecategoria+"</option>");
+            success: function() {
+                location.reload();
             }
        });
     }
@@ -240,8 +240,8 @@ function addSituacao() {
             type:'POST',
             url:'http://localhost/sistema_grafica/ajax',
             data:{add_nome_situacao:nomesituacao, option:option},
-            success: function(id) {
-                $("#situacao").append("<option id='"+id+"' value='"+nomesituacao+"|"+id+"'>"+nomesituacao+"</option>");
+            success: function() {
+                location.reload();
             }
        })
     }
@@ -261,9 +261,8 @@ function upSituacao() {
                         type:'POST',
                         url:'http://localhost/sistema_grafica/ajax',
                         data:{up_id_situacao:id, up_nome_situacao:nomesituacao, option:option},
-                        success: function(nomesituacaonovo) {
-                            $('#'+id).remove();
-                            $("#situacao").append("<option id='"+id+"' value='"+nomesituacaonovo+"|"+id+"'>"+nomesituacaonovo+"</option>");
+                        success: function() {
+                            location.reload();
                         }
                     })
                 }
@@ -291,9 +290,8 @@ function upCategoria() {
                     type:'POST',
                     url:'http://localhost/sistema_grafica/ajax',
                     data:{up_id_categoria:id, up_nome_categoria:nomecategoria, option:option},
-                    success: function(nomecategorianovo) {
-                        ;$('#'+id).remove();
-                        $("#categoria").append("<option id='"+id+"' value='"+nomecategorianovo+"|"+id+"'>"+nomecategorianovo+"</option>");
+                    success: function() {
+                        location.reload();
                     }
                 })
             }
@@ -317,7 +315,7 @@ function delCategoria() {
                 url:'http://localhost/sistema_grafica/ajax',
                 data:{del_id_categoria:id, option:option},
                 success: function() {
-                    $("#"+id).remove();
+                    location.reload();
                 }
             })
         }
@@ -339,7 +337,7 @@ function delSituacao() {
                     url:'http://localhost/sistema_grafica/ajax',
                     data:{del_id_situacao:id, option:option},
                     success: function() {
-                        $('#'+id).remove();
+                        location.reload();
                     }
                 })
             } 
@@ -515,3 +513,15 @@ function delHistorico(historico) {
         })
     }    
 }
+
+$('[name=categoria]').change(function() {
+    const id_categoria = this.value.split("|")[1];
+    const id_produto = this.value.split("|")[2];
+    const option = 14;
+
+    $.ajax({
+        type:'POST',
+        url:'http://localhost/sistema_grafica/ajax',
+        data:{id_produto:id_produto, id_categoria:id_categoria, option:option}
+    });
+});
