@@ -429,6 +429,35 @@ function mascara_datahora(form, fieldName, evento)
     }
 }
 
+function mascara_data(form, fieldName, evento)
+{
+    if (evento != null)
+    {
+        let code;
+        let navegador = navigator.appName;
+
+        if (navegador.indexOf("Netscape") != -1) {
+            code = evento.which;
+        } else {
+            code = evento.keycode;
+        }
+        if (code == 8)
+            return true;
+    }
+    
+    let data = '';
+    data = data + form.value;
+
+    if (data.length == 2) {
+        data = data + '/';
+        fieldName.value = data;
+    }
+    if (data.length == 5) {
+        data = data + '/';
+        fieldName.value = data;
+    }
+}
+
 $('[name=situacao_ajax]').change(function() {
     const nome_situacao = this.value.split("|")[2];
     const id_pedido = this.value.split("|")[1];

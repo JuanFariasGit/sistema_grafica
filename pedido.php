@@ -103,7 +103,7 @@ $id_pedido = $pd->getIdPedido();
                         </div>
                         <div class="col-sm-2">
                             <label for="datahora">Emissão:</label>
-                            <input class="form-control" type="text" name="emissao" id="emissao" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)" value="<?php date_default_timezone_set('America/Recife');
+                            <input class="form-control" type="text" name="emissao" id="emissao" maxlength="16" onkeydown="mascara_datahora(this, emissao, event)" value="<?php date_default_timezone_set('America/Recife');
 $date = date('d/m/Y H:i');echo $date; ?>"> 
                         </div>
                         <div class="col-sm-3">
@@ -135,7 +135,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                         </div>
                         <div class="col-sm-2">
                             <label for="">Entrega:</label>
-                            <input id="entrega" class="form-control" type="text" name="entrega">                        
+                            <input id="entrega" class="form-control" type="text" name="entrega" onkeydown="mascara_data(this, entrega, event)">                        
                         </div>
                     </div>
                     <div class="col-sm-12 d-flex justify-content-center flex-column my-2">  
