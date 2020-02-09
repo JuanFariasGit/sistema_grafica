@@ -217,7 +217,7 @@ function delCliente(cliente) {
 
 function addCategoria() {
     let nomecategoria = prompt("Adicionar categoria:");
-    if(nomecategoria != "") {
+    if((nomecategoria != "") && (nomecategoria != null)) {
         let option = 11;
 
         $.ajax ({
@@ -228,14 +228,12 @@ function addCategoria() {
                 $("#categoria").append("<option id='"+id+"' value='"+nomecategoria+"|"+id+"'>"+nomecategoria+"</option>");
             }
        });
-    } else {
-        alert("Você não informou a categoria");
     }
 }
 
 function addSituacao() {
     let nomesituacao = prompt("Adicionar situação:");
-    if(nomesituacao != "") {        
+    if((nomesituacao != "") && (nomesituacao != null)) {        
        let option = 8;
 
        $.ajax ({
@@ -246,8 +244,6 @@ function addSituacao() {
                 $("#situacao").append("<option id='"+id+"' value='"+nomesituacao+"|"+id+"'>"+nomesituacao+"</option>");
             }
        })
-    } else {
-        alert("Você não informou a situação");
     }
 }
 
@@ -257,24 +253,28 @@ function upSituacao() {
     let option = 9;
 
     if(nome != "") {
+        if(nome != "Concluído") {
         const nomesituacao = prompt("Digite a situação que deseja substituir "+nome+'!');
-        if(nomesituacao != "") {
-            if(nomesituacao != null) {           
-                $.ajax ({
-                    type:'POST',
-                    url:'http://localhost/sistema_grafica/ajax',
-                    data:{up_id_situacao:id, up_nome_situacao:nomesituacao, option:option},
-                    success: function(nomesituacaonovo) {
-                        $('#'+id).remove();
-                        $("#situacao").append("<option id='"+id+"' value='"+nomesituacaonovo+"|"+id+"'>"+nomesituacaonovo+"</option>");
-                    }
-                })
+            if(nomesituacao != "") {
+                if(nomesituacao != null) {           
+                    $.ajax ({
+                        type:'POST',
+                        url:'http://localhost/sistema_grafica/ajax',
+                        data:{up_id_situacao:id, up_nome_situacao:nomesituacao, option:option},
+                        success: function(nomesituacaonovo) {
+                            $('#'+id).remove();
+                            $("#situacao").append("<option id='"+id+"' value='"+nomesituacaonovo+"|"+id+"'>"+nomesituacaonovo+"</option>");
+                        }
+                    })
+                }
+            } else {
+                alert("Você deve informa um nome tente novamente!");
             }
         } else {
-            alert("Você deve informa um nome tente novamente");
-        }
+            alert("Concluído é uma categoria padrão não pôde ser alterada!");
+        } 
     } else {
-        alert("Você não selecionou nenhuma situação");
+        alert("Você não selecionou nenhuma situação!");
     }
 }
 
@@ -332,16 +332,18 @@ function delSituacao() {
     let option = 10;
     
     if(nome != "") {
-        if(confirm('A situação '+nome+' será deletada.') == true && nome != "Concluído") {
-            $.ajax ({
-                type:'POST',
-                url:'http://localhost/sistema_grafica/ajax',
-                data:{del_id_situacao:id, option:option},
-                success: function() {
-                    $('#'+id).remove();
-                }
-            })
-        } else if (nome == "Concluído") {
+        if(nome != "Concluído") {
+            if(confirm('A situação '+nome+' será deletada.') == true && nome != "Concluído") {
+                $.ajax ({
+                    type:'POST',
+                    url:'http://localhost/sistema_grafica/ajax',
+                    data:{del_id_situacao:id, option:option},
+                    success: function() {
+                        $('#'+id).remove();
+                    }
+                })
+            } 
+        } else {
             alert("Concluído é uma situação padrão não pôde ser deletada!");
         }
     } else {
@@ -350,7 +352,7 @@ function delSituacao() {
 }
 
 function delPedido(pedido) {
-    if(confirm('O pedido de '+pedido.name+' será deletado.') == true) {
+    if(confirm('O pedido de ID '+pedido.id+' do usuário '+pedido.name+' será deletado.') == true) {
         let id_pedido = pedido.id;
         let option = 6;
 
