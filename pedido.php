@@ -92,21 +92,21 @@ $id_pedido = $pd->getIdPedido();
                     <h4 class="font-weight-bold">PEDIDO</h4>
                 </div>
                 <div class="form-row d-flex justify-content-center">
-                    <div class="col-sm-12 d-sm-flex justify-content-sm-center">
-                        <div class="col-sm-1">
+                    <div class="col-lg-12 d-lg-flex justify-content-lg-center">
+                        <div class="col-lg-1">
                         <label for="id_pedido">ID:</label>
                             <input  id="id_pedido" class="form-control" type="text" name="id_pedido" value="<?php echo $id_pedido; ?>" readonly="readonly">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-lg-3">
                             <label for="vendedor_name">Vendedor:</label>
                             <input id="vendedor_name" class="form-control" type="text" name="vendedor_name" value="<?php echo $usuariologado; ?>" readonly="readonly">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-lg-3">
                             <label for="datahora">Emissão:</label>
                             <input class="form-control" type="text" name="emissao" id="emissao" maxlength="16" onkeydown="mascara_datahora(this, emissao, event)" value="<?php date_default_timezone_set('America/Recife');
 $date = date('d/m/Y H:i');echo $date; ?>"> 
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-lg-3">
                             <label for="cliente">Cliente:</label>
                             <select class="form-control" name="cliente" id="cliente">
                                 <option></option>
@@ -116,14 +116,14 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                             </select>  
                         </div>
                     </div> 
-                    <div class="col-sm-12 d-flex justify-content-center">    
-                        <div class="col-sm-8">
+                    <div class="col-lg-12 d-flex justify-content-center">    
+                        <div class="col-lg-10">
                             <label for="obs">Obs:</label>
                             <textarea class="form-control" name="obs" id="obs"></textarea>
                         </div>
                     </div>
-                    <div class="col-sm-12 d-sm-flex justify-content-sm-center">    
-                        <div class="col-sm-6">
+                    <div class="col-lg-12 d-lg-flex justify-content-lg-center">    
+                        <div class="col-lg-6">
                             <label for="produtos">Produtos:</label>
                             <select class="form-control mb-2" name="produtos" id="produtos">
                                 <option></option>
@@ -133,12 +133,12 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                             </select>
                             <a class="btn-sm btn btn-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-lg-4">
                             <label for="entrega">Entrega:</label>
                             <input id="entrega" class="form-control" type="text" name="entrega" maxlength="10" onkeydown="mascara_data(this, entrega, event)">                        
                         </div>
                     </div>
-                    <div class="col-sm-12 d-flex justify-content-center flex-column my-2">  
+                    <div class="col-lg-12 d-flex justify-content-center flex-column my-2">  
                         <div class="table-responsive">
                             <table class="table table-dark text-center">
                             <thead>
@@ -202,7 +202,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
             <hr style="background-color:white;"> 
         </div>
         <form method="get">
-          <div class="form-group d-sm-flex align-items-center justify-content-center container">
+          <div class="form-group d-lg-flex align-items-center justify-content-center container">
             <input class="form-control my-2" type="search" name="buscarPedido" style="max-width: 500px">
             <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">
           </div>

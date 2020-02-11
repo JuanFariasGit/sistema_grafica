@@ -71,7 +71,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $situacao = explode("|",$_POST['situacao'])[1];  
        
     
-    $pd->upPedido($id, $cliente_id, $emissao, $obs, $produtospedido, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $falta_pagar, $situacao, $entrega, $usuariologado);
+    $pd->upPedido($id, $cliente_id, $emissao, $obs, $produtospedido, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $falta_pagar, $situacao, $entrega);
     header("Location: ".BASE_URL."pedido");
 }
 ?>
@@ -87,20 +87,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-row d-flex justify-content-center">
                     <?php foreach($pedidos as $pedido): ?>
-                    <div class="col-sm-12 d-sm-flex justify-content-sm-center">
-                        <div class="col-sm-1">
+                    <div class="col-lg-12 d-lg-flex justify-content-lg-center">
+                        <div class="col-lg-1">
                             <label for="id_pedido">ID:</label>
                                 <input id="id_pedido" class="form-control" name="id_pedido" value="<?php echo $pedido['id']; ?>" readonly='readonly' >
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-lg-3">
                             <label for="vendedor_name">Vendedor:</label>
-                            <input id="vendedor_name" class="form-control" type="text" name="vendedor_name" value="<?php echo $usuariologado; ?>" readonly="readonly">
+                            <input class="form-control" type="text" value="<?php echo $pedido['vendedor']; ?>" readonly="readonly">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-lg-3">
                             <label for="emissao">Emissão</label>
                             <input class="form-control" type="text" name="emissao" id="emissao" maxlength="16" onkeydown="mascara_datahora(this, datahora, event)" value="<?php echo date('d/m/Y H:i',strtotime($pedido['emissao'])); ?>"> 
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-lg-3">
                             <label for="cliente">Cliente:</label>
                             <select class="form-control" name="cliente" id="cliente">
                                 <option></option>
@@ -110,15 +110,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>  
                         </div>
                     </div> 
-                    <div class="col-sm-12 d-flex justify-content-center">    
-                        <div class="col-sm-8">
+                    <div class="col-lg-12 d-flex justify-content-center">    
+                        <div class="col-lg-10">
                             <label for="obs">Obs:</label>
                             <textarea class="form-control" name="obs" id="obs"><?php echo $pedido['obs']; ?></textarea>
                         </div>
                     </div>
                     <?php endforeach; ?>
-                    <div class="col-sm-12 d-sm-flex justify-content-sm-center">    
-                        <div class="col-sm-6">
+                    <div class="col-lg-12 d-lg-flex justify-content-lg-center">    
+                        <div class="col-lg-6">
                             <label for="produtos">Produtos:</label>
                             <select class="form-control mb-2" name="produtos" id="produtos">
                                 <option></option>
@@ -128,12 +128,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             </select>
                             <a class="btn-sm btn btn-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-lg-4">
                             <label for="entrega">Entrega:</label>
                             <input id="entrega" class="form-control" type="text" name="entrega" maxlength="10" onkeydown="mascara_data(this, entrega, event)" value="<?php echo date('d/m/Y',strtotime($pedido['entrega'])); ?>">                        
                         </div>
                     </div>
-                    <div class="col-sm-12 d-flex justify-content-center flex-column my-2">  
+                    <div class="col-lg-12 d-flex justify-content-center flex-column my-2">  
                         <div class="table-responsive">
                             <table class="table table-dark text-center">
                                 <thead>

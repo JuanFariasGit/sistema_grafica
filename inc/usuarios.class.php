@@ -68,7 +68,7 @@ class usuarios {
 		$sql = $this->pdo->prepare($sql);
 		$sql->bindValue(':nome', $nome);
 		$sql->bindValue(':email', $email);
-		$sql->bindValue(':senha', md5($senha));
+		$sql->bindValue(':senha', $senha);
 		$sql->bindValue(':permissao', $permissao);
 		$sql->execute();
 

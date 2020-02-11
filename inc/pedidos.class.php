@@ -127,8 +127,8 @@ class pedidos {
         $sql->execute();
     }
 
-    public function upPedido($id , $id_cliente, $emissao, $obs, $produtos, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao, $entrega, $vendedor) {
-        $sql = "UPDATE pedidos SET id_cliente = :id_cliente, emissao = STR_TO_DATE(:emissao, '%d/%m/%Y %H:%i'), obs = :obs, valorfrete = :valorfrete, valorarte = :valorarte, valoroutros = :valoroutros, taxacartao = :taxacartao, desconto = :desconto, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao, entrega = STR_TO_DATE(:entrega, '%d/%m/%Y %H:%i'), vendedor = :vendedor WHERE id = :id";
+    public function upPedido($id , $id_cliente, $emissao, $obs, $produtos, $id_produtos, $al, $la, $quantidade, $valorunitario, $valor_frete, $valor_arte, $valor_outros, $taxa_cartao, $desconto, $total, $valor_pago, $faltapagar, $situacao, $entrega) {
+        $sql = "UPDATE pedidos SET id_cliente = :id_cliente, emissao = STR_TO_DATE(:emissao, '%d/%m/%Y %H:%i'), obs = :obs, valorfrete = :valorfrete, valorarte = :valorarte, valoroutros = :valoroutros, taxacartao = :taxacartao, desconto = :desconto, total = :total, valorpago = :valorpago, faltapagar = :faltapagar, situacao = :situacao, entrega = STR_TO_DATE(:entrega, '%d/%m/%Y %H:%i') WHERE id = :id";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':id', $id);
         $sql->bindValue(':id_cliente', $id_cliente);
@@ -144,7 +144,6 @@ class pedidos {
         $sql->bindValue(':faltapagar', $faltapagar);
         $sql->bindValue(':situacao', $situacao);
         $sql->bindValue(':entrega', $entrega);
-        $sql->bindValue(':vendedor', $vendedor);
         $sql->execute();
         
         $sql = $this->pdo->prepare("DELETE FROM pedido_produtos WHERE id_pedido = :id");
@@ -229,12 +228,13 @@ class pedidos {
         return $array;
     }
 
-    public function gerarRelatorioGeral($anomes) {
+    public function gerarRelatorioGeral($anomes, $vendedor) {
 		$array = array();
 
-		$sql = 'SELECT datahora, sum(total) AS total_, sum(valorpago) AS valor_pago, sum(faltapagar) AS falta_pagar FROM pedidos WHERE datahora LIKE :datahora"%"';
-		$sql = $this->pdo->prepare($sql);
-		$sql->bindValue(":datahora", $anomes);
+		$sql = 'SELECT emissao, sum(total) AS total_, sum(valorpago) AS valor_pago, sum(faltapagar) AS falta_pagar FROM pedidos WHERE  emissao LIKE :emissao"%" AND vendedor = :vendedor';
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(":vendedor", $vendedor);
+		$sql->bindValue(":emissao", $anomes);
 		$sql->execute();
 
 		if($sql->rowCount() > 0) {
@@ -243,12 +243,13 @@ class pedidos {
 		return $array;
     }
     
-    public function gerarRelatorioDevedores($anomes) {
+    public function gerarRelatorioDevedores($anomes, $vendedor) {
 		$array = array();
 
-		$sql = 'SELECT pedidos.datahora, clientes.nomecompleto AS cliente, pedidos.total, pedidos.valorpago, pedidos.faltapagar FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE pedidos.datahora LIKE :datahora"%" AND pedidos.faltapagar > 0';
+		$sql = 'SELECT pedidos.emissao, clientes.nomecompleto AS cliente, pedidos.total, pedidos.valorpago, pedidos.faltapagar FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE pedidos.emissao LIKE :emissao"%" AND pedidos.faltapagar > 0 AND vendedor = :vendedor';
 		$sql = $this->pdo->prepare($sql);
-		$sql->bindValue(":datahora", $anomes);
+        $sql->bindValue(":vendedor", $vendedor);
+		$sql->bindValue(":emissao", $anomes);
 		$sql->execute();
 
 		if($sql->rowCount() > 0) {
@@ -257,12 +258,12 @@ class pedidos {
 		return $array;
     }
     
-    public function getRelatorioQuatidadePedidosClientes($anomes) {
+    public function getRelatorioQuatidadePedidosClientes($anomes, $vendedor) {
         $array_cliente = array();
         $array_relatorio_cliente = array();
 
-        $sql = $this->pdo->prepare('SELECT clientes.nomecompleto AS cliente FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE pedidos.datahora LIKE :datahora"%" ORDER BY clientes.nomecompleto');
-        $sql->bindValue(":datahora", $anomes);
+        $sql = $this->pdo->prepare('SELECT clientes.nomecompleto AS cliente FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE pedidos.emissao LIKE :emissao"%" ORDER BY clientes.nomecompleto');
+		$sql->bindValue(":emissao", $anomes);
         $sql->execute();
 
         if ($sql->rowCount() > 0) { 
@@ -271,9 +272,10 @@ class pedidos {
             foreach($array_cliente as $cliente) {
                 if ($verificador != $cliente) {
                     $verificador = $cliente;
-                    $sql = $this->pdo->prepare('SELECT pedidos.datahora, clientes.nomecompleto AS cliente, count(pedidos.id_cliente) AS quantidade FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE clientes.nomecompleto = :cliente AND datahora LIKE :datahora"%"');
+                    $sql = $this->pdo->prepare('SELECT pedidos.emissao, clientes.nomecompleto AS cliente, count(pedidos.id_cliente) AS quantidade FROM pedidos LEFT JOIN clientes ON clientes.id = pedidos.id_cliente WHERE clientes.nomecompleto = :cliente AND emissao LIKE :emissao"%" AND vendedor = :vendedor');
                     $sql->bindValue(":cliente", $cliente['cliente']);
-                    $sql->bindValue(":datahora", $anomes);
+                    $sql->bindValue(":emissao", $anomes);
+                    $sql->bindValue(":vendedor", $vendedor);
                     $sql->execute();
                     array_push($array_relatorio_cliente, $sql->fetch());
                 }    
