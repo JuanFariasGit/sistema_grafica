@@ -118,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                           </tr>
                         </thead>
                         <tbody id="listausuario">
-                          <?php foreach($usuarios as $usuario): ?>
+                          <?php foreach($array_u as $usuario): ?>
                           <tr id="<?php echo $usuario['id']; ?>">
                             <td><p class="my-1"><?php echo $usuario['id']; ?></p></td>
                             <td><p class='my-1'><?php echo $usuario['nome']; ?></p></td>

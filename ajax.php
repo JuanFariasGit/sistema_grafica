@@ -130,10 +130,14 @@
       $usuarios = $u->getUsuarioBuscar($buscarUsuario);
       $html = '';
       foreach($usuarios as $usuario) {
-        $html .= '<tr id="'.$usuario['id'].'"><td>'.$usuario['id'].'</td>';
-        $html .= '<td>'.$usuario['nome'].'</td>';
-        $html .= '<td>'.$usuario['email'].'</td>';
-        $html .= '<td>'.$usuario['permissao'].'</td>'; 
+        $html .= '<tr id="'.$usuario['id'].'"><td><p class="my-1">'.$usuario['id'].'</p></td>';
+        $html .= '<td><p class="my-1">'.$usuario['nome'].'</p></td>';
+        $html .= '<td><p class="my-1">'.$usuario['email'].'</p></td>';
+        if ($usuario['permissao'] == "ADMINISTRADOR") {
+          $html .= '<td><p class="my-1">Administrador</p></td>';
+        } else {
+          $html .= '<p class="my-1"><td>Padrão</p></td>';
+        }
         $html .= '<td><a href="'.BASE_URL.'edit.usuario?id='.$usuario['id'].'"><i class="fas fa-pen" style="font-size:12pt"></i></a>
         <a id="'.$usuario['id'].'" name="'.$usuario['nome'].'" class="'.$usuario['permissao'].'" onclick="delUsuario(this)" style="cursor:pointer"><i class="fas fa-trash-alt text-danger" style="font-size:12pt"></i></a></td></tr>';
       }
