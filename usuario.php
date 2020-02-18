@@ -105,10 +105,10 @@ if(empty($_GET['buscarUsuario'])) {
                             <input class="btn-sm btn-primary font-weight-bold border-0" type="submit" value="CADASTRAR">
                         </div>
                     </form>
-                    <form method="get">
+                    <form method="post">
                       <hr style="background-color:white;">
                       <div class="form-group d-sm-flex align-items-center justify-content-center">
-                        <input class="form-control my-2" type="search" name="buscarUsuario" style="max-width: 500px">
+                        <input class="form-control my-2" type="text" name="buscarUsuario" style="max-width: 500px">
                         <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">
                       </div>
                     </form> 
@@ -124,7 +124,7 @@ if(empty($_GET['buscarUsuario'])) {
                             <th scope="col">Ações</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="listausuario">
                           <?php foreach($usuarios as $usuario): ?>
                           <tr id="<?php echo $usuario['id']; ?>">
                             <td><p class="my-1"><?php echo $usuario['id']; ?></p></td>

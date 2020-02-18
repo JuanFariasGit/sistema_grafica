@@ -113,20 +113,32 @@ if(empty($_GET['buscarCliente'])) {
                   <table class="table table-dark text-center">
                     <thead>
                       <tr>
-                        <th scope="col">ID</th>
+                      <th scope="col">ID</th>
                         <th scope="col">Nome completo</th>
                         <th scope="col">Fone</th>
+                        <th  scope="col">Cep</th>
+                        <th  scope="col">Rua</th>
+                        <th  scope="col">Nº</th>
+                        <th  scope="col">Complemento</th>
+                        <th  scope="col">Bairro</th>
                         <th  scope="col">Cidade</th>
+                        <th  scope="col">Estado</th>
                         <th scope="col">Ações</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php foreach($clientes as $cliente): ?>
                       <tr id="<?php echo $cliente['id'] ?>">
-                        <td><p class='my-1'><?php echo $cliente['id'];?></p></td>
+                      <td><p class="my-1"><?php echo $cliente['id']; ?></p></td>
                         <td><p class='my-1'><?php echo $cliente['nomecompleto'];?></p></td>
                         <td><a class='my-1' href="https://wa.me/55<?php echo str_replace('-','',str_replace(' ','',$cliente['fone'])) ?>" target="_blank"><?php echo $cliente['fone'];?></a></td>
+                        <td><p class='my-1'><?php echo $cliente['cep'];?></p></td>
+                        <td><p class='my-1'><?php echo $cliente['rua'];?></p></td>
+                        <td><p class='my-1'><?php echo $cliente['numero'];?></p></td>
+                        <td><p class='my-1'><?php echo $cliente['complemento'];?></p></td>
+                        <td><p class='my-1'><?php echo $cliente['bairro'];?></p></td>
                         <td><p class='my-1'><?php echo $cliente['cidade'];?></p></td>
+                        <td><p class='my-1'><?php echo $cliente['uf'];?></p></td>
                         <td>
                           <a href="<?php echo BASE_URL; ?>edit.cliente?id=<?php echo $cliente['id']; ?>"><i class='fas fa-pen' style='font-size:12pt'></i></a>
                           <a id="<?php echo $cliente['id']; ?>" name="<?php echo $cliente['nomecompleto']; ?>" onclick="delCliente(this)" style="cursor:pointer"><i class='fas fa-trash-alt text-danger' style='font-size:12pt'></i></a>

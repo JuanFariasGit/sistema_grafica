@@ -116,7 +116,6 @@ if(empty($_GET['buscarProduto'])) {
                         <td>
                           <p class='my-1'>
                             <select class="form-control mx-auto bg-dark text-white border-0 rounded-0" name="categoria" id="categoria" style="max-width: 200px">
-                                  <option></option>
                                   <?php foreach($categorias as $categoria): ?>
                                       <option value="<?php echo $categoria['nome']; ?>|<?php echo $categoria['id']; ?>|<?php echo $produto['id']; ?>" <?php echo ($produto['categoria']) == $categoria['nome'] ? "selected='selected'" : "" ?>><?php echo $categoria['nome']; ?></option>
                                   <?php endforeach; ?>

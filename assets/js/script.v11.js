@@ -107,6 +107,7 @@ function delUsuario(usuario) {
     if((document.getElementsByClassName("ADMINISTRADOR").length > 1) || (usuario.className.indexOf('PADRÃO') != -1)) {
       if(confirm('O usuário '+usuario.name+' será deletado.') === true) {
         let id_usuario = usuario.id;
+        let nome_usuario_logado = document.querySelector(".usuariologado").innerHTML;
         let option = 3;
 
         $.ajax ({
@@ -114,7 +115,11 @@ function delUsuario(usuario) {
             url:'http://localhost/sistema_grafica/ajax',
             data:{id_usuario:id_usuario, option:option},
             success: function() {
-                $("#"+id_usuario).remove();
+                if(usuario.name = nome_usuario_logado) {
+                    location.reload();
+                } else {
+                    $("#"+id_usuario).remove();
+                }
             }
         })    
       } 
@@ -514,7 +519,7 @@ function delHistorico(historico) {
     }    
 }
 
-$('[name=categoria]').change(function() {
+$('[name="categoria"]').change(function() {
     const id_categoria = this.value.split("|")[1];
     const id_produto = this.value.split("|")[2];
     const option = 14;
@@ -525,3 +530,17 @@ $('[name=categoria]').change(function() {
         data:{id_produto:id_produto, id_categoria:id_categoria, option:option}
     });
 });
+
+$('[name="buscarUsuario"]').keyup(function(){
+    let usuario = $(this).val();
+    let option = 15;
+    
+    $.ajax ({
+        type:'POST',
+        url:'http://localhost/sistema_grafica/ajax',
+        data:{buscarUsuario:usuario, option:option},
+        success: function(retorno) {
+            $("#listausuario").html(retorno);
+        }
+    })
+})

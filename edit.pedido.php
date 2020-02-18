@@ -182,14 +182,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="desconto" style="font-size: 12px">Desconto (R$):</label>
                                 <input class="form-control" id="desconto" type="number" name="desconto" step="0.01"  onkeyup="mudouvalor()" value="<?php if($pedido['desconto'] > 0) {echo $pedido['desconto'];} else {echo "";} ?>">
                             </div>
-                            <div class="col-lg d-flex align-items-center px-0">
+                            <div class="col-lg d-flex align-items-center">
                                 <input id="total" class="bg-dark text-white border-0" type="text" name="total" readonly='readonly' value="<?php echo "Total: R$ ".str_replace(".",",", $pedido['total']); ?>" style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="valor_pago" style="font-size: 12px">Valor Pago (R$)</label>
                                 <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()"  value="<?php if($pedido['valorpago'] > 0) {echo $pedido['valorpago'];} else {echo "";} ?>">
                             </div>
-                            <div class="col-lg d-flex align-items-center py-2 px-0">
+                            <div class="col-lg d-flex align-items-center py-2">
                                 <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="<?php echo "Falta Pagar: R$ ".str_replace(".",",", $pedido['faltapagar']); ?>" readonly='readonly' style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">

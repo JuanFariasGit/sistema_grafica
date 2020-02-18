@@ -48,6 +48,7 @@
   $add_email_usuario = isset($_POST['add_email_usuario']) ? $_POST['add_email_usuario'] : '';
   $add_senha_usuario = isset($_POST['add_senha_usuario']) ? $_POST['add_senha_usuario'] : '';
   $add_permissao_usuario = isset($_POST['add_permissao_usuario']) ? $_POST['add_permissao_usuario'] : '';
+  $buscarUsuario = isset($_POST['buscarUsuario']) ? $_POST['buscarUsuario'] : '';
   $option = $_POST['option'];
   
   $pd = new pedidos($pdo);
@@ -125,4 +126,18 @@
     case 14:
       $p->upCategoriaProduto($id_categoria, $id_produto);
     break;
-  }
+    case 15:
+      $usuarios = $u->getUsuarioBuscar($buscarUsuario);
+      $html = '';
+      foreach($usuarios as $usuario) {
+        $html .= '<tr id="'.$usuario['id'].'"><td>'.$usuario['id'].'</td>';
+        $html .= '<td>'.$usuario['nome'].'</td>';
+        $html .= '<td>'.$usuario['email'].'</td>';
+        $html .= '<td>'.$usuario['permissao'].'</td>'; 
+        $html .= '<td><a href="'.BASE_URL.'edit.usuario?id='.$usuario['id'].'"><i class="fas fa-pen" style="font-size:12pt"></i></a>
+        <a id="'.$usuario['id'].'" name="'.$usuario['nome'].'" class="'.$usuario['permissao'].'" onclick="delUsuario(this)" style="cursor:pointer"><i class="fas fa-trash-alt text-danger" style="font-size:12pt"></i></a></td></tr>';
+      }
+                      
+        echo $html;
+            break;
+}

@@ -175,19 +175,19 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                                 <label for="desconto" style="font-size: 12px">Desconto (R$):</label>
                                 <input class="form-control" id="desconto" type="number" name="desconto" step="0.01" onkeyup="mudouvalor()">
                             </div>
-                            <div class="col-lg d-flex align-items-center px-0">
+                            <div class="col-lg d-flex align-items-center">
                                 <input id="total" class="bg-dark text-white border-0" type="text" name="total" value="Total: R$ 0,00" readonly='readonly' style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="valor_pago" style="font-size: 12px">Valor Pago (R$)</label>
                                 <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()">
                             </div>
-                            <div class="col-lg d-flex align-items-center py-2 px-0">
+                            <div class="col-lg d-flex align-items-center py-2">
                                 <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="Falta pagar: R$ 0,00" readonly='readonly' style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="situacao" style="font-size: 12px">Situação: <a class="text-success" onclick="addSituacao()" style="cursor: pointer">(+)</a> <a class="text-primary" onclick="upSituacao()" style="cursor: pointer">(#)</a> <a class="text-danger" onclick="delSituacao()" style="cursor: pointer">(-)</a></label>
-                                <select class="form-control mb-2" name="situacao" id="situacao" style="max-width: 150px">
+                                <select class="form-control mb-2" name="situacao" id="situacao">
                                     <option></option>
                                     <?php foreach($situacoes as $situacao): ?>
                                     <option id="<?php echo $situacao['id']; ?>" value="<?php echo $situacao['nome']; ?>|<?php echo $situacao['id']; ?>"><?php echo $situacao["nome"]; ?></option>
@@ -202,9 +202,9 @@ $date = date('d/m/Y H:i');echo $date; ?>">
             <hr style="background-color:white;"> 
         </div>
         <form method="get">
-          <div class="form-group d-lg-flex align-items-center justify-content-center container">
+          <div class="form-group d-flex align-items-center justify-content-center container">
             <input class="form-control my-2" type="search" name="buscarPedido" style="max-width: 500px">
-            <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">
+            <input class="btn-sm btn-primary mx-1 font-weight-bold" type="submit" value="BUSCAR">
           </div>
         </form>         
         <div class="table-responsive">
@@ -230,8 +230,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                         <td><?php echo "R$ ".str_replace(".",",", $pedido['total']); ?></td>
                         <td><?php echo "R$ ".str_replace(".",",", $pedido['faltapagar']); ?></td>
                         <td>
-                            <select class="form-control mb-2 mx-auto bg-dark text-white border-0 rounded-0" name="situacao_ajax" style="max-width: 200px">
-                                <option></option>
+                            <select class="form-control mb-2 mx-auto bg-dark text-white border-0 rounded-0" name="situacao_ajax" style="width: 200px">
                                 <?php foreach($situacoes as $situacao): ?>
                                 <option value="<?php echo $situacao['id']; ?>|<?php echo $pedido['id']; ?>|<?php echo $situacao['nome']; ?>" <?php echo ($pedido['situacao'] == $situacao['nome']) ? "selected='selected'" : ""; ?>><?php echo $situacao["nome"]; ?></option>
                                 <?php endforeach; ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 09-Fev-2020 às 22:10
+-- Tempo de geração: 14-Fev-2020 às 03:38
 -- Versão do servidor: 10.3.16-MariaDB
 -- versão do PHP: 7.3.7
 
@@ -33,14 +33,6 @@ CREATE TABLE `categorias` (
   `nome` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `categorias`
---
-
-INSERT INTO `categorias` (`id`, `nome`) VALUES
-(65, 'Serviço'),
-(66, 'Festa');
-
 -- --------------------------------------------------------
 
 --
@@ -60,13 +52,6 @@ CREATE TABLE `clientes` (
   `uf` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `clientes`
---
-
-INSERT INTO `clientes` (`id`, `nomecompleto`, `fone`, `cep`, `rua`, `numero`, `complemento`, `bairro`, `cidade`, `uf`) VALUES
-(20, 'Juan De Oliveira Farias', '81 9 9999-9747', '', '', '', '', '', '', '');
-
 -- --------------------------------------------------------
 
 --
@@ -82,25 +67,6 @@ CREATE TABLE `historico` (
   `Navegador` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `historico`
---
-
-INSERT INTO `historico` (`id`, `id_usuario`, `datahora`, `ip`, `so`, `Navegador`) VALUES
-(128, 62, '2020-02-08 20:50:00', '::1', 'Windows 10', 'Firefox'),
-(129, 62, '2020-02-08 21:41:00', '::1', 'Windows 10', 'Firefox'),
-(130, 62, '2020-02-08 23:49:00', '::1', 'Windows 10', 'Opera'),
-(131, 62, '2020-02-08 23:50:00', '::1', 'Windows 10', 'Google Chrome'),
-(132, 62, '2020-02-09 01:09:00', '::1', 'Windows 10', 'Firefox'),
-(133, 62, '2020-02-09 01:13:00', '::1', 'Windows 10', 'Google Chrome'),
-(134, 62, '2020-02-09 10:00:00', '::1', 'Windows 10', 'Firefox'),
-(135, 62, '2020-02-09 10:09:00', '::1', 'Windows 10', 'Firefox'),
-(136, 62, '2020-02-09 10:13:00', '::1', 'Windows 10', 'Firefox'),
-(137, 62, '2020-02-09 12:29:00', '::1', 'Windows 10', 'Firefox'),
-(138, 62, '2020-02-09 13:49:00', '::1', 'Windows 10', 'Firefox'),
-(139, 62, '2020-02-09 16:27:00', '::1', 'Windows 10', 'Firefox'),
-(140, 62, '2020-02-09 18:09:00', '::1', 'Windows 10', 'Firefox');
-
 -- --------------------------------------------------------
 
 --
@@ -111,13 +77,6 @@ CREATE TABLE `historico_senha` (
   `id` int(11) NOT NULL,
   `senha` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `historico_senha`
---
-
-INSERT INTO `historico_senha` (`id`, `senha`) VALUES
-(1, 'e10adc3949ba59abbe56e057f20f883e');
 
 -- --------------------------------------------------------
 
@@ -143,14 +102,6 @@ CREATE TABLE `pedidos` (
   `vendedor` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `pedidos`
---
-
-INSERT INTO `pedidos` (`id`, `id_cliente`, `emissao`, `obs`, `valorfrete`, `valorarte`, `valoroutros`, `taxacartao`, `desconto`, `total`, `valorpago`, `faltapagar`, `situacao`, `entrega`, `vendedor`) VALUES
-(54, 19, '2020-02-08 20:59:00', '', 0.00, 0.00, 0.00, 0.00, 0.00, 50.00, 25.00, 25.00, 28, '2020-05-04', 'Juan Farias'),
-(55, 20, '2020-02-09 11:38:00', 'Entregar só na segunda porque estou esperando uma resposta do cliente.', 0.00, 0.00, 0.00, 0.00, 10.00, 40.00, 0.00, 40.00, 67, '2020-05-08', 'Juan Farias');
-
 -- --------------------------------------------------------
 
 --
@@ -168,14 +119,6 @@ CREATE TABLE `pedido_produtos` (
   `valoruni` float(9,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `pedido_produtos`
---
-
-INSERT INTO `pedido_produtos` (`id`, `id_pedido`, `produto`, `uni`, `al`, `la`, `quantidade`, `valoruni`) VALUES
-(131, 54, 'Banner', 'm²', 1.00, 1.00, 1, 50.00),
-(136, 55, 'Banner', 'm²', 1.00, 1.00, 1, 50.00);
-
 -- --------------------------------------------------------
 
 --
@@ -190,13 +133,6 @@ CREATE TABLE `produtos` (
   `valor` float(9,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `produtos`
---
-
-INSERT INTO `produtos` (`id`, `nome`, `categoria`, `unidademedida`, `valor`) VALUES
-(285, 'Banner', 65, 'm²', 50.00);
-
 -- --------------------------------------------------------
 
 --
@@ -207,15 +143,6 @@ CREATE TABLE `situacao` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `situacao`
---
-
-INSERT INTO `situacao` (`id`, `nome`) VALUES
-(27, 'Em Produção'),
-(28, 'Concluído'),
-(67, 'Aguardando Resposta');
 
 -- --------------------------------------------------------
 
@@ -232,14 +159,6 @@ CREATE TABLE `usuarios` (
   `ip` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Extraindo dados da tabela `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `permissao`, `ip`) VALUES
-(62, 'Juan Farias', 'juanfarias580@gmail.com', '202cb962ac59075b964b07152d234b70', 'ADMINISTRADOR', '::1'),
-(87, 'Ramon Farias', 'irmaoramonfarias@gmail.com', 'd9b1d7db4cd6e70935368a1efb10e377', 'PADRÃO', '');
-
 -- --------------------------------------------------------
 
 --
@@ -252,16 +171,6 @@ CREATE TABLE `usuarios_token` (
   `hash` varchar(32) NOT NULL,
   `used` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Extraindo dados da tabela `usuarios_token`
---
-
-INSERT INTO `usuarios_token` (`id`, `id_usuario`, `hash`, `used`) VALUES
-(1, 1, '080abe484ef46ee4123f2a769f132314', 0),
-(2, 1, '23bce75d9df17047f66e30e75a08b7e4', 1),
-(3, 5, '43a1433c1d1f87ec3209855faae0bd3d', 0),
-(4, 1, '905b75acc8e53a18006dbe417486eede', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -340,61 +249,61 @@ ALTER TABLE `usuarios_token`
 -- AUTO_INCREMENT de tabela `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `historico`
 --
 ALTER TABLE `historico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `historico_senha`
 --
 ALTER TABLE `historico_senha`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `pedido_produtos`
 --
 ALTER TABLE `pedido_produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=286;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `situacao`
 --
 ALTER TABLE `situacao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios_token`
 --
 ALTER TABLE `usuarios_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para despejos de tabelas
