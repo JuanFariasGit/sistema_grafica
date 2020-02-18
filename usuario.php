@@ -61,13 +61,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }    
 }
-
-if(empty($_GET['buscarUsuario'])) {
-  $usuarios = $u->getUsuario();
-} else {
-  $nome = trim($_GET['buscarUsuario']);
-  $usuarios = $u->getUsuarioBuscar($nome);
-}
 ?>
 
 <?php require 'inc/header.php'; ?>
