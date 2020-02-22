@@ -86,7 +86,7 @@ class pedidos {
     }
 
     public function addSituacao($nomesituacao) {
-        $sql = "INSERT INTO situacao (nome) VALUE (:situacao)";
+        $sql = "INSERT INTO situacao (nome) VALUES (:situacao)";
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(":situacao", $nomesituacao);
         $sql->execute();

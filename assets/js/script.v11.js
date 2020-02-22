@@ -1,25 +1,39 @@
-function addproduto() {
-    let preco = Number(document.getElementById('produtos').value.split("|")[0].split("R$")[1].trim().replace(',','.'));
-    let nome = document.getElementById("produtos").value.split("|")[1];
-    
-    if(document.getElementById("produtos").value.split("|")[2] == "m²") {
-        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='"+nome+"' readonly='readonly' style='width: 500px'></td><td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' value='1' onkeyup='mudouvalor()' style='width: 80px'><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='quantidade rounded border-0 py-2' type='number' name='quantidade[]' min='1' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='valor_unitario bg-dark text-white border-0' type='text' name='valorunitario[]' value='R$ "+preco.toFixed(2).replace('.', ',')+"' style='width: 80px' readonly='readonly'></td><td><input class='subtotal bg-dark text-white border-0' type='text' name='subtotal[]' value='R$ "+preco.toFixed(2).replace('.', ',')+"' style='width: 80px' readonly='readonly'></td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
-    } else {
-        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='"+nome+"' readonly='readonly' style='width: 500px'></td><td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' value='1' onkeyup='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' value='1' onkeyup='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'></td><td><input class='quantidade rounded border-0 py-2' type='number' name='quantidade[]' min='1' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='valor_unitario bg-dark text-white border-0' type='text' name='valorunitario[]' value='R$ "+preco.toFixed(2).replace('.',',')+"' style='width: 80px' readonly='readonly'></td><td><input class='subtotal bg-dark text-white border-0' type='text' name='subtotal[]' value='R$ "+preco.toFixed(2).replace('.', ',')+"' style='width: 80px' readonly='readonly'></td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
+function somar() 
+{
+    let somarprodutos = 0;
+    for (i = 0; i < document.getElementsByClassName('items').length; i++) {
+        somarprodutos += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',', '.'))*Number(document.getElementsByClassName('quantidade')[i].value))
     }
 
-    soma = 0;
-    for(i = 0; i < document.getElementsByClassName('items').length; i++) {
-        soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
-    };
-    let valor_frete = (document.getElementById('valor_frete').value.length > 0) ? Number(document.getElementById('valor_frete').value) : 0;
-    let valor_arte = (document.getElementById('valor_arte').value.length > 0) ? Number(document.getElementById('valor_arte').value) : 0;
-    let valor_outros = (document.getElementById('valor_outros').value.length > 0) ? Number(document.getElementById('valor_outros').value) : 0;
-    let taxa_cartao = (document.getElementById('taxa_cartao').value.length > 0) ? Number(document.getElementById('taxa_cartao').value)/100 : 0;
-    let desconto = (document.getElementById('desconto').value.length > 0) ? Number(document.getElementById('desconto').value) : 0;
+    let valor_frete = (document.getElementById('valor_frete').value.length > 0) ? Number(document.getElementById('valor_frete').value) : 0
+    let valor_arte = (document.getElementById('valor_arte').value.length > 0) ? Number(document.getElementById('valor_arte').value) : 0
+    let valor_outros = (document.getElementById('valor_outros').value.length > 0) ? Number(document.getElementById('valor_outros').value) : 0
+    let taxa_cartao = (document.getElementById('taxa_cartao').value.length > 0) ? (Number(document.getElementById('taxa_cartao').value)/100) : 0
+    let desconto = (document.getElementById('desconto').value.length > 0) ? Number(document.getElementById('desconto').value) : 0
+    document.getElementById('total').value = 'Total: R$ ' + (valor_arte + valor_frete + valor_outros + taxa_cartao*somarprodutos + somarprodutos - desconto).toFixed(2).replace('.', ',');
+    document.getElementById('falta_pagar').value = "Falta Pagar: R$ " + Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',', '.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".", ",")
+}
+
+function addproduto(obj) {
+    let preco = Number(obj.value.split("|")[0].split("R$")[1].trim().replace(',','.'))
+    let nome = obj.value.split("|")[1]
     
-    document.getElementById('total').value = 'Total: R$ '+(valor_frete + valor_arte + valor_outros + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-    document.getElementById('falta_pagar').value = "Falta Pagar: R$ "+Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',','.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".",",");  
+    if(document.getElementById("produtos").value.split("|")[2] == "m²") {
+        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='"+nome+"' readonly='readonly' style='width: 500px'></td><td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' value='1' onkeyup='mudouvalor()' style='width: 80px'><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='quantidade rounded border-0 py-2' type='number' name='quantidade[]' min='1' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='valor_unitario bg-dark text-white text-center border-0' type='text' name='valorunitario[]' value='R$ "+preco.toFixed(2).replace('.', ',')+"' style='width: 80px' readonly='readonly'></td><td><input class='subtotal bg-dark text-white text-center border-0' type='text' name='subtotal[]' value='R$ "+preco.toFixed(2).replace('.', ',')+"' style='width: 80px' readonly='readonly'></td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
+    } else {
+        $("#addproduto").append("<tr id='"+nome+"' class='items'><td><input class='border-0 rounded-0 bg-dark text-white text-center' type='text' name='produtospedido[]' value='"+nome+"' readonly='readonly' style='width: 500px'></td><td><input class='al mx-2 rounded border-0 py-2' type='number' name='al[]' step='0.01' value='1' onkeyup='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'><input class='la mx-2 rounded border-0 py-2' type='number' name='la[]' step='0.01' value='1' onkeyup='mudouvalor()' readonly='readonly' style='width: 80px;background-color: #AAA'></td><td><input class='quantidade rounded border-0 py-2' type='number' name='quantidade[]' min='1' value='1' onkeyup='mudouvalor()' style='width: 80px'></td><td><input class='valor_unitario bg-dark text-white text-center border-0' type='text' name='valorunitario[]' value='R$ "+preco.toFixed(2).replace('.',',')+"' style='width: 80px' readonly='readonly'></td><td><input class='subtotal bg-dark text-white text-center border-0' type='text' name='subtotal[]' value='R$ "+preco.toFixed(2).replace('.', ',')+"' style='width: 80px' readonly='readonly'></td><td><a id='"+nome+"' class='text-danger' href='javascript:void(0)' onclick='delItem(this)'>[x]</a></td></tr>");
+    }
+    
+    obj.value = ""
+    somar()  
+};
+
+function mudouvalor() { somar() }
+
+function delItem(e) 
+{
+    document.getElementById(e.id).remove()
+    somar()
 }
 
 $(document).ready(function() {
@@ -30,40 +44,6 @@ $(document).ready(function() {
       }
     });
   });
-
-function mudouvalor() {
-    for(i = 0; i < document.getElementsByClassName('subtotal').length; i++) {
-        document.getElementsByClassName('subtotal')[i].value = "R$ " + Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value)).toFixed(2).replace('.',',');
-    };
-    soma = 0;    
-    for(i = 0; i < document.getElementsByClassName('items').length; i++) {
-        soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
-    };
-    let valor_frete = (document.getElementById('valor_frete').value.length > 0) ? Number(document.getElementById('valor_frete').value) : 0;
-    let valor_arte = (document.getElementById('valor_arte').value.length > 0) ? Number(document.getElementById('valor_arte').value) : 0;
-    let valor_outros = (document.getElementById('valor_outros').value.length > 0) ? Number(document.getElementById('valor_outros').value) : 0;
-    let taxa_cartao = (document.getElementById('taxa_cartao').value.length > 0) ? Number(document.getElementById('taxa_cartao').value)/100 : 0;
-    let desconto = (document.getElementById('desconto').value.length > 0) ? Number(document.getElementById('desconto').value) : 0;
-    
-    document.getElementById('total').value = 'Total: R$ '+(valor_frete + valor_arte + valor_outros + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-    document.getElementById('falta_pagar').value = "Falta Pagar: R$ "+Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',','.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".",",");
-}
-
-function delItem(e) {
-    document.getElementById(e.id).remove();
-    soma = 0;    
-    for(i = 0; i < document.getElementsByClassName('items').length; i++) {
-        soma += Number(Number(document.getElementsByClassName("valor_unitario")[i].value.split("R$")[1].trim().replace(',','.'))*Number(document.getElementsByClassName('quantidade')[i].value)*Number(document.getElementsByClassName('al')[i].value)*Number(document.getElementsByClassName('la')[i].value));
-      }; 
-      let valor_frete = (document.getElementById('valor_frete').value.length > 0) ? Number(document.getElementById('valor_frete').value) : 0;
-      let valor_arte = (document.getElementById('valor_arte').value.length > 0) ? Number(document.getElementById('valor_arte').value) : 0;
-      let valor_outros = (document.getElementById('valor_outros').value.length > 0) ? Number(document.getElementById('valor_outros').value) : 0;
-      let taxa_cartao = (document.getElementById('taxa_cartao').value.length > 0) ? Number(document.getElementById('taxa_cartao').value)/100 : 0;
-      let desconto = (document.getElementById('desconto').value.length > 0) ? Number(document.getElementById('desconto').value) : 0;
-      
-      document.getElementById('total').value = 'Total: R$ '+(valor_frete + valor_arte + valor_outros + taxa_cartao*soma + soma - desconto).toFixed(2).replace('.',',');
-      document.getElementById('falta_pagar').value = "Falta Pagar: R$ "+Number(Number(document.getElementById('total').value.split('R$')[1].trim().replace(',','.')) - Number(document.getElementById('valor_pago').value)).toFixed(2).replace(".",",");
-}
 
 function validar_redefinir_senha_logado() {
     let atual = document.getElementById('atualsenha');
@@ -107,7 +87,6 @@ function delUsuario(usuario) {
     if((document.getElementsByClassName("ADMINISTRADOR").length > 1) || (usuario.className.indexOf('PADRÃO') != -1)) {
       if(confirm('O usuário '+usuario.name+' será deletado.') === true) {
         let id_usuario = usuario.id;
-        let nome_usuario_logado = document.querySelector(".usuariologado").innerHTML;
         let option = 3;
 
         $.ajax ({
@@ -115,11 +94,7 @@ function delUsuario(usuario) {
             url:'http://localhost/sistema_grafica/ajax',
             data:{id_usuario:id_usuario, option:option},
             success: function() {
-                if(usuario.name = nome_usuario_logado) {
-                    location.reload();
-                } else {
-                    $("#"+id_usuario).remove();
-                }
+                location.reload();
             }
         })    
       } 
@@ -214,31 +189,15 @@ function delCliente(cliente) {
             url:'http://localhost/sistema_grafica/ajax',
             data:{id_cliente:id_cliente, option:option},
             success: function() {
-                $("#"+id_cliente).remove();
+                location.reload();
             }
         })
     }    
 }
 
-function addCategoria() {
-    let nomecategoria = prompt("Adicionar categoria:");
-    if((nomecategoria != "") && (nomecategoria != null)) {
-        let option = 11;
-
-        $.ajax ({
-            type:'POST',
-            url:'http://localhost/sistema_grafica/ajax',
-            data:{add_nome_categoria:nomecategoria, option:option},
-            success: function() {
-                location.reload();
-            }
-       });
-    }
-}
-
 function addSituacao() {
     let nomesituacao = prompt("Adicionar situação:");
-    if((nomesituacao != "") && (nomesituacao != null)) {        
+    if(nomesituacao != null) {        
        let option = 8;
 
        $.ajax ({
@@ -282,53 +241,6 @@ function upSituacao() {
     }
 }
 
-function upCategoria() {
-    const nome = document.getElementById('categoria').value.split("|")[0];
-    const  id = document.getElementById('categoria').value.split("|")[1];
-    const option = 12;
-
-    if(nome != "") {
-        const nomecategoria = prompt("Digite a situação que deseja substituir "+nome+'!');
-        if(nomecategoria != "") {
-            if(nomecategoria != null) {           
-                $.ajax ({
-                    type:'POST',
-                    url:'http://localhost/sistema_grafica/ajax',
-                    data:{up_id_categoria:id, up_nome_categoria:nomecategoria, option:option},
-                    success: function() {
-                        location.reload();
-                    }
-                })
-            }
-        } else {
-            alert("Você deve informa um nome tente novamente");
-        }
-    } else {
-        alert("Você não selecionou nenhuma categoria");
-    }
-}
-
-function delCategoria() {
-    let nome = document.getElementById('categoria').value.split('|')[0];
-    let id   = document.getElementById('categoria').value.split('|')[1];
-    let option = 13;
-    
-    if(nome != "") {
-        if(confirm('A categoria '+nome+' será deletada.') == true) {
-            $.ajax ({
-                type:'POST',
-                url:'http://localhost/sistema_grafica/ajax',
-                data:{del_id_categoria:id, option:option},
-                success: function() {
-                    location.reload();
-                }
-            })
-        }
-    } else {
-        alert("Você não selecionou nenhuma categoria!");
-    }        
-}
-
 function delSituacao() {
     let id = document.getElementById('situacao').value.split('|')[1];
     let nome = document.getElementById('situacao').value.split('|')[0];
@@ -354,8 +266,9 @@ function delSituacao() {
     }       
 }
 
+
 function delPedido(pedido) {
-    if(confirm('O pedido de ID '+pedido.id+' do usuário '+pedido.name+' será deletado.') == true) {
+    if(confirm('O pedido de '+pedido.name+' será deletado.') == true) {
         let id_pedido = pedido.id;
         let option = 6;
 
@@ -364,7 +277,7 @@ function delPedido(pedido) {
             url:'http://localhost/sistema_grafica/ajax',
             data:{id_pedido:id_pedido, option:option},
             success: function() {
-                $("#"+id_pedido).remove();
+                location.reload();
             }
         })    
     } 
@@ -380,7 +293,7 @@ function delProduto(produto) {
             url:'http://localhost/sistema_grafica/ajax',
             data:{id_produto:id_produto, option:option},
             success: function() {
-                $("#"+id_produto).remove();
+                location.reload();
             }
         })    
     } 
@@ -432,7 +345,7 @@ function mascara_datahora(form, fieldName, evento)
     }
 }
 
-function mascara_data(form, fieldName, evento)
+function mascara_data_mesano(form, fieldName, evento)
 {
     if (evento != null)
     {
@@ -448,16 +361,41 @@ function mascara_data(form, fieldName, evento)
             return true;
     }
     
-    let data = '';
-    data = data + form.value;
+    let mesano = '';
+    mesano = mesano + form.value;
 
-    if (data.length == 2) {
-        data = data + '/';
-        fieldName.value = data;
+    if (mesano.length == 2) {
+        mesano = mesano + '/';
+        fieldName.value = mesano;
     }
-    if (data.length == 5) {
-        data = data + '/';
-        fieldName.value = data;
+}
+
+function mascara_data_diamesano(form, fieldName, evento)
+{
+    if (evento != null)
+    {
+        let code;
+        let navegador = navigator.appName;
+
+        if (navegador.indexOf("Netscape") != -1) {
+            code = evento.which;
+        } else {
+            code = evento.keycode;
+        }
+        if (code == 8)
+            return true;
+    }
+    
+    let diamesano = '';
+    diamesano = diamesano + form.value;
+
+    if (diamesano.length == 2) {
+        diamesano = diamesano + '/';
+        fieldName.value = diamesano;
+    }
+    if (diamesano.length == 5) {
+        diamesano = diamesano + '/';
+        fieldName.value = diamesano;
     }
 }
 
@@ -476,15 +414,15 @@ $('[name=situacao_ajax]').change(function() {
             if(nome_situacao == "Concluído") {
                 $('#'+id_pedido).remove();
             } 
-            else if(url != "http://localhost/sistema_grafica/pedido") {
-                location.href = "http://localhost/sistema_grafica/pedido";
+            else if(url != "https://www.ramonfarias.com.br/barroca/pedido") {
+                location.href = "https://www.ramonfarias.com.br/barroca/pedido";
             }         
         }
     });
 });
 
-$('.pedido_visualizar').click(function() {
-    const id_pedido = this.id;
+function visualizar(obj) {
+    const id_pedido = obj.id;
     const option = 2;
     
     $.ajax({
@@ -495,12 +433,12 @@ $('.pedido_visualizar').click(function() {
             Swal.fire({ 
                title: "PEDIDO " + id_pedido, 
                html: produtos,
-               width: 850,
+               width:1000,
                confirmButtonText: "FECHAR", 
-              }); 
+              }) 
         }
-    });
-});
+    })
+}
 
 function delHistorico(historico) {
     if(confirm('O historico de '+historico.name+' de ID '+historico.id+' será deletado') == true) {
@@ -513,27 +451,15 @@ function delHistorico(historico) {
             url:'http://localhost/sistema_grafica/ajax',
             data:{id_historico:id_historico, option:option},
             success: function() {
-               $("#"+id_historico).remove();
+                location.reload();
             }
         })
     }    
 }
 
-$('[name="categoria"]').change(function() {
-    const id_categoria = this.value.split("|")[1];
-    const id_produto = this.value.split("|")[2];
-    const option = 14;
-
-    $.ajax({
-        type:'POST',
-        url:'http://localhost/sistema_grafica/ajax',
-        data:{id_produto:id_produto, id_categoria:id_categoria, option:option}
-    });
-});
-
 $('[name="buscarUsuario"]').keyup(function(){
     let usuario = $(this).val();
-    let option = 15;
+    let option = 11;
     
     $.ajax ({
         type:'POST',
@@ -544,3 +470,66 @@ $('[name="buscarUsuario"]').keyup(function(){
         }
     })
 })
+
+$('[name="buscarCliente"]').keyup(function(){
+    let cliente = $(this).val();
+    let option = 12;
+    
+    $.ajax ({
+        type:'POST',
+        url:'http://localhost/sistema_grafica/ajax',
+        data:{buscarCliente:cliente, option:option},
+        success: function(retorno) {
+            $("#listacliente").html(retorno);
+        }
+    })
+})
+
+$('[name="buscarProduto"]').keyup(function(){
+    let produto = $(this).val();
+    let option = 13;
+    
+    $.ajax ({
+        type:'POST',
+        url:'http://localhost/sistema_grafica/ajax',
+        data:{buscarProduto:produto, option:option},
+        success: function(retorno) {
+            $("#listaproduto").html(retorno);
+        }
+    })
+})
+
+$('[name="buscarPedido"]').keyup(function(){
+    let pedido = $(this).val();
+    let option = 14;
+    
+    $.ajax ({
+        type:'POST',
+        url:'http://localhost/sistema_grafica/ajax',
+        data:{buscarPedido:pedido, option:option},
+        success: function(retorno) {
+            $("#listapedido").html(retorno);
+        }
+    })
+})
+
+function upvalorpago(obj) {
+    let  id = parseInt(obj.id);    
+    let option = 15;
+
+    const valorpago = prompt("Digite o novo valor (R$) !");
+    if(valorpago != "") {
+        if(valorpago != null) {
+            $.ajax ({
+                type:'POST',
+                url:'http://localhost/sistema_grafica/ajax',
+                data:{up_id_valorpago:id, up_valor_valorpago:valorpago.replace(",", "."), option:option},
+                success: function() {
+                    location.reload();
+                }
+            })
+        }
+    } else {
+        alert("Você deve informa um valor tente novamente!");
+    }
+}

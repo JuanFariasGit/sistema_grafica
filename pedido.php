@@ -125,13 +125,12 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                     <div class="col-lg-12 d-lg-flex justify-content-lg-center">    
                         <div class="col-lg-6">
                             <label for="produtos">Produtos:</label>
-                            <select class="form-control mb-2" name="produtos" id="produtos">
+                            <select class="form-control mb-2" name="produtos" id="produtos" onchange="addproduto(this)">
                                 <option></option>
                                 <?php foreach($produtos as $produto): ?>
-                                <option value="<?php echo "R$ ".number_format($produto['valor'], 2, ',', '.'); ?>|<?php echo $produto['nome']; ?>|<?php echo $produto['unidademedida']; ?>"><?php echo $produto['nome']; ?></option>
+                                <option value="<?php echo "R$ ".number_format($produto['valor'], 2, ',', '.'); ?>|<?php echo $produto['nome']; ?>|<?php echo $produto['unidademedida']; ?>" onclick="addproduto()"><?php echo $produto['nome']; ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <a class="btn-sm btn btn-success text-white border-0" href="javascript:void(0);" onclick="addproduto()">ADICIONAR</a>
                         </div>
                         <div class="col-lg-4">
                             <label for="entrega">Entrega:</label>
@@ -183,7 +182,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
                                 <input id="valor_pago" class="form-control" type="number" name="valor_pago" step="0.01" onkeyup="mudouvalor()">
                             </div>
                             <div class="col-lg d-flex align-items-center py-2">
-                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="Falta pagar: R$ 0,00" readonly='readonly' style="font-size: 12px">
+                                <input id="falta_pagar" class="bg-dark text-white border-0" type="text" name="falta_pagar" value="Falta Pagar: R$ 0,00" readonly='readonly' style="font-size: 12px">
                             </div>
                             <div class="col-lg py-2">
                                 <label for="situacao" style="font-size: 12px">Situação: <a class="text-success" onclick="addSituacao()" style="cursor: pointer">(+)</a> <a class="text-primary" onclick="upSituacao()" style="cursor: pointer">(#)</a> <a class="text-danger" onclick="delSituacao()" style="cursor: pointer">(-)</a></label>
@@ -248,6 +247,7 @@ $date = date('d/m/Y H:i');echo $date; ?>">
             </tbody>
           </table>
         </div>
+        <div id="msg_busca_usuario"></div>
     </div>
     <?php endif; ?>
 <?php require 'inc/footer.php'; ?>

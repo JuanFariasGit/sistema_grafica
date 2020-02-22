@@ -43,20 +43,14 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
         header("Location: ".BASE_URL."cliente");
         exit;
 }
-
-if(empty($_GET['buscarCliente'])) {
-  $clientes = $c->getCliente();
-} else {
-  $nome = trim($_GET['buscarCliente']);
-  $clientes = $c->getClienteBuscar($nome);
-}
+$clientes = $c->getCliente();
 ?>
 
 <?php require 'inc/header.php'; ?>
             <?php if(($u->temPermissao('ADMINISTRADOR')) || ($u->temPermissao('PADRÃO'))): ?>
             <?php require 'inc/menu.php'; ?>
             <div class="text-white bg-dark py-5 d-flex justify-content-center container-fluid flex-column">
-                <form method="POST" onsubmit="return validar_cadastro_cliente()">
+                <form method="post" onsubmit="return validar_cadastro_cliente()">
                         <div class="d-flex justify-content-center">                            
                                 <h4 class="font-weight-bold">CLIENTE</h4>
                         </div>  
@@ -102,10 +96,10 @@ if(empty($_GET['buscarCliente'])) {
                                 </div>        
                         </div>    
                 </form>
-                <form method="get">
+                <form method="post">
                   <hr style="background-color:white;">      
                   <div class="form-group d-sm-flex align-items-center justify-content-center">
-                    <input class="form-control my-1" type="search" name="buscarCliente" style="max-width: 500px">
+                    <input class="form-control my-1" type="text" name="buscarCliente" style="max-width: 500px">
                     <input class="btn-sm btn-primary m-1 font-weight-bold" type="submit" value="BUSCAR">
                   </div>
                 </form>         
@@ -126,12 +120,12 @@ if(empty($_GET['buscarCliente'])) {
                         <th scope="col">Ações</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="listacliente">
                       <?php foreach($clientes as $cliente): ?>
                       <tr id="<?php echo $cliente['id'] ?>">
                       <td><p class="my-1"><?php echo $cliente['id']; ?></p></td>
                         <td><p class='my-1'><?php echo $cliente['nomecompleto'];?></p></td>
-                        <td><a class='my-1' href="https://wa.me/55<?php echo str_replace('-','',str_replace(' ','',$cliente['fone'])) ?>" target="_blank"><?php echo $cliente['fone'];?></a></td>
+                        <td><a class='my-1' href="https://wa.me/55<?php echo str_replace('-','',str_replace(' ','',$cliente['fone'])); ?>" target="_blank"><?php echo $cliente['fone'];?></a></td>
                         <td><p class='my-1'><?php echo $cliente['cep'];?></p></td>
                         <td><p class='my-1'><?php echo $cliente['rua'];?></p></td>
                         <td><p class='my-1'><?php echo $cliente['numero'];?></p></td>

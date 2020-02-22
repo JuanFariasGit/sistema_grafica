@@ -49,6 +49,7 @@
   $add_senha_usuario = isset($_POST['add_senha_usuario']) ? $_POST['add_senha_usuario'] : '';
   $add_permissao_usuario = isset($_POST['add_permissao_usuario']) ? $_POST['add_permissao_usuario'] : '';
   $buscarUsuario = isset($_POST['buscarUsuario']) ? $_POST['buscarUsuario'] : '';
+  $buscarCliente = isset($_POST['buscarCliente']) ? $_POST['buscarCliente'] : '';
   $option = $_POST['option'];
   
   $pd = new pedidos($pdo);
@@ -136,12 +137,32 @@
         if ($usuario['permissao'] == "ADMINISTRADOR") {
           $html .= '<td><p class="my-1">Administrador</p></td>';
         } else {
-          $html .= '<p class="my-1"><td>Padrão</p></td>';
+          $html .= '<td><p class="my-1">Padrão</p></td>';
         }
         $html .= '<td><a href="'.BASE_URL.'edit.usuario?id='.$usuario['id'].'"><i class="fas fa-pen" style="font-size:12pt"></i></a>
         <a id="'.$usuario['id'].'" name="'.$usuario['nome'].'" class="'.$usuario['permissao'].'" onclick="delUsuario(this)" style="cursor:pointer"><i class="fas fa-trash-alt text-danger" style="font-size:12pt"></i></a></td></tr>';
       }
-                      
-        echo $html;
-            break;
+      echo $html;
+    break;
+    case 16:
+      $clientes = $c->getClienteBuscar($buscarCliente);
+      $html = '';
+      if(!empty($clientes)) {
+        foreach($clientes as $cliente) {
+          $html .= '<tr id="'.$cliente['id'].'"><td><p class="my-1">'.$cliente['id'].'</p></td>';
+          $html .= '<td><p class="my-1">'.$cliente['nomecompleto'].'</p></td>';
+          $html .= '<td><a class="my-1" href="https://wa.me/55'.str_replace("-","",str_replace(" ","",$cliente['fone'])).'">'.$cliente['fone'].'</a></td>';
+          $html .= '<td><p class="my-1">'.$cliente['cep'].'</p></td>';
+          $html .= '<td><p class="my-1">'.$cliente['rua'].'</p></td>';
+          $html .= '<td><p class="my-1">'.$cliente['numero'].'</p></td>';
+          $html .= '<td><p class="my-1">'.$cliente['complemento'].'</p></td>';
+          $html .= '<td><p class="my-1">'.$cliente['bairro'].'</p></td>';
+          $html .= '<td><p class="my-1">'.$cliente['cidade'].'</p></td>';
+          $html .= '<td><p class="my-1">'.$cliente['uf'].'</p></td>';
+          $html .= '<td><a href="'.BASE_URL.'edit.cliente?id='.$cliente['id'].'"><i class="fas fa-pen" style="font-size:12pt"></i></a>
+          <a id="'.$cliente['id'].'" name="'.$cliente['nomecompleto'].'" onclick="delCliente(this)" style="cursor:pointer"><i class="fas fa-trash-alt text-danger" style="font-size:12pt"></i></a></td>';
+          echo $html;
+        }
+      }
+    break;
 }
